@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { UserComponent } from './user/user.component';
+import { LandingComponent } from './landing/landing.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
 
 export const routes: Routes = [
@@ -7,9 +7,9 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./user/user.component').then((m) => m.UserComponent);
+      return import('./landing/landing.component').then((m) => m.LandingComponent);
     },
   },
-  { path: 'user', component: UserComponent },
+  { path: 'user', component: LandingComponent },
   { path: '**', component: NotFoundComponent },
 ];
