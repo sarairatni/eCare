@@ -1,0 +1,54 @@
+<div class="flex w-[100vw] bg-blue-500">
+  <!-- form -->
+  <div
+    class="flex items-center justify-center bg-[#643869] h-[100vh] w-[100%] z-0 relative"
+  >
+    <form
+      class="sm:min-w-80 lg:min-w-96 flex flex-col sm:gap-2 md:gap-5 lg:gap-10 h-fit z-20"
+    >
+      <h1 class="font-[Lexend] text-white text-5xl font-bold mb-2">
+        Se connecter
+      </h1>
+      <app-dropdown [label]="'Précisez votre role'" />
+      <app-input
+        [label]="'Votre numéro de sécurité sociale'"
+        [placeholder]="'Exemple: 214 25896'"
+        [type]="'number'"
+      />
+      <app-input [label]="'Votre mot de passe'" [type]="'password'" />
+      <button
+        class="px-5 py-3 font-[Lexend] rounded-full bg-[#DF5A2D] max-w-60 text-white mt-16"
+      >
+        Me connecter
+      </button>
+    </form>
+    <img src="/line2.svg" class="absolute top-0 right-0 left-[40vw] z-10" />
+    <img src="/line3.svg" class="absolute z-10 bottom-0 left-0" />
+    <img src="/line4.svg" class="absolute z-10 top-0 left-0" />
+  </div>
+
+  <!-- image -->
+  <div class="bg-[#EAEAEA] h-[100vh] w-[100%] hidden lg:block z-20">
+    <div
+      class="w-[100%] h-[100%] flex items-center justify-center relative z-20"
+    >
+      <img
+        src="/purpleellipse.svg"
+        class="absolute w-[28vw] h-auto right-0 top-0 z-30"
+      />
+      <img
+        src="/whiteellipse.svg"
+        class="absolute w-[20vw] h-auto right-0 top-0 z-30"
+      />
+      <img
+        src="/imagemedecin.png"
+        class="w-[30vw] h-[30vw] z-50"
+        alt="image medecin"
+      />
+      <img
+        src="/line.svg"
+        class="absolute right-0 bottom-0 w-[40vw] h-[80vh] z-40"
+      />
+    </div>
+  </div>
+</div>

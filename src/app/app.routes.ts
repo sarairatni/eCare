@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { UserComponent } from './user/user.component';
-import { NotFoundComponent } from '../not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -10,6 +8,24 @@ export const routes: Routes = [
       return import('./user/user.component').then((m) => m.UserComponent);
     },
   },
-  { path: 'user', component: UserComponent },
-  { path: '**', component: NotFoundComponent },
+  {
+    path: 'user',
+    pathMatch: 'full',
+    loadComponent: () => {
+      return import('./user/user.component').then((m) => m.UserComponent);
+    },
+  },
+  {
+    path : 'login',
+    pathMatch: 'full',
+    loadComponent: () => {
+      return import('./auth/login/login.component').then((m) => m.LoginComponent);
+    }
+  },
+  {
+    path : '**',
+    loadComponent: () => {
+      return import('./404/not-found.component').then((m) => m.NotFoundComponent);
+    }
+  }
 ];
