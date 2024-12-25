@@ -1,9 +1,7 @@
 import { Routes } from '@angular/router';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { LandingComponent } from './landing/landing.component';
 
 export const routes: Routes = [
-  {
+   {
     path: '',
     pathMatch: 'full',
     loadComponent: () => {
@@ -12,4 +10,32 @@ export const routes: Routes = [
   },
   { path: 'acceuil', component: LandingComponent },
   { path: '**', component: NotFoundComponent },
+  {
+    path: 'user',
+    pathMatch: 'full',
+    loadComponent: () => {
+      return import('./user/user.component').then((m) => m.UserComponent);
+    },
+  },
+  {
+    path: 'user',
+    pathMatch: 'full',
+    loadComponent: () => {
+      return import('./user/user.component').then((m) => m.UserComponent);
+    },
+  },
+  {
+    path : 'login',
+    pathMatch: 'full',
+    loadComponent: () => {
+      return import('./auth/login/login.component').then((m) => m.LoginComponent);
+    }
+  },
+  {
+    path : '**',
+    loadComponent: () => {
+      return import('./404/not-found.component').then((m) => m.NotFoundComponent);
+    }
+  }
 ];
+
