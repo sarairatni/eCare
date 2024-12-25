@@ -10,6 +10,6 @@ export const routes: Routes = [
       return import('./landing/landing.component').then((m) => m.LandingComponent);
     },
   },
-  { path: 'user', component: LandingComponent },
+  { path: 'acceuil', component: LandingComponent },
   { path: '**', component: NotFoundComponent },
 ];
