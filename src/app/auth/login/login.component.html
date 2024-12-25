@@ -9,13 +9,21 @@
       <h1 class="font-[Lexend] text-white text-5xl font-bold mb-2">
         Se connecter
       </h1>
-      <app-dropdown [label]="'Précisez votre role'" />
+      <app-dropdown
+        [label]="'Précisez votre role'"
+        (choisiChange)="updateRole($event)"
+      />
       <app-input
         [label]="'Votre numéro de sécurité sociale'"
         [placeholder]="'Exemple: 214 25896'"
         [type]="'number'"
+        (contenuChange)="updateIdentifiant($event)"
       />
-      <app-input [label]="'Votre mot de passe'" [type]="'password'" />
+      <app-input
+        [label]="'Votre mot de passe'"
+        [type]="'password'"
+        (contenuChange)="updateMdp($event)"
+      />
       <button
         class="px-5 py-3 font-[Lexend] rounded-full bg-[#DF5A2D] max-w-60 text-white mt-16"
       >

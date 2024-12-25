@@ -35,7 +35,7 @@ export const routes: Routes = [
         loadComponent: () => {
           return import('./patient/patient-dashboard/patient-dashboard.component').then((m) => m.PatientDashboardComponent);
         }
-      }
+      },
     ]
   },
   {
