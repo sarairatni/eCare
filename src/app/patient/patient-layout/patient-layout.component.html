@@ -1,0 +1,21 @@
+<div class="w-[100vw] flex justify-between">
+  <div>
+    <app-sidebar
+      [selectionne]="selectionne()"
+      [personne]="personne()"
+      [menuItems]="menuItems()"
+      (selectionneChange)="updateSelectionne($event)"
+      class="hidden lg:block"
+    />
+    <app-sidebar-mobile
+      [selectionne]="selectionne()"
+      [menuItems]="menuItems()"
+      (selectionneChange)="updateSelectionne($event)"
+      class="lg:hidden"
+    />
+  </div>
+  <div class="w-[100%]">
+    <app-topbar [role]="0" [nom]="'Ladoul Mahdi'" />
+    <router-outlet></router-outlet>
+  </div>
+</div>

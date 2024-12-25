@@ -1,0 +1,20 @@
+<div class="w-16 h-[100vh] bg-white flex flex-col items-center justify-center">
+  <div class="bg-white h-[50vh] flex flex-col justify-between">
+    <div
+      *ngFor="let item of menuItems(); let i = index"
+      (click)="selectionner(i)"
+      [ngClass]="{
+        'bg-[#FD7A4E]': i === selectionne(),
+        'bg-white': i !== selectionne()
+      }"
+      class="flex items-center justify-center p-2 rounded-xl cursor-pointer"
+    >
+      <img [src]="item.iconUrl" alt="{{ item.text }}" />
+    </div>
+  </div>
+  <div
+    class="absolute bottom-0 mb-5 flex items-center justify-center p-2 rounded-xl cursor-pointer active:bg-red-600 transition duration-300 group"
+  >
+    <img src="/logout.svg" alt="logout" class="group-active:invert" />
+  </div>
+</div>
