@@ -6,4 +6,10 @@
     (selectionneChange)="updateSelectionne($event)"
     class="hidden lg:block"
   />
+  <app-sidebar-mobile
+    [selectionne]="selectionne()"
+    [menuItems]="menuItems()"
+    (selectionneChange)="updateSelectionne($event)"
+    class="lg:hidden"
+  />
 </div>

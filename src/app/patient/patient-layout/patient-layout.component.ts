@@ -1,9 +1,10 @@
 import { Component, signal, input } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { SidebarMobileComponent } from '../../components/sidebar-mobile/sidebar-mobile.component';
 
 @Component({
   selector: 'app-patient-layout',
-  imports: [SidebarComponent],
+  imports: [SidebarComponent, SidebarMobileComponent],
   templateUrl: './patient-layout.component.html',
   styleUrl: './patient-layout.component.css'
 })
