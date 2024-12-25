@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { LandingComponent } from './landing/landing.component';
+import { NotFoundComponent } from './404/not-found.component';
 
 export const routes: Routes = [
    {
@@ -6,23 +8,14 @@ export const routes: Routes = [
     pathMatch: 'full',
     loadComponent: () => {
       return import('./landing/landing.component').then((m) => m.LandingComponent);
-    },
-  },
-  { path: 'acceuil', component: LandingComponent },
-  { path: '**', component: NotFoundComponent },
-  {
-    path: 'user',
-    pathMatch: 'full',
-    loadComponent: () => {
-      return import('./user/user.component').then((m) => m.UserComponent);
-    },
+    }
   },
   {
-    path: 'user',
+    path : 'accueil',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./user/user.component').then((m) => m.UserComponent);
-    },
+      return import('./landing/landing.component').then((m) => m.LandingComponent);
+    }
   },
   {
     path : 'login',
