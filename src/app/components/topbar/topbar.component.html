@@ -1,0 +1,35 @@
+<div class="w-[100%] px-10 py-8 flex justify-between items-center">
+  <!-- recherche desktop -->
+  <div class="hidden lg:block">
+    <div class="px-3 bg-[#E2E2E2] rounded-xl flex gap-2 w-fit">
+      <img src="/search.svg" />
+      <input
+        type="text"
+        class="min-w-96 w-[100%] ml-1 font-[Lexend] h-10 bg-inherit text-lg focus:outline-none"
+        placeholder="Rechercher des informations..."
+      />
+    </div>
+  </div>
+  <!-- nom -->
+  <h2 class="text-xl font-[Lexend] hidden sm:block sm:w-fit lg:hidden">
+    <span class="font-light">Bonjour </span>{{ nom() }}
+  </h2>
+  <!-- recherche mobile -->
+  <div class="lg:hidden mx-5">
+    <div class="px-3 bg-[#E2E2E2] rounded-xl flex gap-2 w-[100%]">
+      <img src="/search.svg" />
+      <input
+        type="text"
+        class="lg:max-w-56 w-[100%] ml-1 font-[Lexend] h-10 bg-inherit text-lg focus:outline-none"
+      />
+    </div>
+  </div>
+  <!-- role -->
+  <div class="hidden sm:block">
+    <div
+      class="bg-white font-light flex items-center justify-center px-5 h-10 rounded-xl font-[Lexend] border border-gray-400"
+    >
+      <p>{{ nomRole(role()) }}</p>
+    </div>
+  </div>
+</div>

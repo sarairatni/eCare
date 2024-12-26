@@ -1,0 +1,32 @@
+<div class="w-72 h-[100vh] relative flex flex-col bg-white">
+  <img src="chba7.svg" class="absolute top-[-3vh] left-0 w-[100%] z-0" />
+  <!-- salutation -->
+  <div class="mt-44 z-10 absolute w-64 flex flex-col px-7">
+    <p class="text-white font-light text-xl">Bonjour</p>
+    <h2 class="text-white text-2xl font-[Lexend] font-extrabold">
+      {{ personne() }}
+    </h2>
+  </div>
+  <div class="flex flex-col justify-between h-[100%] ml-4">
+    <div class="mt-80 flex flex-col gap-5 overflow-scroll">
+      <div
+        *ngFor="let item of menuItems(); let i = index"
+        (click)="selectionner(i)"
+        [ngClass]="{
+          'bg-[#FD7A4E]': i === selectionne(),
+          'bg-white': i !== selectionne()
+        }"
+        class="z-10 flex gap-4 py-3 px-3 rounded-2xl font-[Lexend] items-center text-base cursor-pointer"
+      >
+        <img [src]="item.iconUrl" class="w-6 h-6" />
+        <span>{{ item.text }}</span>
+      </div>
+    </div>
+    <div
+      class="mb-5 w-[100%] z-10 flex gap-4 py-3 px-3 rounded-2xl font-[Lexend] items-center text-base cursor-pointer bottom-0 hover:bg-red-600 hover:text-white transition duration-300 group"
+    >
+      <img src="/logout.svg" class="w-6 h-6 group-hover:invert" />
+      <span>Se déconnecter</span>
+    </div>
+  </div>
+</div>
