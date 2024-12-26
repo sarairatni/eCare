@@ -16,16 +16,16 @@
           'bg-[#FD7A4E]': i === selectionne(),
           'bg-white': i !== selectionne()
         }"
-        class="z-10 flex gap-4 py-3 px-3 rounded-2xl font-[Lexend] items-center text-base cursor-pointer"
+        class="z-10 flex gap-2 py-3 px-3 rounded-2xl font-[Lexend] items-center text-sm cursor-pointer"
       >
-        <img [src]="item.iconUrl" class="w-6 h-6" />
+        <img [src]="item.iconUrl" class="w-5 h-5" />
         <span>{{ item.text }}</span>
       </div>
     </div>
     <div
-      class="mb-5 w-[100%] z-10 flex gap-4 py-3 px-3 rounded-2xl font-[Lexend] items-center text-base cursor-pointer bottom-0 hover:bg-red-600 hover:text-white transition duration-300 group"
+      class="mb-5 w-[100%] z-10 flex gap-3 py-3 px-2 rounded-2xl font-[Lexend] items-center text-sm cursor-pointer bottom-0 hover:bg-red-600 hover:text-white transition duration-300 group"
     >
-      <img src="/logout.svg" class="w-6 h-6 group-hover:invert" />
+      <img src="/logout.svg" class="w-5 h-5 group-hover:invert" />
       <span>Se déconnecter</span>
     </div>
   </div>

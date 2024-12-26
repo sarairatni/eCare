@@ -1,6 +1,7 @@
 import { Component, input, EventEmitter, Output } from '@angular/core';
 import { NgClass, NgFor } from '@angular/common';
 
+
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -10,12 +11,13 @@ import { NgClass, NgFor } from '@angular/common';
 })
 export class SidebarComponent {
   personne  = input("Chekman Meyssem");
-  menuItems = input<{ text: string; iconUrl: string }[]>([]);
+  menuItems = input<{ text: string; iconUrl: string,route:string }[]>([]);
   selectionne = input(0);
 
   @Output() selectionneChange = new EventEmitter<number>();
 
   selectionner(index: number) {
     this.selectionneChange.emit(index);
+    
   }
 }
