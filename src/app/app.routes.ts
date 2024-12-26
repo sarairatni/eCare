@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
-import { NotFoundComponent } from './404/not-found.component';
+import { NotFoundComponent } from './404/not-found.component';  
 
 export const routes: Routes = [
    {
@@ -27,18 +27,24 @@ export const routes: Routes = [
   {
     path : 'patient',
     pathMatch: 'full',
+    children: [
+      // {
+      //   path: '',
+      //   pathMatch: 'full',
+      //   loadComponent: () => {
+      //     return import('./patient/patient-dashboard/patient-dashboard.component').then((m) => m.PatientDashboardComponent);
+      //   }
+      // },
+      {
+        path: '',
+        loadComponent: () => {
+          return import('./patient/profil/profil.component').then((m) => m.ProfilComponent);
+        }
+      },
+    ],
     loadComponent: () => {
       return import('./patient/patient-layout/patient-layout.component').then((m) => m.PatientLayoutComponent);
     },
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadComponent: () => {
-          return import('./patient/patient-dashboard/patient-dashboard.component').then((m) => m.PatientDashboardComponent);
-        }
-      },
-    ]
   },
   {
     path : '**',
