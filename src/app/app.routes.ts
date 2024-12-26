@@ -28,17 +28,24 @@ export const routes: Routes = [
     path : 'patient',
     pathMatch: 'full',
     children: [
-      // {
-      //   path: '',
-      //   pathMatch: 'full',
-      //   loadComponent: () => {
-      //     return import('./patient/patient-dashboard/patient-dashboard.component').then((m) => m.PatientDashboardComponent);
-      //   }
-      // },
+      {
+        path: 'dashboard',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import('./patient/patient-dashboard/patient-dashboard.component').then((m) => m.PatientDashboardComponent);
+        }
+      },
+      // ghir li ykoun route ta3ou '' li yemchi, je sais pas 3lah
+      {
+        path: 'profil',
+        loadComponent: () => {
+          return import('./patient/profil/profil.component').then((m) => m.ProfilComponent);
+        }
+      },
       {
         path: '',
         loadComponent: () => {
-          return import('./patient/profil/profil.component').then((m) => m.ProfilComponent);
+          return import('./patient/historique/historique.component').then((m) => m.HistoriqueComponent);
         }
       },
     ],

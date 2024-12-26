@@ -1,0 +1,98 @@
+<div class="h-[100%] w-[100%] px-5 lg:px-24 flex flex-col gap-10">
+  <div class="flex flex-col py-5 gap-5">
+    <p class="text-black-500 font-[Lexend] font-bold">Mes consultations</p>
+    <!-- tableau des consultations-->
+    <div
+      class="bg-white rounded-2xl p-3 font-[Lexend] flex flex-col"
+      style="
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <div class="flex justify-between p-2 border-b border-gray-500">
+        <div class="w-[100%]">
+          <p class="font-semibold">Date</p>
+        </div>
+        <div class="w-[100%]">
+          <p class="font-semibold">Médecin</p>
+        </div>
+        <div class="w-[100%]">
+          <p class="font-semibold">Motif</p>
+        </div>
+        <div class="w-[100%]">
+          <p class="font-semibold">Diagnostic</p>
+        </div>
+        <div class="w-[100%] flex items-center justify-center">
+          <p class="font-semibold">Actions</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 lg:max-h-[35vh] lg:overflow-scroll pt-4">
+        <div *ngFor="let cons of consultations(); let i = index" class="flex">
+          <p class="w-[100%]">{{ cons.date }}</p>
+          <p class="w-[100%]">{{ cons.medecin }}</p>
+          <p class="w-[100%]">{{ cons.motif }}</p>
+          <p class="w-[100%]">{{ cons.diagnostic }}</p>
+          <div class="flex w-[100%] items-center justify-center gap-2">
+            <img
+              src="/telecharger.svg"
+              alt="telecharger"
+              class="cursor-pointer"
+            />
+            <img
+              src="/telecharger.svg"
+              alt="telecharger"
+              class="cursor-pointer"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col py-5 gap-5">
+    <p class="text-black-500 font-[Lexend] font-bold">Mes ordonances</p>
+    <!-- tableau des ordonnances-->
+    <div
+      class="bg-white rounded-2xl p-3 font-[Lexend] flex flex-col"
+      style="
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <div class="flex justify-between p-2 border-b border-gray-500">
+        <div class="w-[100%]">
+          <p class="font-semibold">Date</p>
+        </div>
+        <div class="w-[100%]">
+          <p class="font-semibold">Médecin</p>
+        </div>
+        <div class="w-[100%]">
+          <p class="font-semibold">Médicaments</p>
+        </div>
+        <div class="w-[100%]">
+          <p class="font-semibold">Durée</p>
+        </div>
+        <div class="w-[100%] flex items-center justify-center">
+          <p class="font-semibold">Actions</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 lg:max-h-[35vh] lg:overflow-scroll pt-4">
+        <div *ngFor="let ord of ordonnances(); let i = index" class="flex">
+          <p class="w-[100%]">{{ ord.date }}</p>
+          <p class="w-[100%]">{{ ord.medecin }}</p>
+          <p class="w-[100%]">{{ ord.medicaments }}</p>
+          <p class="w-[100%]">{{ ord.duree }}</p>
+          <div class="flex w-[100%] items-center justify-center gap-2">
+            <img
+              src="/telecharger.svg"
+              alt="telecharger"
+              class="cursor-pointer"
+            />
+            <img
+              src="/telecharger.svg"
+              alt="telecharger"
+              class="cursor-pointer"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
