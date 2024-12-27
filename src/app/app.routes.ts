@@ -43,9 +43,15 @@ export const routes: Routes = [
         }
       },
       {
-        path: '',
+        path: 'historique',
         loadComponent: () => {
           return import('./patient/historique/historique.component').then((m) => m.HistoriqueComponent);
+        }
+      },
+      {
+        path: '',
+        loadComponent: () => {
+          return import('./patient/historique-ordonnance/historique-ordonnance.component').then((m) => m.HistoriqueOrdonnanceComponent);
         }
       },
     ],
