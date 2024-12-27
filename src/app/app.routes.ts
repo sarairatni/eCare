@@ -49,9 +49,15 @@ export const routes: Routes = [
         }
       },
       {
-        path: '',
+        path: 'historique/ordonnance',
         loadComponent: () => {
           return import('./patient/historique-ordonnance/historique-ordonnance.component').then((m) => m.HistoriqueOrdonnanceComponent);
+        }
+      },
+      {
+        path: '',
+        loadComponent: () => {
+          return import('./patient/historique-consultation/historique-consultation.component').then((m) => m.HistoriqueConsultationComponent);
         }
       },
     ],
