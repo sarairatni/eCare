@@ -55,9 +55,21 @@ export const routes: Routes = [
         }
       },
       {
-        path: '',
+        path: 'historique/consultation',
         loadComponent: () => {
           return import('./patient/historique-consultation/historique-consultation.component').then((m) => m.HistoriqueConsultationComponent);
+        }
+      },
+      {
+        path: 'historique/consultation/ordonnance',
+        loadComponent: () => {
+          return import('./patient/historique-ordonnance-consultation/historique-ordonnance-consultation.component').then((m) => m.HistoriqueOrdonnanceConsultationComponent);
+        }
+      },
+      {
+        path: '',
+        loadComponent: () => {
+          return import('./patient/historique-consultation-bioradio/historique-consultation-bioradio.component').then((m) => m.HistoriqueConsultationBioradioComponent);
         }
       },
     ],
