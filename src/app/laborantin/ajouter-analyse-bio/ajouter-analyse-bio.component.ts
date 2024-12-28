@@ -81,7 +81,12 @@ export class AjouterAnalyseBioComponent implements OnInit {
       interpretation: 'Normale',
     },
   ];
+  showPopup = false;
   dpi_id: string | null = null;
+
+  togglePopup(): void {
+    this.showPopup = !this.showPopup;
+  }
 
   constructor(private route: ActivatedRoute) {}
 
@@ -90,5 +95,10 @@ export class AjouterAnalyseBioComponent implements OnInit {
       this.dpi_id = params.get('dpi_id');
       console.log('dpi_id:', this.dpi_id);
     });
+  }
+  submitParameter(): void {
+    console.log('Parameter submitted');
+    // logique submisssion parametre danalyse ajouté
+    this.showPopup = false;
   }
 }
