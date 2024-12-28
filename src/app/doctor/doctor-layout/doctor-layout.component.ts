@@ -2,9 +2,6 @@ import { Component, input, signal } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
-import { DoctorDashboardComponent } from '../doctor-dashboard/doctor-dashboard.component';
-import { MesPatientsComponent } from '../mes-patients/mes-patients.component';
-import { ConsultationsPatientComponent } from '../dossier-patient/consultations-patient/consultations-patient.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,9 +12,7 @@ import { CommonModule } from '@angular/common';
     SidebarComponent,
     TopbarComponent,
     RouterOutlet,
-    DoctorDashboardComponent,
-    MesPatientsComponent,
-    ConsultationsPatientComponent,
+    
   ],
   templateUrl: './doctor-layout.component.html',
   styleUrl: './doctor-layout.component.css',
@@ -33,7 +28,7 @@ export class DoctorLayoutComponent {
     },
     {
       text: 'Mes patients',
-      iconUrl: '/historique.svg',
+      iconUrl: '/icons/albums.svg',
       route: '/doctor/mes-patients',
     },
     {
