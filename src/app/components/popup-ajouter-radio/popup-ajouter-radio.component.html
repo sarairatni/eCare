@@ -1,0 +1,59 @@
+<div
+  class="absolute w-[100%] h-[100%] top-0 left-0 flex items-center justify-center font-[Lexend] text-white bg-white/50"
+>
+  <div class="w-[40vw] bg-[#643869] flex flex-col gap-10 p-10 rounded-3xl">
+    <div class="flex flex-col gap-3">
+      <div class="w-[100%] flex flex-row-reverse">
+        <img src="cancel.svg" alt="cancel" class="cursor-pointer" />
+      </div>
+      <label for="typeExamen">Type d'examen d'imagerie</label>
+      <input
+        type="text"
+        id="typeExamen"
+        class="p-3 rounded-full text-black"
+        (change)="modifierTypeExamen($event)"
+      />
+    </div>
+    <div class="flex flex-col gap-3">
+      <label for="resumeRapport">Résumé du rapport médical</label>
+      <textarea
+        type="text"
+        id="resumeRapport"
+        class="p-3 rounded-3xl h-36 text-black"
+        (change)="modifierResumeRapport($event)"
+      ></textarea>
+    </div>
+    <button
+      *ngIf="!uploadedImage"
+      class="p-3 bg-[#643869] text-white rounded-full border border-white w-52"
+      (click)="fileInput.click()"
+    >
+      Ajouter une image
+    </button>
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      class="hidden"
+      (change)="onImageUpload($event)"
+    />
+    <div
+      *ngIf="uploadedImage"
+      class="relative w-24 h-24 bg-cover bg-center rounded-xl"
+      [ngStyle]="{ 'background-image': 'url(' + uploadedImage + ')' }"
+    >
+      <button
+        (click)="removeImage()"
+        class="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      *ngIf="uploadedImage"
+      class="bg-gradient-to-r from-[#F6815A] to-[#E54E1B] hover:from-[#E54E1B] hover:to-[#E54E1B] transition duration-300 text-white rounded-full w-52 flex items-center justify-center gap-1 px-5 cursor-pointer"
+    >
+      <p class="px-6 py-3 font-[Lexend]">Valider</p>
+    </div>
+  </div>
+</div>
