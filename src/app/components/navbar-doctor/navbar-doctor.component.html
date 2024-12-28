@@ -1,0 +1,12 @@
+<nav class="mb-10 w-full flex justify-between font-[Lexend] text-sm">
+  <div *ngFor="let item of navItems" class="nav-item">
+    <a
+      [routerLink]="getRoute(item.route)"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      {{ item.label }}
+    </a>
+  </div>
+</nav>

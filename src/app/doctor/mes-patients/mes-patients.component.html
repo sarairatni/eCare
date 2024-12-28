@@ -1,4 +1,4 @@
-<div class="w-full h-auto px-20 grid grid-rows-[30px_50px_auto] gap-6 font-lexend overflow-y-hidden">
+<div class="w-full h-auto px-20 grid grid-rows-[10px_50px_auto] gap-6 font-lexend overflow-y-hidden">
     <h2 class="text-base font-semibold text-[#643869]">Mes consultations</h2>
     <div class="flex justify-between items-center px-4">
       <div class="flex items-center gap-3">
@@ -27,7 +27,7 @@
     </div>
     <!-- tableau des consultations -->
     <div class="w-full">
-      <div class="overflow-y-auto max-h-[300px]">
+      <div class="overflow-y-auto max-h-[350px]">
         <table
           class="w-full border border-gray-300 rounded-lg text-sm outline-none"
           style="border-collapse: separate; border-spacing: 0"
@@ -48,7 +48,8 @@
           <tbody>
             <tr
               *ngFor="let patient of listePatients"
-              class="hover:bg-gray-50 font-light text-sm"
+              class="hover:bg-gray-100 font-light text-sm"
+              (click)="navigateToConsultations(patient.nss)"
             >
               <td class="pl-10 px-4 py-2">
                 {{ patient.nom }} {{ patient.prenom }}
@@ -57,7 +58,7 @@
               <td class="px-4 py-2">{{ patient.nss }}</td>
               <td class="px-4 py-2">{{ patient.age }}</td>
               <td class="px-4 py-2">{{ patient.date_dentree }}</td>
-              <td class="px-4 py-2">
+              <td class="px-4 py-2 ">
                 <a
                   [routerLink]="['/doctor/mes-patient', patient.nss]"
                   class="text-gray-500 hover:underline hover:text-black"

@@ -1,14 +1,48 @@
-<div class="w-72 h-[100vh] relative flex flex-col bg-white">
-  <img src="chba7.svg" class="absolute top-[-3vh] left-0 w-[100%] z-0" />
+<div
+  [ngClass]="{
+    'w-72': !isSidebarCollapsed(),
+    'w-16': isSidebarCollapsed()
+  }"
+  class="h-[100vh] relative flex flex-col bg-white transition-all duration-300"
+>
+  <img
+    src="chba7.svg"
+    class="absolute top-[-3vh] left-0 w-[100%] z-0"
+    [ngClass]="{
+      'w-full h-auto object-cover': !isSidebarCollapsed(),
+      'w-auto h-20 object-contain': isSidebarCollapsed()
+    }"
+  />
   <!-- salutation -->
-  <div class="mt-44 z-10 absolute w-64 flex flex-col px-7">
-    <p class="text-white font-light text-xl">Bonjour</p>
-    <h2 class="text-white text-2xl font-[Lexend] font-extrabold">
+  <div
+    class="mt-44 ml-10 z-10 absolute"
+    [ngClass]="{
+      'w-64': !isSidebarCollapsed(),
+      'w-63': isSidebarCollapsed()
+    }"
+  >
+    <p
+      class="text-white font-light text-xl"
+      [ngClass]="{
+        hidden: isSidebarCollapsed(),
+        block: !isSidebarCollapsed()
+      }"
+    >
+      Bonjour
+    </p>
+    <h2
+      class="text-white text-2xl font-[Lexend] font-extrabold"
+      [ngClass]="{
+        hidden: isSidebarCollapsed(),
+        block: !isSidebarCollapsed()
+      }"
+    >
       {{ personne() }}
     </h2>
   </div>
+
   <div class="flex flex-col justify-between h-[100%] ml-4">
-    <div class="mt-80 flex flex-col gap-5 overflow-scroll">
+    <div class="mt-80 flex flex-col gap-5 overflow-y-auto h-full">
       <div
         *ngFor="let item of menuItems(); let i = index"
         (click)="selectionner(i)"
@@ -19,14 +53,15 @@
         class="z-10 flex gap-2 py-3 px-3 rounded-2xl font-[Lexend] items-center text-sm cursor-pointer"
       >
         <img [src]="item.iconUrl" class="w-5 h-5" />
-        <span>{{ item.text }}</span>
+        <span [class.hidden]="isSidebarCollapsed()">{{ item.text }}</span>
       </div>
     </div>
+
     <div
       class="mb-5 w-[100%] z-10 flex gap-3 py-3 px-2 rounded-2xl font-[Lexend] items-center text-sm cursor-pointer bottom-0 hover:bg-red-600 hover:text-white transition duration-300 group"
     >
       <img src="/logout.svg" class="w-5 h-5 group-hover:invert" />
-      <span>Se déconnecter</span>
+      <span [class.hidden]="isSidebarCollapsed()">Se déconnecter</span>
     </div>
   </div>
 </div>

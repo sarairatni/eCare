@@ -1,13 +1,24 @@
 import { Component, input, signal } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
-import { DoctorDashboardComponent } from "../doctor-dashboard/doctor-dashboard.component";
-import { MesPatientsComponent } from "../mes-patients/mes-patients.component";
+import { DoctorDashboardComponent } from '../doctor-dashboard/doctor-dashboard.component';
+import { MesPatientsComponent } from '../mes-patients/mes-patients.component';
+import { ConsultationsPatientComponent } from '../dossier-patient/consultations-patient/consultations-patient.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-doctor-layout',
-  imports: [SidebarComponent, TopbarComponent, RouterOutlet, DoctorDashboardComponent, MesPatientsComponent],
+  imports: [
+    RouterModule,
+    CommonModule,
+    SidebarComponent,
+    TopbarComponent,
+    RouterOutlet,
+    DoctorDashboardComponent,
+    MesPatientsComponent,
+    ConsultationsPatientComponent,
+  ],
   templateUrl: './doctor-layout.component.html',
   styleUrl: './doctor-layout.component.css',
 })

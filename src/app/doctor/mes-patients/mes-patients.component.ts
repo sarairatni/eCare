@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-mes-patients',
@@ -88,4 +88,9 @@ export class MesPatientsComponent {
       date_dentree: '2024-12-26',
     },
   ];
+  constructor(private router: Router) {}
+
+  navigateToConsultations(nss: number) {
+    this.router.navigate([`/doctor/mes-patients/${nss}/consultations`]);
+  }
 }

@@ -1,11 +1,22 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { NotFoundComponent } from './404/not-found.component';
+import { DoctorDashboardComponent } from './doctor/doctor-dashboard/doctor-dashboard.component';
+import { MesPatientsComponent } from './doctor/mes-patients/mes-patients.component';
+import { ConsultationsPatientComponent } from './doctor/dossier-patient/consultations-patient/consultations-patient.component';
+import { DpiLayoutComponent } from './doctor/dossier-patient/dpi-layout/dpi-layout.component';
+import { OrdonnancesPatientComponent } from './doctor/dossier-patient/ordonnances-patient/ordonnances-patient.component';
+import { ResultatsMedComponent } from './doctor/dossier-patient/resultats-med/resultats-med.component';
+import { AntecedentsMedComponent } from './doctor/dossier-patient/antecedents-med/antecedents-med.component';
+import { SoinsComponent } from './doctor/dossier-patient/soins/soins.component';
+import { Component } from '@angular/core';
+import { DetailsConsultationsComponent } from './doctor/dossier-patient/details-consultation/details-consultations.component';
+import { DetailsOrdonnanceComponent } from './doctor/dossier-patient/details-ordonnance/details-ordonnance.component';
 
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
+
     loadComponent: () => {
       return import('./landing/landing.component').then(
         (m) => m.LandingComponent
@@ -14,7 +25,6 @@ export const routes: Routes = [
   },
   {
     path: 'accueil',
-    pathMatch: 'full',
     loadComponent: () => {
       return import('./landing/landing.component').then(
         (m) => m.LandingComponent
@@ -23,7 +33,6 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    pathMatch: 'full',
     loadComponent: () => {
       return import('./auth/login/login.component').then(
         (m) => m.LoginComponent
@@ -32,7 +41,6 @@ export const routes: Routes = [
   },
   {
     path: 'patient',
-    pathMatch: 'full',
     loadComponent: () => {
       return import('./patient/patient-layout/patient-layout.component').then(
         (m) => m.PatientLayoutComponent
@@ -41,7 +49,6 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        pathMatch: 'full',
         loadComponent: () => {
           return import(
             './patient/patient-dashboard/patient-dashboard.component'
@@ -54,7 +61,6 @@ export const routes: Routes = [
   //-------  DOCTOR ROUTES  --------------------
   {
     path: 'doctor',
-    pathMatch: 'full',
     loadComponent: () => {
       return import('./doctor/doctor-layout/doctor-layout.component').then(
         (m) => m.DoctorLayoutComponent
@@ -63,12 +69,38 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard', //~~~~~~~~~~~~
-        pathMatch: 'full',
-        loadComponent: () => {
-          return import(
-            './doctor/doctor-dashboard/doctor-dashboard.component'
-          ).then((m) => m.DoctorDashboardComponent);
-        },
+        component: DoctorDashboardComponent,
+      },
+
+      {
+        path: 'mes-patients',
+        component: MesPatientsComponent,
+      },
+
+      {
+        path: 'mes-patients/:nss', // ':nss' is a dynamic parameter
+        component: DpiLayoutComponent,
+        children: [
+          {
+            path: 'consultations',
+            component: ConsultationsPatientComponent,
+          },
+          {
+            path: 'consultations/:id',
+            component: DetailsConsultationsComponent,
+          },
+          {
+            path: 'ordonnances',
+            component: OrdonnancesPatientComponent,
+          },
+          {
+            path: 'ordonnances/:id',
+            component: DetailsOrdonnanceComponent,
+          },
+          { path: 'resultats-med', component: ResultatsMedComponent },
+          { path: 'antecedents-med', component: AntecedentsMedComponent },
+          { path: 'soins', component: SoinsComponent },
+        ],
       },
     ],
   },
