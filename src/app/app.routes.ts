@@ -12,6 +12,7 @@ import { SoinsComponent } from './doctor/dossier-patient/soins/soins.component';
 import { Component } from '@angular/core';
 import { DetailsConsultationsComponent } from './doctor/dossier-patient/details-consultation/details-consultations.component';
 import { DetailsOrdonnanceComponent } from './doctor/dossier-patient/details-ordonnance/details-ordonnance.component';
+import { CreerDpiComponent } from './doctor/creer-dpi/creer-dpi.component';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,10 @@ export const routes: Routes = [
       {
         path: 'mes-patients',
         component: MesPatientsComponent,
+      },
+      {
+        path: 'creation-dpi',
+        component: CreerDpiComponent,
       },
 
       {
