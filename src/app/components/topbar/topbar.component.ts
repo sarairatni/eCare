@@ -4,12 +4,12 @@ import { Component, input, signal } from '@angular/core';
   selector: 'app-topbar',
   imports: [],
   templateUrl: './topbar.component.html',
-  styleUrl: './topbar.component.css'
+  styleUrl: './topbar.component.css',
 })
 export class TopbarComponent {
-  nom = input("");
+  nom = input('');
   role = input(0);
-  contenuRecherche = signal("");
+  contenuRecherche = signal('');
 
   nomRole(role: number) {
     switch (this.role()) {
@@ -19,6 +19,8 @@ export class TopbarComponent {
         return 'Médecin';
       case 2:
         return 'Administratif';
+      case 3:
+        return 'Laborantin';
       default:
         return 'Inconnu';
     }

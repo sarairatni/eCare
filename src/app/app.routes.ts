@@ -13,6 +13,8 @@ import { Component } from '@angular/core';
 import { DetailsConsultationsComponent } from './doctor/dossier-patient/details-consultation/details-consultations.component';
 import { DetailsOrdonnanceComponent } from './doctor/dossier-patient/details-ordonnance/details-ordonnance.component';
 import { CreerDpiComponent } from './doctor/creer-dpi/creer-dpi.component';
+import { AjouterAnalyseComponent } from './laborantin/ajouter-analyse/ajouter-analyse.component';
+import { AjouterAnalyseBioComponent } from './laborantin/ajouter-analyse-bio/ajouter-analyse-bio.component';
 
 export const routes: Routes = [
   {
@@ -107,6 +109,25 @@ export const routes: Routes = [
           { path: 'soins', component: SoinsComponent },
         ],
       },
+    ],
+  },
+  //-------  LABORANTIN ROUTES  --------------------
+  {
+    path: 'laborantin',
+    loadComponent: () => {
+      return import('./laborantin/laborantin-layout/laborantin-layout.component').then(
+        (m) => m.LaborantinLayoutComponent
+      );
+    },
+    children: [
+      {
+        path: 'ajouter-analyse',
+        component: AjouterAnalyseComponent,
+      },
+      {
+        path: 'ajouter-analyse/:dpi_id',
+        component: AjouterAnalyseBioComponent,
+      }
     ],
   },
 

@@ -1,0 +1,56 @@
+<div
+  class="w-full h-auto px-20 grid grid-rows-[auto_auto_auto] gap-8 font-lexend overflow-y-hidden"
+>
+  <h2 class="text-base font-semibold text-[#643869]">
+    > Ajouter une analyse biologique au DPI:
+    <span class="text-gray-500">{{ dpi_id }}</span>
+  </h2>
+  <div>
+    <button
+      class="py-2 px-8 text-white text-sm rounded-full bg-gradient-to-r from-[#944C9C] to-[#643869]"
+    >
+      Ajouter un paramètre
+    </button>
+  </div>
+  <!-- tableau des consultations -->
+  <div class="w-full">
+    <div class="overflow-y-auto max-h-[360px]">
+      <table
+        class="table-auto w-full border border-gray-300 rounded-lg text-sm outline-none"
+        style="border-collapse: separate; border-spacing: 0"
+      >
+        <thead class="bg-gray-100 sticky top-0 z-10">
+          <tr>
+            <th class="px-4 py-3 w-[25%] text-left font-normal">Paramètre</th>
+            <th class="px-4 py-3 w-[15%] text-left font-normal">
+              Valeur mesurée
+            </th>
+            <th class="px-4 py-3 w-[15%] text-left font-normal">
+              Valeur normal
+            </th>
+            <th class="px-4 py-3 w-[30%] text-left font-normal">
+              Intérprétation
+            </th>
+            <th class="px-4 py-3 w-[10%] text-left font-normal"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let a of listeAnalysesBio"
+            class="hover:bg-gray-50 font-light text-sm"
+          >
+            <td class="px-4 py-2">{{ a.param }}</td>
+            <td class="px-4 py-2">{{ a.valeur_mesuree }}</td>
+            <td class="px-4 py-2">{{ a.valeur_normale }}</td>
+            <td class="px-4 py-2">{{ a.interpretation }}</td>
+            <td class="px-4 py-2">
+              <a href="#" class="text-gray-500 hover:underline hover:text-black"
+                ><img src="/icons/graphique.svg" alt="graphique" />
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
