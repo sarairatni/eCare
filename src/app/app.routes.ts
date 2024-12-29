@@ -1,6 +1,8 @@
-import { Routes } from '@angular/router';
+
 import { LandingComponent } from './landing/landing.component';
 import { NotFoundComponent } from './404/not-found.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
 export const routes: Routes = [
    {
@@ -26,18 +28,17 @@ export const routes: Routes = [
   },
   {
     path : 'patient',
-    pathMatch: 'full',
+    
     loadComponent: () => {
       return import('./patient/patient-layout/patient-layout.component').then((m) => m.PatientLayoutComponent);
     },
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadComponent: () => {
-          return import('./patient/patient-dashboard/patient-dashboard.component').then((m) => m.PatientDashboardComponent);
-        }
-      },
+      { path: 'dashboard', loadComponent: () => import('./patient/patient-dashboard/patient-dashboard.component').then(m => m.PatientDashboardComponent) },
+      { path: 'profile', loadComponent: () => import('./patient/patient-profile/patient-profile.component').then(m => m.PatientProfileComponent) },
+      { path: 'history', loadComponent: () => import('./patient/patient-history/patient-history.component').then(m => m.PatientHistoryComponent) },
+      { path: 'results', loadComponent: () => import('./patient/patient-results/patient-results.component').then(m => m.PatientResultsComponent) },
+      { path: 'results/Analyse', loadComponent: () => import('./patient/patient-results/analyse/analyse.component').then(m=>m.AnalyseComponent)} ,
+      { path: 'antecedents', loadComponent: () => import('./patient/patient-antecedents/patient-antecedents.component').then(m => m.PatientAntecedentsComponent) }
     ]
   },
   {
