@@ -37,7 +37,8 @@ export const routes: Routes = [
       { path: 'profile', loadComponent: () => import('./patient/patient-profile/patient-profile.component').then(m => m.PatientProfileComponent) },
       { path: 'history', loadComponent: () => import('./patient/patient-history/patient-history.component').then(m => m.PatientHistoryComponent) },
       { path: 'results', loadComponent: () => import('./patient/patient-results/patient-results.component').then(m => m.PatientResultsComponent) },
-      { path: 'results/Analyse', loadComponent: () => import('./patient/patient-results/analyse/analyse.component').then(m=>m.AnalyseComponent)} ,
+      { path: 'results/analyse', loadComponent: () => import('./patient/patient-results/analyse/analyse.component').then(m=>m.AnalyseComponent)} ,
+      { path: 'results/imagerie', loadComponent: () => import('./patient/patient-results/imagerie/imagerie.component').then(m=>m.ImagerieComponent)} ,
       { path: 'antecedents', loadComponent: () => import('./patient/patient-antecedents/patient-antecedents.component').then(m => m.PatientAntecedentsComponent) }
     ]
   },

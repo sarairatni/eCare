@@ -1,13 +1,62 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { Chart, registerables } from 'chart.js';
 
+Chart.register(...registerables);
 @Component({
   selector: 'app-patient-results',
-  imports: [NgFor],
+  imports: [NgFor, NgIf],
   templateUrl: './patient-results.component.html',
   styleUrl: './patient-results.component.css'
 })
 export class PatientResultsComponent {
+  isPopupVisible = false;
+  chart: Chart | null = null;
+  openPopup() {
+    this.isPopupVisible = true;
+  }
+
+  closePopup() {
+    this.isPopupVisible = false;
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = null;
+    }
+  }
+  onParameterChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectedParameter = target.value;
+    this.updateGraph();
+  }
+
+  updateGraph() {
+    const chartContainer = document.getElementById('chart') as HTMLCanvasElement;
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart(chartContainer, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [
+          {
+            label: `Évolution de ${this.selectedParameter}`,
+            data: [10, 20, 15, 30, 25],
+            borderColor: '#643869',
+            borderWidth: 2,
+            fill: false,
+          }
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+  }
+  parameters = ['Paramètre 1', 'Paramètre 2', 'Paramètre 3'];
+  selectedParameter: string | null = null;
   consultations = input([
     {"Date": "15/03/2023", "Type": "Hémogramme", "Laboratoire": "Laboratoire BioSanté"},
     {"Date": "22/04/2023", "Type": "Glycémie à jeun", "Laboratoire": "Clinique MedLab"},

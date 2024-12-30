@@ -1,20 +1,61 @@
 import { Component, input} from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-patient-antecedents',
-  imports: [NgFor],
+  imports: [NgFor, NgIf],
   templateUrl: './patient-antecedents.component.html',
   styleUrl: './patient-antecedents.component.css'
 })
 export class PatientAntecedentsComponent {
-  maladies  = input([
-    { "Type": "Infection virale", "Nom": "Grippe", "Date": "01/12/2023 - 07/12/2023" },
-    { "Type": "Maladie chronique", "Nom": "Diabète de type 2", "Date": "Diagnostiqué en 2015, suivi continu" },
-    { "Type": "Trouble cardiovasculaire", "Nom": "Hypertension", "Date": "Diagnostiquée en 2020, sous traitement permanent" },
-    { "Type": "Maladie auto-immune", "Nom": "Arthrite rhumatoïde", "Date": "Diagnostiquée en 2018, traitement en cours" },
-    { "Type": "Cancer", "Nom": "Cancer du poumon", "Date": "Diagnostiqué en 2022, traitement en cours" }
-  ])
+  isPopupVisible = false;
+  selectedMed: any = null;
+
+  // Sample maladies data
+  maladies() {
+    return [
+      {
+        Type: 'Maladie Chronique',
+        Nom: 'Diabète',
+        Date: '2023-01-15',
+        Details: 'Le diabète est une maladie chronique affectant la régulation de la glycémie.',
+      },
+      {
+        Type: 'Maladie Chronique',
+        Nom: 'Diabète',
+        Date: '2023-01-15',
+        Details: 'Le diabète est une maladie chronique affectant la régulation de la glycémie.',
+      },
+      {
+        Type: 'Maladie Chronique',
+        Nom: 'Diabète',
+        Date: '2023-01-15',
+        Details: 'Le diabète est une maladie chronique affectant la régulation de la glycémie.',
+      },
+      {
+        Type: 'Maladie Chronique',
+        Nom: 'Diabète',
+        Date: '2023-01-15',
+        Details: 'Le diabète est une maladie chronique affectant la régulation de la glycémie.',
+      },
+      {
+        Type: 'Infection',
+        Nom: 'Grippe',
+        Date: '2023-10-05',
+        Details: 'La grippe est une infection virale courante causant de la fièvre, des frissons et une fatigue.',
+      },
+    ];
+  }
+
+  openPopup(med: any) {
+    this.selectedMed = med;
+    this.isPopupVisible = true;
+  }
+
+  closePopup() {
+    this.isPopupVisible = false;
+    this.selectedMed = null;
+  }
   
 
 }
