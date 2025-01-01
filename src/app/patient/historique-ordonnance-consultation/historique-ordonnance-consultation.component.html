@@ -1,0 +1,74 @@
+<div class="h-[100%] w-[100%] px-5 lg:px-24 flex flex-col gap-10">
+  <p class="text-black-500 font-[Lexend] font-bold">
+    > Historique complet > Consultation > Ordonnance
+  </p>
+  <!-- details -->
+  <div class="flex flex-col py-5 gap-5">
+    <p class="text-black-500 font-[Lexend] font-bold">
+      Détails de l'ordonnance
+    </p>
+    <div>
+      <div class="flex">
+        <p class="text-gray-500 font-[Lexend] font-semibold w-32">Émise par:</p>
+        <span class="text-black font-[Lexend]">{{ medecin() }}</span>
+      </div>
+      <div class="flex">
+        <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
+        <span class="text-black font-[Lexend]">{{ date() }}</span>
+      </div>
+      <div class="flex">
+        <p class="text-gray-500 font-[Lexend] font-semibold w-32">État:</p>
+        <span class="text-black font-[Lexend]">{{ etat() }}</span>
+      </div>
+    </div>
+  </div>
+  <!-- medicaments -->
+  <div
+    class="bg-white rounded-2xl p-3 font-[Lexend] flex flex-col pb-5"
+    style="
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1);
+    "
+  >
+    <div class="flex justify-between p-2 border-b border-gray-500">
+      <div class="w-[100%]">
+        <p class="font-semibold">Nom médicament</p>
+      </div>
+      <div class="w-[100%]">
+        <p class="font-semibold">Dosage</p>
+      </div>
+      <div class="w-[100%]">
+        <p class="font-semibold">Fréquence</p>
+      </div>
+      <div class="w-[100%]">
+        <p class="font-semibold">Durée</p>
+      </div>
+      <div class="w-[100%]">
+        <p class="font-semibold">Commentaire</p>
+      </div>
+    </div>
+    <div class="flex flex-col gap-6 lg:max-h-[35vh] lg:overflow-scroll pt-4">
+      <div *ngFor="let med of medicaments(); let i = index" class="flex px-2">
+        <p class="w-[100%]">{{ med.nom }}</p>
+        <p class="w-[100%]">{{ med.dosage }}</p>
+        <p class="w-[100%]">{{ med.frequence }}</p>
+        <p class="w-[100%]">{{ med.duree }}</p>
+        <p class="w-[100%]">{{ med.commentaire }}</p>
+      </div>
+    </div>
+  </div>
+  <!-- instructions -->
+  <div class="flex flex-col py-5 gap-5">
+    <p class="text-black-500 font-[Lexend] font-bold">Instructions générales</p>
+    <p *ngFor="let ins of instructions(); let j = index" class="font-[Lexend]">
+      - {{ ins }}
+    </p>
+  </div>
+  <div class="pb-5">
+    <div
+      class="bg-gradient-to-r from-[#F6815A] to-[#E54E1B] hover:from-[#E54E1B] hover:to-[#E54E1B] transition duration-300 text-white rounded-full w-fit flex gap-1 px-5 cursor-pointer"
+    >
+      <img src="/pdf.svg" alt="pdf" />
+      <p class="px-6 py-3 font-[Lexend]">Télécharger</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="h-[100%] w-[100%] px-5 lg:px-24 flex flex-col gap-10">
+  <p class="text-black-500 font-[Lexend] font-bold">
+    > Historique complet > Consultation
+  </p>
+  <div class="flex w-[100%] justify-between">
+    <div class="flex flex-col gap-5">
+      <p class="text-black-500 font-[Lexend] font-bold">
+        Compte rendu de la consultation
+      </p>
+      <div>
+        <div class="flex">
+          <p class="text-gray-500 font-[Lexend] font-semibold w-32">Médecin:</p>
+          <span class="text-black font-[Lexend]">{{ medecin() }}</span>
+        </div>
+        <div class="flex">
+          <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
+          <span class="text-black font-[Lexend]">{{ date() }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col justify-between">
+      <button class="py-2 px-3 rounded-lg text-sm bg-[#A7A7A7] font-[Lexend]">
+        Voir ordonnance
+      </button>
+      <button class="py-2 px-3 rounded-lg text-sm bg-[#A7A7A7] font-[Lexend]">
+        Voir bilan
+      </button>
+    </div>
+  </div>
+  <div>
+    <p class="text-black-500 font-[Lexend] font-bold">
+      Motif de la consultation: <span class="font-normal">{{ motif() }}</span>
+    </p>
+    <div
+      class="w-[100%] max-h-[40vh] flex justify-between gap-10 font-[Lexend] px-2 py-5"
+    >
+      <!-- observations -->
+      <div
+        class="w-[100%] bg-white p-7 rounded-xl flex flex-col gap-5"
+        style="
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <p class="text-[#643869] font-[Lexend] font-bold">Observations:</p>
+        <div class="flex flex-col gap-3 overflow-scroll">
+          <p *ngFor="let obs of observations(); let i = index">- {{ obs }}</p>
+        </div>
+      </div>
+      <!-- diagnostic -->
+      <div
+        class="w-[100%] bg-[#643869] text-white p-7 rounded-xl flex flex-col gap-5 h-fit"
+      >
+        <p class="text-black-500 font-[Lexend] font-bold">Diagnostic:</p>
+        <p class="overflow-scroll">{{ diagnostic() }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="pb-5">
+    <div
+      class="bg-gradient-to-r from-[#F6815A] to-[#E54E1B] hover:from-[#E54E1B] hover:to-[#E54E1B] transition duration-300 text-white rounded-full w-fit flex gap-1 px-5 cursor-pointer"
+    >
+      <img src="/pdf.svg" alt="pdf" />
+      <p class="px-6 py-3 font-[Lexend]">Télécharger</p>
+    </div>
+  </div>
+</div>

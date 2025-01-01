@@ -1,1 +1,94 @@
-<p>patient-dashboard works!</p>
+<div
+  class="w-[100%] flex-1 overflow-scroll flex flex-col lg:flex-row justify-between"
+>
+  <!-- cote gauche -->
+  <div class="h-[100%] w-[100%] px-5 pb-5 lg:px-24">
+    <!-- info -->
+    <div class="flex flex-col gap-5 border-b border-gray-500 pb-5">
+      <div>
+        <p class="text-black-500 font-[Lexend] font-bold">Patient</p>
+        <p class="text-black-500 font-[Lexend] text-lg">
+          {{ patient() }}
+        </p>
+      </div>
+      <div>
+        <p class="text-gray-500 font-[Lexend] font-semibold">
+          NSS: <span class="text-black">{{ nss() }}</span>
+        </p>
+        <p class="text-gray-500 font-[Lexend] font-semibold">
+          Médecin traitant:
+          <span class="text-black">{{ "Dr. " + medecin() }}</span>
+        </p>
+      </div>
+    </div>
+    <!-- ordonnances -->
+    <div class="flex flex-col pt-5 gap-3">
+      <p class="text-black-500 font-[Lexend] font-bold">Mes ordonnances</p>
+      <!-- tableau -->
+      <div
+        class="bg-white rounded-2xl p-3 font-[Lexend] flex flex-col"
+        style="
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div class="flex justify-between p-2 border-b border-gray-500">
+          <div class="w-[100%]"></div>
+          <div class="w-[100%]">
+            <p class="font-semibold">État</p>
+          </div>
+          <div class="w-[100%] flex items-center justify-center">
+            <p class="font-semibold">Télécharger</p>
+          </div>
+        </div>
+        <div
+          class="flex flex-col gap-4 lg:max-h-[28vh] lg:overflow-scroll pt-4"
+        >
+          <div *ngFor="let ord of ordonnances(); let i = index" class="flex">
+            <p class="w-[100%]">{{ ord.nom }}</p>
+            <p class="w-[100%]">{{ textEtat(ord.etat) }}</p>
+            <div class="flex w-[100%] items-center justify-center">
+              <img
+                src="/telecharger.svg"
+                alt="telecharger"
+                class="cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- imageries -->
+    <div class="flex flex-col pt-5 gap-3">
+      <p class="text-black-500 font-[Lexend] font-bold">Imageries en attente</p>
+      <div
+        class="bg-white rounded-2xl p-6 font-[Lexend] flex flex-col gap-4 lg:max-h-[25vh] lg:overflow-scroll"
+        style="
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div
+          *ngFor="let im of imageries(); let j = index"
+          class="flex justify-between items-center"
+        >
+          <p>{{ im }}</p>
+          <button class="p-2 bg-gray-300 rounded-xl font-light">
+            Voir bilan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cote droit -->
+  <div class="h-[100%] w-[100%] px-5 lg:px-24">
+    <!-- resultats -->
+    <p class="text-black-500 font-[Lexend] font-bold mb-3">Résultats récents</p>
+    <div class="flex flex-col gap-5">
+      <div
+        *ngFor="let res of imageries(); let k = index"
+        class="p-3 font-light font-[Lexend] rounded-2xl bg-white border border-[#FD7A4E]"
+      >
+        {{ res }}
+      </div>
+    </div>
+  </div>
+</div>
