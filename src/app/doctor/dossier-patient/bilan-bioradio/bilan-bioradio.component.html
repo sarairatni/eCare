@@ -1,0 +1,83 @@
+<div class="h-[100%] w-[100%] flex flex-col gap-3">
+  <p class="text-black-500 font-[Lexend] font-bold">
+    > Consultation > Bilan biologique / radiologique
+  </p>
+  <!-- details -->
+  <div class="flex flex-col py-5 gap-5">
+    <p class="text-black-500 text-sm font-[Lexend] font-semibold">
+      Détails de l'ordonnance
+    </p>
+    <div class="flex flex-col gap-3 text-xs">
+      <div class="flex">
+        <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
+        <span class="text-black font-[Lexend]">{{ date() }}</span>
+      </div>
+      <div class="flex">
+        <p class="text-gray-500 font-[Lexend] font-semibold w-32">Médecin:</p>
+        <span class="text-black font-[Lexend]">{{ medecin() }}</span>
+      </div>
+      <div class="flex">
+        <p class="text-gray-500 font-[Lexend] font-semibold w-32">
+          Type de bilan:
+        </p>
+        <span class="text-black font-[Lexend]">{{ type() }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col gap-5">
+    <p class="text-black-500 font-[Lexend] font-semibold">
+      Paramètres demandés
+    </p>
+    <div class="flex text-xs justify-between gap-6">
+      <!-- parametres -->
+      <div
+        class="bg-white rounded-xl px-3 py-2 font-[Lexend] flex flex-col pb-5 w-[100%]"
+        style="
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div class="flex justify-between p-2 border-b border-gray-500">
+          <div class="w-[100%]">
+            <p class="font-semibold">Paramètres</p>
+          </div>
+          <div class="w-[100%]">
+            <p class="font-semibold">Valeur normale</p>
+          </div>
+        </div>
+        <div
+          class="flex flex-col gap-6 text-xs lg:max-h-[35vh] lg:overflow-auto pt-4"
+        >
+          <div
+            *ngFor="let par of parametres(); let i = index"
+            class="flex px-2"
+          >
+            <p class="w-[100%]">{{ par.parametre }}</p>
+            <p class="w-[100%]">{{ par.valeur }}</p>
+          </div>
+        </div>
+      </div>
+      <!-- instructions -->
+      <div class="flex flex-col py-5 gap-5 w-[100%]">
+        <p class="text-black-500 font-[Lexend] font-bold">
+          Instructions générales
+        </p>
+        <div class="flex flex-col gap-3">
+          <p
+            *ngFor="let ins of instructions(); let j = index"
+            class="font-[Lexend]"
+          >
+            - {{ ins }}
+          </p>
+          <div class="pt-5">
+            <div
+              class="bg-gradient-to-r items-center from-[#F6815A] to-[#E54E1B] hover:from-[#E54E1B] hover:to-[#E54E1B] transition duration-300 text-white rounded-full w-fit flex px-5 cursor-pointer"
+            >
+              <img src="/pdf.svg" alt="pdf" class="w-6 h-6" />
+              <p class="px-2 py-2 text-sm font-[Lexend]">Télécharger</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

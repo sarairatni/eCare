@@ -15,6 +15,7 @@ import { DetailsOrdonnanceComponent } from './doctor/dossier-patient/details-ord
 import { CreerDpiComponent } from './doctor/creer-dpi/creer-dpi.component';
 import { AjouterAnalyseComponent } from './laborantin/ajouter-analyse/ajouter-analyse.component';
 import { AjouterAnalyseBioComponent } from './laborantin/ajouter-analyse-bio/ajouter-analyse-bio.component';
+import { BilanBioradioComponent } from './doctor/dossier-patient/bilan-bioradio/bilan-bioradio.component';
 
 export const routes: Routes = [
   {
@@ -97,6 +98,10 @@ export const routes: Routes = [
             component: DetailsConsultationsComponent,
           },
           {
+            path: 'consultations/:id/bilan-bioradio',
+            component: BilanBioradioComponent,
+          },
+          {
             path: 'ordonnances',
             component: OrdonnancesPatientComponent,
           },
@@ -115,9 +120,9 @@ export const routes: Routes = [
   {
     path: 'laborantin',
     loadComponent: () => {
-      return import('./laborantin/laborantin-layout/laborantin-layout.component').then(
-        (m) => m.LaborantinLayoutComponent
-      );
+      return import(
+        './laborantin/laborantin-layout/laborantin-layout.component'
+      ).then((m) => m.LaborantinLayoutComponent);
     },
     children: [
       {
@@ -127,7 +132,7 @@ export const routes: Routes = [
       {
         path: 'ajouter-analyse/:dpi_id',
         component: AjouterAnalyseBioComponent,
-      }
+      },
     ],
   },
 

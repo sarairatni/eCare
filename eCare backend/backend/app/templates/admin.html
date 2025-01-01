@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Patient</title>
+</head>
+<body>
+    <h1>Create Patient</h1>
+    <form method="POST" action="">
+        {% csrf_token %} 
+        <input type="text" name="role" placeholder="role">
+        <input type="text" name="num_securite_sociale" placeholder="Enter your NSS">
+        <input type="text" name="nom" placeholder="Enter your Nom">
+        <input type="text" name="prenom" placeholder="Enter your Prenom">
+        <input type="date" name="date_naissance" placeholder="Enter your Date of Birth">
+        <input type="text" name="adress" placeholder="Enter your Address">
+        <input type="text" name="telephone" placeholder="Enter your Telephone">
+        <input type="email" name="email" placeholder="Enter your Email">
+        <input type="password" name="password" placeholder="Enter your Password">
+        <input type="text" name="medecin_traitant" placeholder="Enter your Medecin Traitant">
+        <input type="text" name="personne_contact" placeholder="Enter your Personne Contact">
+        <button type="submit">Create</button>
+    </form>
+</body>
+</html>

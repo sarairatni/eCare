@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <select id="combo-box" name="role">
+            <option value="admin">admin</option>
+            <option value="patient">patient</option>
+            <option value="medecin">medecin</option>
+            <option value="infirmier">infirmier</option>
+            <option value="laborantin">laborantin</option>
+            <option value="radiologue">radiologue</option>
+        </select>
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="password" placeholder="password">
+        <button type="submit">SignIn</button>
+    </form>
+</body>
+</html>

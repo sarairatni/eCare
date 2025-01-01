@@ -1,44 +1,50 @@
 <div
-  class="pb-8 bg-[#F1F1F1] w-full h-auto grid grid-cols-2 items-center"
+  class="pb-8 bg-[#F1F1F1] w-full h-auto grid grid-cols-1 sm:grid-cols-2 items-center"
 >
   <!-- Hero content (left column) -->
-  <div class="w-[90%]">
+  <div class="w-full mt-20 sm:mt-0 flex justify-center sm:mx-0">
     <div
-      class="flex flex-col items-start pl-[20%] justify-center h-full gap-[4vw]"
+      class="w-[90%] flex flex-col items-start sm:pl-[20%] justify-center h-full gap-[4vw]"
     >
-      <!-- big titles -->
+      <!-- Big titles -->
       <div class="w-full flex flex-col items-start gap-[0rem]">
         <h1
-          class="text-[4vw] font-bold bg-gradient-to-r from-[#FD7A4E] to-[#643869] bg-clip-text text-transparent leading-tight"
+          class="text-[8vw] sm:text-[4vw] font-bold bg-gradient-to-r from-[#FD7A4E] to-[#643869] bg-clip-text text-transparent leading-tight"
         >
           Suivi du
         </h1>
         <h1
-          class="text-[4vw] font-bold bg-gradient-to-r from-[#FD7A4E] to-[#643869] bg-clip-text text-transparent leading-tight"
+          class="text-[8vw] sm:text-[4vw] font-bold bg-gradient-to-r from-[#FD7A4E] to-[#643869] bg-clip-text text-transparent leading-tight"
         >
           Dossier patient
         </h1>
-        <h2 class="text-[3vw] text-[#48274B] font-bold">En ligne</h2>
+        <h2 class="text-[6vw] sm:text-[3vw] text-[#48274B] font-bold">
+          En ligne
+        </h2>
       </div>
-      <p class="text-[#AFA2A2] font-semibold text-[1.3vw] leading-[2vw]">
+      <p
+        class="text-[#AFA2A2] font-semibold text-[4vw] sm:text-[1.3vw] leading-[6vw] sm:leading-[2vw]"
+      >
         Une solution moderne et sécurisée pour centraliser les données des
         patients et améliorer la coordination médicale.
       </p>
 
       <button
-        class="flex items-center px-1 py-1 bg-[#643869] border border-transparent rounded-full space-x-[1vw] h-[4vw] w-[16vw] outline-none transition duration-200 hover:bg-[#9c5b8e] hover:shadow-inner hover:shadow-md hover:shadow-white-900 active:shadow-inner active:shadow-md active:shadow-[#643869]-800"
+        class="flex items-center px-1 py-1 bg-[#643869] border border-transparent rounded-full space-x-[2vw] sm:space-x-[1vw] h-9 sm:h-[4vw] w-auto pr-4 sm:w-[16vw] outline-none transition duration-200 hover:bg-[#9c5b8e] hover:shadow-inner hover:shadow-md hover:shadow-white-900 active:shadow-inner active:shadow-md active:shadow-[#643869]-800"
       >
         <div
-          class="h-[95%] aspect-square flex items-center justify-center bg-white rounded-full"
+          class="h-7 w-7 sm:w-auto sm:h-[95%] aspect-square flex items-center justify-center bg-white rounded-full"
         >
           <mat-icon class="text-[#643869]">arrow_forward</mat-icon>
         </div>
-        <span class="text-[1.3vw] text-white font-medium">S'authentifier</span>
+        <span class="text-[4vw] sm:text-[1.3vw] text-white font-medium"
+          >S'authentifier</span
+        >
       </button>
     </div>
   </div>
-  <!-- doctor img (right column) -->
-  <div class="flex justify-end items-center h-full">
+  <!-- Doctor image (right column) -->
+  <div class="hidden sm:flex sm:justify-end sm:items-center sm:h-full">
     <img src="/images/doctor_landing.png" alt="Doctor" class="w-4/5 h-auto" />
   </div>
 </div>
