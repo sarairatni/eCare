@@ -125,11 +125,19 @@ export const routes: Routes = [
           },
           { 
             path: 'resultats-med', 
-            loadComponent: () => import('./doctor/patient-results/patient-results.component').then(m => m.PatientResultsComponent) 
+            loadComponent: () => import('./patient/patient-results/patient-results.component').then(m => m.PatientResultsComponent) 
+          },
+          { 
+            path: 'resultats-med/analyse/:id', 
+            loadComponent: () => import('./patient/patient-results/analyse/analyse.component').then(m => m.AnalyseComponent) 
+          },
+          { 
+            path: 'resultats-med/imagerie/:id', 
+            loadComponent: () => import('./patient/patient-results/imagerie/imagerie.component').then(m => m.ImagerieComponent) 
           },
           { 
             path: 'antecedents-med', 
-            loadComponent: () => import('./doctor/dossier-patient/patient-antecedents/patient-antecedents.component').then(m => m.PatientAntecedentsComponent) }
+            loadComponent: () => import('./patient/patient-antecedents/patient-antecedents.component').then(m => m.PatientAntecedentsComponent) }
           ,
           { 
             path: 'soins', 

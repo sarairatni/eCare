@@ -1,4 +1,4 @@
-<div class="h-[100%] w-[100%] px-5 lg:px-24 flex flex-col gap-10">
+<div class="max-h-[100%] overflow-scroll w-[100%] px-5 lg:px-24 flex flex-col gap-10">
     <div>
         <button (click)="openPopup()" class="bg-gradient-to-b font-[Lexend] text-white from-[#643869] to-[#944c9c] p-3 rounded-3xl via-[11%]">
             Voir évolution d’un paramètre
@@ -15,7 +15,7 @@
       <!-- Close Button -->
       <button
         (click)="closePopup()"
-        class="absolute top-4 right-4 text-[#643869] font-bold text-xl"
+        class="absolute top-4 right-4 text-white font-bold text-xl"
       >
         &times;
       </button>
@@ -75,13 +75,13 @@
           </div>
         </div>
         <div class="flex flex-col gap-4 lg:max-h-[15vh] lg:overflow-scroll pt-4">
-          <div *ngFor="let cons of consultations(); let i = index" class="flex">
+          <div *ngFor="let cons of analyses(); let i = index" class="flex">
             <p class="w-[100%]">{{ cons.Date }}</p>
             <p class="w-[100%]">{{ cons.Type}}</p>
             <p class="w-[100%]">{{ cons.Laboratoire }}</p>
            
             <div class="flex w-[100%] items-center justify-center gap-2">
-              <img src="/voir.svg" alt="telecharger" class="cursor-pointer" />
+              <img src="/voir.svg" [routerLink]="['analyse', cons.id]" alt="telecharger" class="cursor-pointer" />
               <img
                 src="/télecharger2.svg"
                 alt="telecharger"
@@ -96,7 +96,7 @@
       <p class="text-[#643869] font-[Lexend] font-bold">Résultats des Imageries Médicales</p>
       <!-- tableau des ordonnances-->
       <div class="flex gap-4 pt-4 overflow-scroll">
-        <div *ngFor="let res of resultats(); let i = index" class="flex ">
+        <div *ngFor="let res of imageries(); let i = index" class="flex ">
           <div class="w-[80vw] lg:w-[20vw] bg-[#E3E3E3] flex flex-col gap-4 rounded-3xl p-6 h-auto">
              <img src="/X-ray.png" class="max-h-8 w-6" alt="jsp">
              <p class="font-[Lexend] font-medium text-[#643869]">{{ res.Type }}</p>
@@ -106,7 +106,7 @@
              <span class="font-[Lexend] text-[0.9rem] font-light text-[#060606]"> {{ res.Resume }}</span>
             </div>
              <div class="flex gap-6 max-h-8 w-auto">
-              <img src="/Voir.png" alt="voir">
+              <img src="/Voir.png" [routerLink]="['imagerie', res.id]" alt="voir">
               <img src="/télecharger.png" alt="telecharger">
              </div>
           </div>
