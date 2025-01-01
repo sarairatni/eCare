@@ -34,7 +34,7 @@ export class DoctorLayoutComponent {
     {
       text: 'Mon profil',
       iconUrl: '/profil.svg',
-      path: 'mon-profil',
+      path: 'profil',
     },
   ]);
 

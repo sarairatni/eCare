@@ -18,8 +18,8 @@ export class PatientLayoutComponent {
   personne = input("Ladoul Mahdi");
   menuItems = signal([
     { text: "Dashboard", iconUrl: "/dashboard.svg", path: 'dashboard' },
-    { text: "Mon profil", iconUrl: "/profil.svg", path: 'profile' },
-    { text: "Historique complet", iconUrl: "/historique.svg", path: 'history' },
+    { text: "Mon profil", iconUrl: "/profil.svg", path: 'profil' },
+    { text: "Historique complet", iconUrl: "/historique.svg", path: 'historique' },
     { text: "Resultats medicaux", iconUrl: "/resultats.svg", path: 'results' },
     { text: "Antecedants medicaux", iconUrl: "/antecedants.svg", path: 'antecedents' }
   ]);

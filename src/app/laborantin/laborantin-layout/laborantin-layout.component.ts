@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-laborantin-layout',
+  standalone:true,
   imports: [
     RouterModule,
     CommonModule,
@@ -23,12 +24,12 @@ export class LaborantinLayoutComponent {
     {
       text: 'Ajouter analyse',
       iconUrl: '/icons/albums.svg',
-      route: '/laborantin/ajouter-analyse',
+      path: 'ajouter-analyse',
     },
     {
       text: 'Mon profil',
       iconUrl: '/profil.svg',
-      route: '/doctor/mon-profil',
+      path: 'profil',
     },
   ]);
 }

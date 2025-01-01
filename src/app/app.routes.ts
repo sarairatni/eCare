@@ -34,9 +34,43 @@ export const routes: Routes = [
       return import('./patient/patient-layout/patient-layout.component').then((m) => m.PatientLayoutComponent);
     },
     children: [
-      { path: 'dashboard', loadComponent: () => import('./patient/patient-dashboard/patient-dashboard.component').then(m => m.PatientDashboardComponent) },
-      { path: 'profile', loadComponent: () => import('./patient/patient-profile/patient-profile.component').then(m => m.PatientProfileComponent) },
-      { path: 'history', loadComponent: () => import('./patient/patient-history/patient-history.component').then(m => m.PatientHistoryComponent) },
+      {
+        path: 'dashboard',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import('./patient/patient-dashboard/patient-dashboard.component').then((m) => m.PatientDashboardComponent);
+        }
+      },
+      {
+        path: 'profil',
+        loadComponent: () => {
+          return import('./shared/profil/profil.component').then((m) => m.ProfilComponent);
+        }
+      },
+      {
+        path: 'historique',
+        loadComponent: () => {
+          return import('./patient/historique/historique.component').then((m) => m.HistoriqueComponent);
+        }
+      },
+      {
+        path: 'historique/ordonnance',
+        loadComponent: () => {
+          return import('./patient/historique-ordonnance/historique-ordonnance.component').then((m) => m.HistoriqueOrdonnanceComponent);
+        }
+      },
+      {
+        path: 'historique/consultation',
+        loadComponent: () => {
+          return import('./patient/historique-consultation/historique-consultation.component').then((m) => m.HistoriqueConsultationComponent);
+        }
+      },
+      {
+        path: 'historique/consultation/ordonnance',
+        loadComponent: () => {
+          return import('./patient/historique-ordonnance-consultation/historique-ordonnance-consultation.component').then((m) => m.HistoriqueOrdonnanceConsultationComponent);
+        }
+      },
       { path: 'results', loadComponent: () => import('./patient/patient-results/patient-results.component').then(m => m.PatientResultsComponent) },
       { path: 'results/analyse', loadComponent: () => import('./patient/patient-results/analyse/analyse.component').then(m=>m.AnalyseComponent)} ,
       { path: 'results/imagerie', loadComponent: () => import('./patient/patient-results/imagerie/imagerie.component').then(m=>m.ImagerieComponent)} ,
@@ -58,6 +92,12 @@ export const routes: Routes = [
       { 
         path: 'mes-patients', 
         loadComponent: () => import('./doctor/mes-patients/mes-patients.component').then(m => m.MesPatientsComponent) 
+      },
+      {
+        path: 'profil',
+        loadComponent: () => {
+          return import('./shared/profil/profil.component').then((m) => m.ProfilComponent);
+        }
       },
       { 
         path: 'creation-dpi', 
@@ -98,6 +138,35 @@ export const routes: Routes = [
         ]
       }
     ]
+  },
+  {
+    path: 'laborantin',
+    loadComponent: () =>
+      import('./laborantin/laborantin-layout/laborantin-layout.component').then(
+        (m) => m.LaborantinLayoutComponent
+      ),
+    children: [
+      {
+        path: 'profil',
+        loadComponent: () => {
+          return import('./shared/profil/profil.component').then((m) => m.ProfilComponent);
+        }
+      },
+      {
+        path: 'ajouter-analyse',
+        loadComponent: () =>
+          import('./laborantin/ajouter-analyse/ajouter-analyse.component').then(
+            (m) => m.AjouterAnalyseComponent
+          ),
+      },
+      {
+        path: 'ajouter-analyse/:dpi_id',
+        loadComponent: () =>
+          import('./laborantin/ajouter-analyse-bio/ajouter-analyse-bio.component').then(
+            (m) => m.AjouterAnalyseBioComponent
+          ),
+      },
+    ],
   },
   
   {
