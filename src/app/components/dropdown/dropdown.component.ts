@@ -20,5 +20,6 @@ export class DropdownComponent {
     else if (choix == "Médecin") this.choisiChange.emit(1);
     else if (choix == "Laborantin") this.choisiChange.emit(2);
     else if (choix == "Infirmier") this.choisiChange.emit(3);
+    else if (choix == "Radiologue") this.choisiChange.emit(4);
   }
 }

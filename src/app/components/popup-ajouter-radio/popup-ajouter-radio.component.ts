@@ -1,5 +1,5 @@
 import { NgIf, NgStyle } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input,  Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-popup-ajouter-radio',
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './popup-ajouter-radio.component.css'
 })
 export class PopupAjouterRadioComponent {
+  nss = input('');
   typeExamen: string = "";
   resumeRapport: string = "";
   uploadedImage: string | null = null;
@@ -32,6 +33,12 @@ export class PopupAjouterRadioComponent {
 
   removeImage(): void {
     this.uploadedImage = null;
+  }
+
+  @Output() clickClose = new EventEmitter<void>();
+
+  masquer() {
+    this.clickClose.emit(); 
   }
 
 }

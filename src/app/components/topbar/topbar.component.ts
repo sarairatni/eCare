@@ -21,6 +21,8 @@ export class TopbarComponent {
         return 'Laborantin';
       case 3:
         return 'Infirmier';
+      case 4:
+        return 'Radiologue';
       default:
         return 'Inconnu';
     }

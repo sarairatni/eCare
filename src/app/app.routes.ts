@@ -200,6 +200,20 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'radiologue',
+    loadComponent: () => import('./radiologue/radiologue-layout/radiologue-layout.component').then(m => m.RadiologueLayoutComponent),
+    children: [
+      {
+        path: 'profil',
+        loadComponent: () => import('./shared/profil/profil.component').then(m => m.ProfilComponent),
+      },
+      {
+        path: 'ajouter-radio',
+        loadComponent: () => import('./radiologue/ajouter-radio/ajouter-radio.component').then(m => m.AjouterRadioComponent),
+      }
+    ]
+  },
+  {
     path: '**',
     loadComponent: () => import('./404/not-found.component').then(m => m.NotFoundComponent),
   },
