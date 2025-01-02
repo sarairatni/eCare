@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-consultation-ordonnance',
@@ -8,7 +9,16 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './consultation-ordonnance.component.html',
   styleUrls: ['./consultation-ordonnance.component.css'],
 })
-export class ConsultationOrdonnanceComponent {
+export class ConsultationOrdonnanceComponent implements OnInit {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {} // Inject Router and ActivatedRoute
+  nss: string = '';
+  ngOnInit(): void {
+    // Get the nss parameter from the route
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.nss = params.get('nss') || ''; // Store the nss parameter
+    });
+  }
+
   medicaments = [
     {
       nom: '',
@@ -42,5 +52,11 @@ export class ConsultationOrdonnanceComponent {
   resetForm() {
     this.newMedicament = { nom: '', dosage: '', duree: '' };
     this.showForm = false;
+  }
+
+  navigateToAntecedants() {
+    this.router.navigate([
+      `/doctor/mes-patients/${this.nss}/nouvelle-consultation/antecedants`,
+    ]);
   }
 }

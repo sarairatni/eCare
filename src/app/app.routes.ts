@@ -19,6 +19,7 @@ import { BilanBioradioComponent } from './doctor/dossier-patient/bilan-bioradio/
 import { NouvelleConsultationComponent } from './doctor/dossier-patient/nouvelle-consultataion/nouvelle-consultataion.component';
 import { ConsultationOrdonnanceComponent } from './doctor/dossier-patient/consultation-ordonnance/consultation-ordonnance.component';
 import { ConsultationBilanComponent } from './doctor/dossier-patient/consultation-bilan/consultation-bilan.component';
+import { ConsultationAntecedantsComponent } from './doctor/dossier-patient/consultation-antecedants/consultation-antecedants.component';
 
 export const routes: Routes = [
   {
@@ -98,6 +99,10 @@ export const routes: Routes = [
       {
         path: 'mes-patients/:nss/nouvelle-consultation/bilan',
         component: ConsultationBilanComponent,
+      },
+      {
+        path: 'mes-patients/:nss/nouvelle-consultation/antecedants',
+        component: ConsultationAntecedantsComponent,
       },
       {
         path: 'mes-patients/:nss', // ':nss' is a dynamic parameter

@@ -3,7 +3,7 @@
 >
   <div class="flex justify-between items-center">
     <h2 class="text-base font-bold text-[#643869]">
-      Nouvelle consultation > Ordonnance
+      Nouvelle consultation > Antécedant médicaux
     </h2>
   </div>
 
@@ -14,11 +14,11 @@
         class="py-2 px-8 text-white text-sm rounded-full bg-gradient-to-r from-[#944C9C] to-[#643869]"
         (click)="toggleForm()"
       >
-        Ajouter un médicament
+        Ajouter un antécedant
       </button>
     </div>
 
-    <!-- Formulaire d'ajout de médicament (affiché au centre) -->
+    <!-- Formulaire d'ajout de antecedant (affiché au centre) -->
     <div
       *ngIf="showForm"
       class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
@@ -28,29 +28,29 @@
       >
         <div class="flex flex-col gap-4 text-sm">
           <div class="flex flex-col">
-            <label for="nom" class="text-white mb-2">Nom du médicament</label>
+            <label for="nom" class="text-white mb-2">type</label>
             <input
               id="nom"
-              [(ngModel)]="newMedicament.nom"
+              [(ngModel)]="newAntecedant.type"
               type="text"
               class="px-4 py-2 rounded-xl bg-white text-black"
             />
           </div>
           <div class="flex flex-col">
-            <label for="dosage" class="text-white mb-2">Dosage</label>
+            <label for="dosage" class="text-white mb-2">Nom</label>
             <input
               id="dosage"
-              [(ngModel)]="newMedicament.dosage"
+              [(ngModel)]="newAntecedant.nom"
               type="text"
               class="px-4 py-2 rounded-xl bg-white text-black"
             />
           </div>
           <div class="flex flex-col">
-            <label for="duree" class="text-white mb-2">Durée</label>
+            <label for="duree" class="text-white mb-2">Date/Période</label>
             <input
               id="duree"
-              [(ngModel)]="newMedicament.duree"
-              type="text"
+              [(ngModel)]="newAntecedant.date"
+              type="date"
               class="px-4 py-2 rounded-xl bg-white text-black"
             />
           </div>
@@ -58,7 +58,7 @@
           <!-- Buttons -->
           <div class="flex text-sm mt-10 justify-between gap-4">
             <button
-              (click)="addMedicament()"
+              (click)="addAntecedant()"
               class="px-4 -2 bg-gradient-to-r from-[#F6815A] to-[#E54E1B] rounded-full text-white"
             >
               Valider
@@ -83,21 +83,21 @@
         >
           <thead class="bg-gray-100 sticky top-0 z-10">
             <tr>
-              <th class="px-4 py-3 w-[40%] text-left font-normal">
-                Médicament
+              <th class="px-4 py-3 w-[40%] text-left font-normal">Type</th>
+              <th class="px-4 py-3 w-[30%] text-left font-normal">Nom</th>
+              <th class="px-4 py-3 w-[30%] text-left font-normal">
+                Date/Période
               </th>
-              <th class="px-4 py-3 w-[30%] text-left font-normal">Dosage</th>
-              <th class="px-4 py-3 w-[30%] text-left font-normal">Durée</th>
             </tr>
           </thead>
           <tbody>
             <tr
-              *ngFor="let m of medicaments"
+              *ngFor="let a of antecedants"
               class="hover:bg-gray-50 font-light text-sm"
             >
-              <td class="px-4 py-2">{{ m.nom }}</td>
-              <td class="px-4 py-2">{{ m.dosage }}</td>
-              <td class="px-4 py-2">{{ m.duree }}</td>
+              <td class="px-4 py-2">{{ a.type }}</td>
+              <td class="px-4 py-2">{{ a.nom }}</td>
+              <td class="px-4 py-2">{{ a.date }}</td>
             </tr>
           </tbody>
         </table>
@@ -109,9 +109,9 @@
       <button
         type="submit"
         class="px-4 py-2 bg-gradient-to-r from-[#F6815A] to-[#E54E1B] rounded-full text-white"
-        (click)="navigateToAntecedants()"
+        (click)="terminerConsultation()"
       >
-        Suivant
+        Fin consultation
       </button>
       <button
         type="button"
