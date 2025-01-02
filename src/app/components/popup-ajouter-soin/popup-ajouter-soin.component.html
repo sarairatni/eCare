@@ -4,7 +4,12 @@
   <div class="w-[40vw] bg-[#643869] flex flex-col gap-10 p-10 rounded-3xl">
     <div class="flex flex-col gap-3">
       <div class="w-[100%] flex flex-row-reverse">
-        <img src="cancel.svg" alt="cancel" class="cursor-pointer" />
+        <img
+          src="cancel.svg"
+          alt="cancel"
+          class="cursor-pointer"
+          (click)="masquer()"
+        />
       </div>
       <label for="typeExamen">Type de soin / médicament administré</label>
       <input

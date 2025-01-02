@@ -9,7 +9,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class DropdownComponent {
   @Input() label: string = "";
   @Input() choisi: number = 0;
-  @Input() choix: string[] = ["Patient", "Médecin", "Administratif"];
+  @Input() choix: string[] = ["Patient", "Médecin", "Laborantin", "Infirmier"];
 
   @Output() choisiChange = new EventEmitter<number>();
 
@@ -18,6 +18,7 @@ export class DropdownComponent {
       this.choisiChange.emit(0);
     }
     else if (choix == "Médecin") this.choisiChange.emit(1);
-    else if (choix == "Administratif") this.choisiChange.emit(2);
+    else if (choix == "Laborantin") this.choisiChange.emit(2);
+    else if (choix == "Infirmier") this.choisiChange.emit(3);
   }
 }

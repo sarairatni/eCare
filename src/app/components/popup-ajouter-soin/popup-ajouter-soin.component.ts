@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input,  Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-popup-ajouter-soin',
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class PopupAjouterSoinComponent {
 
+  nss = input('');
   typeSoin: string = "";
   description: string = "";
   observation: string = "";
@@ -25,6 +26,12 @@ export class PopupAjouterSoinComponent {
   modifierObservation(event: Event): void {
     const textArea = event.target as HTMLInputElement;
     this.observation = textArea.value;
+  }
+
+  @Output() clickClose = new EventEmitter<void>();
+
+  masquer() {
+    this.clickClose.emit(); 
   }
 
 }

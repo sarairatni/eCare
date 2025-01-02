@@ -1,0 +1,38 @@
+<div
+  class="w-full h-auto px-20 grid grid-rows-[30px_auto] gap-4 font-lexend overflow-y-hidden"
+>
+  <h2 class="text-base font-semibold text-[#643869]">Mes consultations</h2>
+  <!-- tableau des consultations -->
+  <div class="w-full">
+    <div class="overflow-y-auto max-h-[400px]">
+      <table
+        class="table-auto w-full border border-gray-300 rounded-lg text-sm outline-none"
+        style="border-collapse: separate; border-spacing: 0"
+      >
+        <thead class="bg-gray-100 sticky top-0 z-10">
+          <tr>
+            <th class="px-4 py-3 w-[30%] text-left font-normal">Nom patient</th>
+            <th class="px-4 py-3 w-[20%] text-left font-normal">NSS</th>
+            <th class="px-4 py-3 w-[15%] text-left font-normal">Âge</th>
+            <th class="px-4 py-3 w-[15%] text-left font-normal">Statut</th>
+            <th class="px-4 py-3 w-[20%] text-left font-normal">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let consultation of consultations"
+            class="hover:bg-gray-50 font-light text-sm"
+          >
+            <td class="px-4 py-2">{{ consultation.nomPatient }}</td>
+            <td class="px-4 py-2">{{ consultation.nss }}</td>
+            <td class="px-4 py-2">{{ consultation.age }}</td>
+            <td class="px-4 py-2">{{ consultation.statut }}</td>
+            <td class="px-4 py-2">
+              <a href="#" class="text-gray-500 hover:underline hover:text-black">Voir détails</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

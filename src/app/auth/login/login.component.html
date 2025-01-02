@@ -24,8 +24,9 @@
         [type]="'password'"
         (contenuChange)="updateMdp($event)"
       />
-      <button
+      <button   type="button"
         class="px-5 py-3 font-[Lexend] rounded-full bg-[#DF5A2D] max-w-60 text-white mt-16"
+        [routerLink] = "getRoute()"
       >
         Me connecter
       </button>

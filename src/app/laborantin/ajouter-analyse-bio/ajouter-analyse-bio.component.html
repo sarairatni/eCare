@@ -1,0 +1,122 @@
+<div
+  class="w-full h-auto px-20 grid grid-rows-[auto_auto_auto] gap-8 font-lexend overflow-y-hidden"
+>
+  <h2 class="text-base font-semibold text-[#643869]">
+    > Ajouter une analyse biologique au DPI:
+    <span class="text-gray-500">{{ dpi_id }}</span>
+  </h2>
+  <div>
+    <button
+      class="py-2 px-8 text-white text-sm rounded-full bg-gradient-to-r from-[#944C9C] to-[#643869]"
+      (click)="togglePopup()"
+    >
+      Ajouter un paramètre
+    </button>
+  </div>
+  <!-- tableau des consultations -->
+  <div class="w-full">
+    <div class="overflow-y-auto max-h-[360px]">
+      <table
+        class="table-auto w-full border border-gray-300 rounded-lg text-sm outline-none"
+        style="border-collapse: separate; border-spacing: 0"
+      >
+        <thead class="bg-gray-100 sticky top-0 z-10">
+          <tr>
+            <th class="px-4 py-3 w-[25%] text-left font-normal">Paramètre</th>
+            <th class="px-4 py-3 w-[15%] text-left font-normal">
+              Valeur mesurée
+            </th>
+            <th class="px-4 py-3 w-[15%] text-left font-normal">
+              Valeur normal
+            </th>
+            <th class="px-4 py-3 w-[30%] text-left font-normal">
+              Intérprétation
+            </th>
+            <th class="px-4 py-3 w-[10%] text-left font-normal"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let a of listeAnalysesBio"
+            class="hover:bg-gray-50 font-light text-sm"
+          >
+            <td class="px-4 py-2">{{ a.param }}</td>
+            <td class="px-4 py-2">{{ a.valeur_mesuree }}</td>
+            <td class="px-4 py-2">{{ a.valeur_normale }}</td>
+            <td class="px-4 py-2">{{ a.interpretation }}</td>
+            <td class="px-4 py-2">
+              <a href="#" class="text-gray-500 hover:underline hover:text-black"
+                ><img src="/icons/graphique.svg" alt="graphique" />
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Popup -->
+  <div
+    *ngIf="showPopup"
+    class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+  >
+    <div
+      class="w-[700px] h-[400px] bg-gradient-to-b from-[#944C9C] to-[#643869] text-white py-6 px-10 rounded-xl shadow-lg"
+    >
+      <h3 class="text-sm font-bold mb-6 text-start">Ajouter paramètre</h3>
+      <!-- ligne 1-->
+      <div class="flex gap-4 mb-6 text-light text-sm">
+        <div class="flex-1">
+          <label class="block text-xs text-white mb-1">Type de paramètre</label>
+          <input
+            type="text"
+            placeholder="Type de paramètre"
+            class="w-full bg-white text-black rounded-full px-4 py-2 outline-none"
+          />
+        </div>
+        <div class="flex-1">
+          <label class="block text-xs text-white mb-1">Valeur mesurée</label>
+          <input
+            type="text"
+            placeholder="Valeur mesurée"
+            class="w-full bg-white text-black rounded-full px-4 py-2 outline-none"
+          />
+        </div>
+        <div class="flex-1">
+          <label class="block text-xs text-white mb-1">Valeur normale</label>
+          <input
+            type="text"
+            placeholder="Valeur normale"
+            class="w-full bg-white text-black rounded-full px-4 py-2 outline-none"
+          />
+        </div>
+      </div>
+      <!-- ligne 2 -->
+      <div class="flex flex-col gap-4 mb-8 text-light text-sm">
+        <div class="flex-1">
+          <label class="block text-xs text-white mb-1">Interpretation</label>
+          <textarea
+            placeholder="Interpretation"
+            class="w-full bg-white text-black rounded-lg px-4 py-2 outline-none"
+            style="height: 70px; resize: none"
+          ></textarea>
+        </div>
+        <div>
+          <button
+            class="w-1/3 text-light text-sm py-2 px-6 rounded-full bg-white text-[#643869] shadow-lg"
+          >
+            Générer un graphique
+          </button>
+        </div>
+      </div>
+      <!-- ligne 3 -->
+      <div class="flex justify-end">
+        <button
+          class="text-sm py-2 px-8 text-white rounded-full bg-gradient-to-r from-orange-500 to-orange-700"
+          (click)="submitParameter()"
+        >
+          Valider
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

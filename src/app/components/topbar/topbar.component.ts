@@ -18,7 +18,9 @@ export class TopbarComponent {
       case 1:
         return 'Médecin';
       case 2:
-        return 'Administratif';
+        return 'Laborantin';
+      case 3:
+        return 'Infirmier';
       default:
         return 'Inconnu';
     }

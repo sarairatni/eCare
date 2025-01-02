@@ -1,5 +1,5 @@
-<div class="w-[100vw] h-screen flex justify-between">
-  <div class="h-screen sticky top-0">
+<div class="w-[100vw] h-screen overflow-scroll flex justify-between">
+  <div>
     <app-sidebar
       [selectionne]="selectionne()"
       [personne]="personne()"
@@ -14,12 +14,8 @@
       class="lg:hidden"
     />
   </div>
-  <div class="w-[100%] flex flex-col h-screen">
-    <div class="sticky top-0 z-10">
-      <app-topbar [role]="0" [nom]="'Ladoul Mahdi'" />
-    </div>
-    <div class="overflow-scroll">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="w-[70%]">
+    <app-topbar [role]="0" [nom]="'Ladoul Mahdi'" />
+    <router-outlet></router-outlet>
   </div>
 </div>

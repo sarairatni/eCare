@@ -1,0 +1,109 @@
+<div
+  class="w-full h-auto px-20 grid grid-rows-[30px_auto] gap-4 font-lexend overflow-y-hidden"
+>
+  <h2 class="text-base font-semibold text-[#643869]">&gt; Créer un DPI</h2>
+
+  <!-- Formulaire -->
+  <form class="flex flex-col gap-8" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="grid grid-cols-2 gap-20">
+      <!-- Column 1 -->
+      <div class="space-y-6">
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold"
+            >Numéro de sécurité sociale</label
+          >
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="nss"
+            placeholder="124500412"
+          />
+        </div>
+
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Nom</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="nom"
+            placeholder="Nom du patient"
+          />
+        </div>
+
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Adresse</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="adresse"
+            placeholder="Adresse"
+          />
+        </div>
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Médecin traitant</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="med_traitant"
+            placeholder="Nom du médecin"
+          />
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="space-y-6">
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Date de naissance</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="date_naissance"
+            placeholder="22/02/1998"
+          />
+        </div>
+
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Prénom</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="prenom"
+            placeholder="prénom"
+          />
+        </div>
+
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Numero de téléphone</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="num_tel"
+            placeholder="05........"
+          />
+        </div>
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Personne à contacter</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="contact"
+            placeholder="05........"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- error msg -->
+    <small *ngIf="showError" class="text-red-500 text-xs">
+      Il faut remplir tous les champs du DPI
+    </small>
+    <!-- valider button -->
+    <div class="col-span-2">
+      <button
+        type="submit"
+        class="text-sm bg-[#F6815A] text-white px-6 py-2 rounded-full font-medium hover:bg-[#E54E1B]"
+      >
+        Valider
+      </button>
+    </div>
+  </form>
+</div>
