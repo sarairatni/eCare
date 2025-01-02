@@ -9,7 +9,15 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrl: './consultations-patient.component.css',
 })
 export class ConsultationsPatientComponent {
-  constructor(public activatedRoute: ActivatedRoute) {}
+  nss: string | null = null;
+
+  constructor(public activatedRoute: ActivatedRoute) {
+    this.activatedRoute.parent?.params.subscribe((params) => {
+      this.nss = params['nss'];
+      console.log('NSS du patient:', this.nss);
+    });
+  }
+
   listeConsultations = [
     {
       id: 1,

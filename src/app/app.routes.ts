@@ -16,6 +16,9 @@ import { CreerDpiComponent } from './doctor/creer-dpi/creer-dpi.component';
 import { AjouterAnalyseComponent } from './laborantin/ajouter-analyse/ajouter-analyse.component';
 import { AjouterAnalyseBioComponent } from './laborantin/ajouter-analyse-bio/ajouter-analyse-bio.component';
 import { BilanBioradioComponent } from './doctor/dossier-patient/bilan-bioradio/bilan-bioradio.component';
+import { NouvelleConsultationComponent } from './doctor/dossier-patient/nouvelle-consultataion/nouvelle-consultataion.component';
+import { ConsultationOrdonnanceComponent } from './doctor/dossier-patient/consultation-ordonnance/consultation-ordonnance.component';
+import { ConsultationBilanComponent } from './doctor/dossier-patient/consultation-bilan/consultation-bilan.component';
 
 export const routes: Routes = [
   {
@@ -84,15 +87,28 @@ export const routes: Routes = [
         path: 'creation-dpi',
         component: CreerDpiComponent,
       },
-
+      {
+        path: 'mes-patients/:nss/nouvelle-consultation',
+        component: NouvelleConsultationComponent,
+      },
+      {
+        path: 'mes-patients/:nss/nouvelle-consultation/ordonnance',
+        component: ConsultationOrdonnanceComponent,
+      },
+      {
+        path: 'mes-patients/:nss/nouvelle-consultation/bilan',
+        component: ConsultationBilanComponent,
+      },
       {
         path: 'mes-patients/:nss', // ':nss' is a dynamic parameter
         component: DpiLayoutComponent,
+
         children: [
           {
             path: 'consultations',
             component: ConsultationsPatientComponent,
           },
+
           {
             path: 'consultations/:id',
             component: DetailsConsultationsComponent,

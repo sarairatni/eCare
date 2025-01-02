@@ -6,6 +6,7 @@
 
     <button
       class="bg-gradient-to-r from-[#F6815A] to-[#E54E1B] text-white font-light text-sm px-8 py-2 rounded-full"
+      [routerLink]="['/doctor/mes-patients', nss, 'nouvelle-consultation']"
     >
       Nouvelle consultation
     </button>
@@ -43,9 +44,10 @@
                 <div
                   class="w-7 h-7 rounded-full bg-[#A7A7A7] flex items-center justify-center"
                 >
-                  <a class="text-gray-500 hover:underline hover:text-black"
-                  [routerLink]="[c.id]"
-                  [relativeTo]="activatedRoute"
+                  <a
+                    class="text-gray-500 hover:underline hover:text-black"
+                    [routerLink]="[c.id]"
+                    [relativeTo]="activatedRoute"
                     ><img src="/icons/eye.svg" alt="edit" class="w-5 h-5"
                   /></a>
                 </div>

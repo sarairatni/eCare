@@ -88,7 +88,7 @@ export class MesPatientsComponent {
       date_dentree: '2024-12-26',
     },
   ];
-  
+
   constructor(private router: Router) {}
 
   navigateToConsultations(nss: number) {
