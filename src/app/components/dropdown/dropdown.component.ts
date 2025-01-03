@@ -18,6 +18,6 @@ export class DropdownComponent {
       this.choisiChange.emit(0);
     }
     else if (choix == "Médecin") this.choisiChange.emit(1);
-    else if (choix == "Administratif") this.choisiChange.emit(2);
+    else if (choix == "Laborantin") this.choisiChange.emit(2);
   }
 }

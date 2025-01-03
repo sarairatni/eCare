@@ -1,58 +1,70 @@
+import { Component } from '@angular/core';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-
 @Component({
-  selector: 'app-nouvelle-consultation',
+  selector: 'app-nouvelle-consultation-patient',
   templateUrl: './nouvelle-consultation.component.html',
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, HttpClientModule, FormsModule],
   styleUrls: ['./nouvelle-consultation.component.css'],
 })
-export class NouvelleConsultationComponent implements OnInit {
+export class NouvelleConsultationComponent {
+  id_dossier: string | null = null;
   observations: string = '';
   diagnostic: string = '';
   isBilanChecked: boolean = false;
-  nss: string | null = null;
-  constructor(
-    private router: Router,
-    protected activatedRoute: ActivatedRoute
-  ) {}
+  errorMessage: string | null = null;
 
-  ngOnInit(): void {
-    this.nss = this.activatedRoute.snapshot.paramMap.get('nss');
-    if (!this.nss) {
-      console.error('NSS non fourni dans l’URL');
-      this.router.navigate(['/doctor/mes-patients']);
-    }
+  constructor(private http: HttpClient, public activatedRoute: ActivatedRoute) {
+    this.activatedRoute.parent?.params.subscribe((params) => {
+      this.id_dossier = params['nss'];
+      console.log('ID dossier:', this.id_dossier);
+    });
   }
 
-  toggleBilan(event: Event): void {
-    this.isBilanChecked = (event.target as HTMLInputElement).checked;
-    if (this.isBilanChecked) {
-      this.diagnostic = 'Pas établi';
-    }
+  // Function to toggle the Bilan checkbox
+  toggleBilan(event: any) {
+    this.isBilanChecked = event.target.checked;
   }
 
-  resetForm(): void {
+  // Function to reset the form
+  resetForm() {
     this.observations = '';
-    this.diagnostic = 'Pas établi';
+    this.diagnostic = '';
     this.isBilanChecked = false;
+    this.errorMessage = null;
   }
 
-  submitForm(): void {
-    if (!this.nss) return;
+  // Function to submit the form and create the consultation
+  submitForm() {
+    if (!this.observations || !this.diagnostic) {
+      this.errorMessage = 'Les champs observation et diagnostic sont requis';
+      return;
+    }
 
-    // Construire la route cible en fonction de isBilanChecked
-    const baseRoute = `/doctor/mes-patients/${this.nss}/nouvelle-consultation`;
-    const targetRoute = this.isBilanChecked
-      ? `${baseRoute}/bilan`
-      : `${baseRoute}/ordonnance`;
+    const data = {
+      motif: this.observations,
+      resume: this.diagnostic,
+    };
 
-    this.router.navigate([targetRoute]);
-
-    console.log(
-      `Form submitted: observations=${this.observations}, diagnostic=${this.diagnostic}, isBilanChecked=${this.isBilanChecked}, targetRoute=${targetRoute}`
-    );
+    // Make the API call to create the consultation
+    this.http
+      .post(
+        `http://127.0.0.1:8000/patients/${this.id_dossier}/consultations/create/`,
+        data
+      )
+      .subscribe(
+        (response: any) => {
+          console.log('Consultation created successfully', response);
+          this.resetForm(); // Reset the form after successful submission
+          this.errorMessage = null; // Clear any previous error messages
+        },
+        (error) => {
+          console.error('Error creating consultation', error);
+          this.errorMessage =
+            'Erreur lors de la création de la consultation. Veuillez réessayer.';
+        }
+      );
   }
 }

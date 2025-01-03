@@ -1,7 +1,7 @@
 <div
   class="w-full h-auto px-20 grid grid-rows-[10px_50px_auto] gap-6 font-lexend overflow-y-hidden"
 >
-  <h2 class="text-base font-semibold text-[#643869]">Mes consultations</h2>
+  <h2 class="text-base font-semibold text-[#643869]">Mes patients</h2>
   <div class="flex justify-between items-center px-4">
     <div class="flex items-center gap-3">
       <!-- search bar -->
@@ -54,10 +54,10 @@
           <tr
             *ngFor="let patient of listePatients"
             class="hover:bg-gray-100 font-light text-sm"
-            (click)="navigateToConsultations(patient.nss)"
+            (click)="navigateToConsultations(patient.dossier_id)"
           >
             <td class="pl-10 px-4 py-2">
-              {{ patient.nom }} {{ patient.prenom }}
+              {{ patient.nom }}
             </td>
 
             <td class="px-4 py-2">{{ patient.nss }}</td>
@@ -74,7 +74,7 @@
         </tbody>
       </table>
     </div>
-  <!-- </div>
+    <!-- </div>
 <ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
 
 <span>{{ action.data.value | json }}</span>
@@ -85,3 +85,5 @@
 
 <button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button>
 </div> -->
+  </div>
+</div>

@@ -11,24 +11,26 @@
       >
         <thead class="bg-gray-100 sticky top-0 z-10">
           <tr>
-            <th class="px-4 py-3 w-[30%] text-left font-normal">Nom patient</th>
+            <th class="px-4 py-3 w-[25%] text-left font-normal">Nom patient</th>
             <th class="px-4 py-3 w-[20%] text-left font-normal">NSS</th>
-            <th class="px-4 py-3 w-[15%] text-left font-normal">Âge</th>
+            <th class="px-4 py-3 w-[20%] text-left font-normal">Date</th>
             <th class="px-4 py-3 w-[15%] text-left font-normal">Statut</th>
             <th class="px-4 py-3 w-[20%] text-left font-normal">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let consultation of consultations"
+            *ngFor="let consultation of results"
             class="hover:bg-gray-50 font-light text-sm"
           >
-            <td class="px-4 py-2">{{ consultation.nomPatient }}</td>
+            <td class="px-4 py-2">{{ consultation.nom }}</td>
             <td class="px-4 py-2">{{ consultation.nss }}</td>
-            <td class="px-4 py-2">{{ consultation.age }}</td>
-            <td class="px-4 py-2">{{ consultation.statut }}</td>
+            <td class="px-4 py-2">{{ consultation.date }}</td>
+            <td class="px-4 py-2">terminée</td>
             <td class="px-4 py-2">
-              <a href="#" class="text-gray-500 hover:underline hover:text-black">Voir détails</a>
+              <a href="#" class="text-gray-500 hover:underline hover:text-black"
+                >Voir détails</a
+              >
             </td>
           </tr>
         </tbody>
