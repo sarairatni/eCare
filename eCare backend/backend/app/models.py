@@ -1,5 +1,8 @@
+from datetime import timezone
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 
 class Patient(models.Model):
@@ -69,7 +72,7 @@ class Radiologue(models.Model):
 
 class Consultation(models.Model):
     motif = models.CharField(max_length=255)
-    date = models.DateField()
+    date = models.DateTimeField(default=timezone.now) 
     resume = models.TextField()
     dossier_id = models.CharField(max_length=50)
     medecin_id = models.CharField(max_length=50)

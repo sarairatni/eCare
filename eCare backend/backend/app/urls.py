@@ -10,17 +10,22 @@ urlpatterns = [
     # Auth & Token
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('authentification/', views.authentification, name='authentification'),
+    path('signup', views.signup, name='token_verify'),
+
 
     # Patients
     path('patients/', views.patient_list, name='patient_list'),  # List patients
     path('patients/<int:id>/', views.patient_detail, name='patient_detail'),  # Patient details by ID
     path('patients/<int:id>/delete/', views.patient_destroy, name='patient_delete'),
-
+    path('patientGetByIdDossier/<int:id>/', views.get_patient, name='patient_get'),  # List patients
+    path('patientNameGetByIdDossier/<int:id>/', views.get_patient_name, name='patient_get'),  # List patients
+    
     # Medecins
     path('medecins/', views.medecin_list, name='medecin_list'),  # List medecins
     path('medecins/<int:id>/', views.medecin_detail, name='medecin_detail'),
     path('medecins/<int:id>/delete/', views.medecin_destroy, name='medecin_delete'),
-
+    path('medecin/patients/', views.medecin_patients, name='medecin_patients'),
     # Pharmacien
     path('pharmaciens/', views.pharmacien_list, name='pharmacien_list'),  # List pharmacien
     path('pharmaciens/<int:id>/', views.pharmacien_detail, name='pharmacien_detail'),
@@ -105,8 +110,15 @@ urlpatterns = [
     # Dossier Patient Creation and Search
     path('create_dossier_patient/', views.create_dossier_patient, name='create_dossier_patient'),
     path('search_dossier_patient/<str:num_securite_sociale>/', views.search_dossier_patient, name='search_dossier_patient'),
+    
+
 
     # Consultation and Ordonnance Creation
     path('create_ordonnance/<str:consultation_id>/', views.create_ordonnance, name='create_ordonnance'),
+   
     path('create_consultation/', views.create_consultation, name='create_consultation'),
+   # saaaaaaaaaaaaaaaraaaaaaaaaaaaaaaa
+    path('search_dossier_patient_by_id/<int:patient_id>/', views.search_dossier_patient_by_id, name='search_dossier_patient_by_id'),
+    path('patients/<str:dossier_id>/consultations/', views.consultations_by_patient, name='consultations_by_patient'),
+    path('patients/<str:dossier_id>/consultations/create/', views.create_consultation, name='create_consultation'),
 ]
