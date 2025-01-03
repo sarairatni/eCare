@@ -4,51 +4,64 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-
 @Component({
   selector: 'app-nouvelle-consultation-patient',
   templateUrl: './nouvelle-consultation.component.html',
-  imports: [CommonModule, RouterModule, HttpClientModule, FormsModule],
   styleUrls: ['./nouvelle-consultation.component.css'],
+  imports: [CommonModule, RouterModule, HttpClientModule, FormsModule],
 })
 export class NouvelleConsultationComponent implements OnInit {
   id_dossier: string | null = null;
   observations: string = '';
-  date: string = new Date().toLocaleString('fr-FR', {
+  displayDate: string = new Date().toLocaleString('fr-FR', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
   });
+
   diagnostic: string = '';
   isBilanChecked: boolean = false;
   errorMessage: string | null = null;
   user: any;
 
+  // Convert to MySQL format before sending
+  private getMySQLDateTime(): string {
+    const parts = this.displayDate.split(' ')[0].split('/');
+    const time = this.displayDate.split(' ')[1];
+    return `${parts[2]}-${parts[1]}-${parts[0]} ${time}`;
+  }
+
   constructor(
     private http: HttpClient,
+    private router: Router,  // Inject Router
     public activatedRoute: ActivatedRoute,
-    private authService: AuthService // Correctly inject AuthService here
+    private authService: AuthService
   ) {
     this.activatedRoute.parent?.params.subscribe((params) => {
+      console.log('Route params:', params);
       this.id_dossier = params['nss'];
       console.log('ID dossier:', this.id_dossier);
     });
   }
 
   ngOnInit(): void {
-    // Fetch the user from AuthService
+    const parentParams = this.activatedRoute.parent?.snapshot.params['nss'];
+    const currentParams = this.activatedRoute.snapshot.params['nss'];
+
+    this.id_dossier = parentParams || currentParams;
+
+    console.log('Retrieved ID dossier:', this.id_dossier);
+
     this.user = this.authService.getUser();
     console.log('Authenticated user:', this.user);
   }
 
-  // Function to toggle the Bilan checkbox
   toggleBilan(event: any) {
     this.isBilanChecked = event.target.checked;
   }
 
-  // Function to reset the form
   resetForm() {
     this.observations = '';
     this.diagnostic = '';
@@ -56,55 +69,47 @@ export class NouvelleConsultationComponent implements OnInit {
     this.errorMessage = null;
   }
 
-  // Function to submit the form and create the consultation
   submitForm() {
     if (!this.observations || !this.diagnostic) {
       this.errorMessage = 'Les champs observation et diagnostic sont requis';
       return;
     }
 
-    if (!this.user || !this.user.id) {
+    if (!this.user?.id) {
       this.errorMessage = 'Utilisateur non trouvé';
       return;
     }
 
-    if (!this.id_dossier) {
-      this.errorMessage = 'Dossier ID est requis';
-      return;
-    }
-
-    const data = {
+    const consultationData = {
       motif: this.observations,
-      date: this.date,
-      resume: this.diagnostic,
-      userId: this.user.id, // Add userId to the request payload
-    };
-
-    // Log the data before making the API call
-    console.log('Form Data:', {
-      motif: this.observations,
-      date: this.date,
+      date: this.getMySQLDateTime(),
       resume: this.diagnostic,
       userId: this.user.id,
-    });
+    };
 
-    // Make the API call to create the consultation
+    // Log the data being sent
+    console.log('Sending data:', consultationData);
+
     this.http
       .post(
         `http://127.0.0.1:8000/patients/${this.id_dossier}/consultations/create/`,
-        data
+        consultationData
       )
-      .subscribe(
-        (response: any) => {
-          console.log('Consultation created successfully', response);
-          this.resetForm(); // Reset the form after successful submission
-          this.errorMessage = null; // Clear any previous error messages
+      .subscribe({
+        next: (response: any) => {
+          console.log('Consultation created successfully:', response);
+          this.resetForm();
+          this.errorMessage = null;
+
+          // Navigate to the ordonnance page after success
+          const url = `/doctor/mes-patients/${this.id_dossier}/nouvelle-consultation/ordonnance`;
+          this.router.navigate([url]);  // Navigate to the new route
         },
-        (error) => {
-          console.error('Error creating consultation', error);
+        error: (error) => {
+          console.error('Error details:', error);
           this.errorMessage =
-            'Erreur lors de la création de la consultation. Veuillez réessayer.';
-        }
-      );
+            error.error?.message || 'Erreur lors de la création de la consultation';
+        },
+      });
   }
 }

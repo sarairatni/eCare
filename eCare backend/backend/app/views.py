@@ -1444,47 +1444,68 @@ def consultations_by_patient(request, dossier_id):
 @csrf_exempt
 def create_consultation(request, dossier_id):
     try:
-        # Récupérer l'ID de l'utilisateur depuis la requête
-        user_id = request.POST.get('userId')  # Assurez-vous que l'ID de l'utilisateur est passé dans la requête
+        if request.method == "POST":
+            # Log the received data
+            print("Received data:", request.body)
+            data = json.loads(request.body)
+            
+            # Log parsed data
+            print("Parsed data:", data)
+            
+            user_id = data.get('userId')
+            motif = data.get('motif')
+            resume = data.get('resume')
+            date = data.get('date')
+            
+            # Log extracted values
+            print(f"user_id: {user_id}, motif: {motif}, resume: {resume}, date: {date}")
 
-        if not user_id:
-            return JsonResponse({"status": "error", "message": "User ID requis"}, status=400)
+            if not all([user_id, motif, resume]):
+                return JsonResponse({
+                    "status": "error", 
+                    "message": "Missing required fields",
+                    "received": {"user_id": user_id, "motif": motif, "resume": resume}
+                }, status=400)
 
-        # Trouver le médecin associé à cet utilisateur
-        try:
-            medecin = Medecin.objects.get(user_id=user_id)  # Recherche le médecin par ID utilisateur
-            medecin_id = medecin.id  # Si le médecin est trouvé, on utilise son ID
-        except Medecin.DoesNotExist:
-            medecin_id = 5  # Si le médecin n'existe pas, on attribue l'ID 5 par défaut
+            try:
+                medecin = Medecin.objects.get(user_id=user_id)
+                medecin_id = medecin.id
+            except Medecin.DoesNotExist:
+                print(f"No Medecin found for user_id: {user_id}")
+                medecin_id = 5
 
-        # Récupérer les données de la consultation depuis la requête POST
-        motif = request.POST.get('motif')
-        resume = request.POST.get('resume')
+            consultation = Consultation.objects.create(
+                motif=motif,
+                date=date,
+                resume=resume,
+                dossier_id=dossier_id,
+                medecin_id=medecin_id
+            )
 
-        if not motif or not resume:
-            return JsonResponse({"status": "error", "message": "Motif et résumé sont requis"}, status=400)
+            return JsonResponse({
+                "status": "success",
+                "message": "Consultation créée avec succès",
+                "consultation": {
+                    "id": consultation.id,
+                    "motif": consultation.motif,
+                    "date": consultation.date,
+                    "resume": consultation.resume,
+                    "dossier_id": consultation.dossier_id,
+                    "medecin": f"Dr. {medecin.nom if medecin_id != 5 else 'Médecin par défaut'}"
+                }
+            })
 
-        # Créer une consultation pour ce dossier avec l'ID du médecin (5 si le médecin n'est pas trouvé)
-        consultation = Consultation.objects.create(
-            motif=motif,
-            date=timezone.now(),  # Utilise l'heure actuelle pour la date
-            resume=resume,
-            dossier_id=dossier_id,  # L'ID du dossier spécifique
-            medecin_id=medecin_id,  # L'ID du médecin (5 par défaut si non trouvé)
-        )
-
+    except json.JSONDecodeError as e:
+        print("JSON Decode Error:", str(e))
         return JsonResponse({
-            "status": "success",
-            "message": "Consultation créée avec succès",
-            "consultation": {
-                "id": consultation.id,
-                "motif": consultation.motif,
-                "date": consultation.date,
-                "resume": consultation.resume,
-                "dossier_id": consultation.dossier_id,
-                "medecin": f"Dr. {medecin.nom if medecin_id != 5 else 'Médecin par défaut'}"
-            }
-        })
-
+            "status": "error",
+            "message": "Invalid JSON data",
+            "detail": str(e)
+        }, status=400)
     except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+        print("Unexpected error:", str(e))
+        return JsonResponse({
+            "status": "error",
+            "message": "An unexpected error occurred",
+            "detail": str(e)
+        }, status=500)

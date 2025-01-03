@@ -17,6 +17,7 @@ export class ConsultationsPatientComponent {
 
   constructor(private http: HttpClient, public activatedRoute: ActivatedRoute) {
     this.activatedRoute.parent?.params.subscribe((params) => {
+      console.log('Parent route params:', params);
       this.id_dossier = params['nss'];
       console.log('ID dossier:', this.id_dossier);
       if (this.id_dossier) {
