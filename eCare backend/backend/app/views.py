@@ -1442,17 +1442,17 @@ def consultations_by_patient(request, dossier_id):
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
 @csrf_exempt
-@login_required  # Cela va forcer l'utilisateur à être connecté pour accéder à cette vue
 def create_consultation(request, dossier_id):
     try:
-        # Vérifier si l'utilisateur est authentifié
-        user = request.user
-        if not user.is_authenticated:
-            return JsonResponse({"status": "error", "message": "Utilisateur non authentifié"}, status=401)
+        # Récupérer l'ID de l'utilisateur depuis la requête
+        user_id = request.POST.get('userId')  # Assurez-vous que l'ID de l'utilisateur est passé dans la requête
+
+        if not user_id:
+            return JsonResponse({"status": "error", "message": "User ID requis"}, status=400)
 
         # Trouver le médecin associé à cet utilisateur
         try:
-            medecin = Medecin.objects.get(user=user)
+            medecin = Medecin.objects.get(user_id=user_id)  # Recherche le médecin par ID utilisateur
             medecin_id = medecin.id  # Si le médecin est trouvé, on utilise son ID
         except Medecin.DoesNotExist:
             medecin_id = 5  # Si le médecin n'existe pas, on attribue l'ID 5 par défaut
