@@ -1,6 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+interface Soin {
+  id: number;
+  type: string;
+  date: string;
+  infirmier_id: string;
+  description: string;
+  observation: string;
+}
+
+interface Infirmier {
+  nom: string;
+  prenom: string;
+  email: string;
+}
 
 @Component({
   selector: 'app-soins',
@@ -8,55 +26,75 @@ import { RouterModule } from '@angular/router';
   templateUrl: './soins.component.html',
   styleUrl: './soins.component.css',
 })
-export class SoinsComponent {
-  listeSoins = [
-    {
-      id: 1,
-      type: 'Pansement',
-      dateHeure: '2024-12-26 14:30',
-      infirmier: 'Amina Belaid',
-      details: 'Changement de pansement après chirurgie au genou.',
-    },
-    {
-      id: 2,
-      type: 'Injection',
-      dateHeure: '2024-12-27 10:00',
-      infirmier: 'Yassine Ferhat',
-      details: 'Injection d’antibiotiques pour traiter une infection.',
-    },
-    {
-      id: 3,
-      type: 'Prise de sang',
-      dateHeure: '2024-12-28 08:15',
-      infirmier: 'Nour El Houda Saadi',
-      details: 'Analyse pour vérifier les niveaux de cholestérol.',
-    },
-    {
-      id: 4,
-      type: 'Perfusion',
-      dateHeure: '2024-12-29 16:00',
-      infirmier: 'Karim Othmani',
-      details: 'Hydratation par perfusion après déshydratation.',
-    },
-    {
-      id: 5,
-      type: 'Examen de contrôle',
-      dateHeure: '2024-12-30 09:30',
-      infirmier: 'Sara Messaoud',
-      details: 'Contrôle de la tension artérielle et des constantes vitales.',
-    },
-  ];
-  selectedSoinId: number | null = null;
-  
+export class SoinsComponent implements OnInit {
+  id_dossier: string | null = null;
+  listeSoins: any[] = [];
   selectedSoin: any = null;
   showPopup = false;
+
+  constructor(private http: HttpClient, public activatedRoute: ActivatedRoute) {
+    this.activatedRoute.parent?.params.subscribe((params) => {
+      this.id_dossier = params['nss'];
+      if (this.id_dossier) {
+        this.fetchSoins(this.id_dossier);
+      }
+    });
+  }
+
+  ngOnInit() {
+    if (this.id_dossier) {
+      this.fetchSoins(this.id_dossier);
+    }
+  }
+
+  fetchInfirmierDetails(infirmierId: string) {
+    return this.http.get<Infirmier>(
+      `http://127.0.0.1:8000/infirmiers/${infirmierId}/`
+    );
+  }
+
+  fetchSoins(dossierId: string) {
+    this.http
+      .get<{ soins: Soin[] }>(
+        `http://127.0.0.1:8000/patient/soins/${dossierId}/`
+      )
+      .pipe(
+        switchMap((response) => {
+          const infirmierRequests = response.soins.map((soin) =>
+            this.fetchInfirmierDetails(soin.infirmier_id).pipe(
+              map((infirmier) => ({
+                ...soin,
+                infirmierNom: `${infirmier.nom} ${infirmier.prenom}`,
+              }))
+            )
+          );
+          return forkJoin(infirmierRequests);
+        })
+      )
+      .subscribe({
+        next: (soinsWithInfirmiers) => {
+          this.listeSoins = soinsWithInfirmiers.map((soin) => ({
+            id: soin.id,
+            type: soin.type,
+            dateHeure: soin.date,
+            infirmier: soin.infirmierNom,
+            details: soin.description,
+            observation: soin.observation,
+          }));
+        },
+        error: (error) => {
+          console.error('Erreur lors de la récupération des soins:', error);
+        },
+      });
+  }
+
   openDetails(event: Event, id: number): void {
-    event.preventDefault(); // Prevent default link behavior
-    this.selectedSoin = this.listeSoins.find(soin => soin.id === id);
-    this.showPopup = true; // Show the popup
+    event.preventDefault();
+    this.selectedSoin = this.listeSoins.find((soin) => soin.id === id);
+    this.showPopup = true;
   }
 
   closePopup(): void {
-    this.showPopup = false; // Hide the popup
+    this.showPopup = false;
   }
 }

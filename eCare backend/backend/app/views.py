@@ -1460,7 +1460,7 @@ def consultations_by_patient(request, dossier_id):
 
         # Transformer les objets Consultation en dictionnaires
         consultations_list = list(consultations.values("id", "motif", "date", "resume", "dossier_id", "medecin_id"))
-
+        logger.info(f"Consultations après transformation: {consultations_list}")
         return JsonResponse({"status": "success", "consultations": consultations_list}, safe=False)
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
@@ -1723,3 +1723,15 @@ def get_soins_by_dossier(request, dossier_id):
         for soin in soins
     ]
     return JsonResponse({'soins': soins_data}, safe=False)
+@csrf_exempt
+def soins_by_dossier(request, dossier_id):
+    try:
+        # Récupérer tous les soins avec le dossier_id donné
+        soins = Soin.objects.filter(dossier_id=dossier_id)
+
+        # Convertir les objets Soin en dictionnaires
+        soins_list = list(soins.values("id", "date", "type", "description", "infirmier_id", "dossier_id", "observation"))
+
+        return JsonResponse({"status": "success", "soins": soins_list}, safe=False)
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)

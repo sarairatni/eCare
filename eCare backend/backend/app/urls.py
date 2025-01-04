@@ -128,6 +128,6 @@ urlpatterns = [
     path('medecin/bilan-radiologique/create/<str:consultation_id>/<str:dossier_id>/', views.create_bilan_radiologique, name='create_bilan_radiologique'),
     path('patients/<int:dossier_id>/list_ordonnances/', views.list_ordonnances, name='list_ordonnances'), # touts les ordonnance liées a ce dossier patient
     path('ordonnance/<int:id_ordonnance>/medicaments/', views.get_medicaments_by_ordonnance, name='get_medicaments_by_ordonnance'),
-    path('soins/<str:dossier_id>/', views.get_soins_by_dossier, name='get_soins_by_dossier'),
-
+    path('patient/soins/<str:dossier_id>/', views.get_soins_by_dossier, name='get_soins_by_dossier'),
+    # path('soins/<str:dossier_id>/', views.soins_by_dossier, name='soins_by_dossier'),
 ]
