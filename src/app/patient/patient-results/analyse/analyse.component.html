@@ -14,7 +14,7 @@
         </div>
         <div class="flex">
           <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
-          <span class="text-black font-[Lexend]">{{ date() }}</span>
+          <span class="text-black font-[Lexend]">{{ imagerie.date }}</span>
         </div>
         <div class="flex">
             <p class="text-gray-500 font-[Lexend] font-semibold w-32">Technicien:</p>
@@ -45,11 +45,11 @@
         
       </div>
       <div class="flex flex-col gap-6 lg:max-h-[35vh] lg:overflow-scroll pt-4">
-        <div *ngFor="let med of Parametres(); let i = index" class="flex px-2">
-          <p class="w-[100%]">{{ med.Parametres }}</p>
-          <p class="w-[100%]">{{ med.Valeur }}</p>
-          <p class="w-[100%]">{{ med.ValeurNor }}</p>
-          <p class="w-[100%]">{{ med.interpretation }}</p>
+        <div *ngFor="let med of Parametres; let i = index" class="flex px-2">
+          <p class="w-[100%]">{{ med.parameter }}</p>
+          <p class="w-[100%]">{{ med.value }}</p>
+          <p class="w-[100%]">10</p>
+          <p class="w-[100%]">{{med.interpretation}}</p>
          
         </div>
       </div>

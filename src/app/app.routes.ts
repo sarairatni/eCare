@@ -1,6 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PatientGuard } from './guards/patient.guard';
 export const routes: Routes = [
   {
     path: '',
@@ -27,21 +28,23 @@ export const routes: Routes = [
       },
       {
         path: 'profil',
+        canActivate: [PatientGuard],
         loadComponent: () => import('./shared/profil/profil.component').then(m => m.ProfilComponent),
       },
       {
         path: 'historique',
+        canActivate: [PatientGuard],
         children: [
           {
             path: '',
             loadComponent: () => import('./patient/historique/historique.component').then(m => m.HistoriqueComponent),
           },
           {
-            path: 'ordonnance',
+            path: 'ordonnance/:id',
             loadComponent: () => import('./patient/historique-ordonnance/historique-ordonnance.component').then(m => m.HistoriqueOrdonnanceComponent),
           },
           {
-            path: 'consultation',
+            path: 'consultation/:id',
             children: [
               {
                 path: '',
@@ -57,6 +60,7 @@ export const routes: Routes = [
       },
       {
         path: 'results',
+        canActivate: [PatientGuard],
         children: [
           {
             path: '',
@@ -74,6 +78,7 @@ export const routes: Routes = [
       },
       {
         path: 'antecedents',
+        canActivate: [PatientGuard],
         loadComponent: () => import('./patient/patient-antecedents/patient-antecedents.component').then(m => m.PatientAntecedentsComponent),
       },
     ],

@@ -16,7 +16,7 @@
       </div>
       <div class="flex">
         <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
-        <span class="text-black font-[Lexend]">{{ date() }}</span>
+        <span class="text-black font-[Lexend]">{{ imagerie.date }}</span>
       </div>
       <div class="flex">
           <p class="text-gray-500 font-[Lexend] font-semibold w-32">Radiologue:</p>
@@ -40,8 +40,8 @@
     <p class="text-[#643869] font-semibold font-[Lexend] ">
         Résumé du rapport médical
       </p>
-      <div *ngFor="let med of resume(); let i = index" class="flex  px-2">
-        <p class="w-[100%] mt-3 font-[Lexend]">{{ med }}</p>
+      <div  class="flex  px-2">
+        <p class="w-[100%] mt-3 font-[Lexend]">{{ imagerie.compte_rendu }}</p>
        
        
       </div>

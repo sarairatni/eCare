@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { User } from '../Models/user';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/authentification/';
   private tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('access_token'));
-
+ 
   constructor(private http: HttpClient) {}
 
   // Login method to authenticate the user
@@ -41,7 +41,7 @@ export class AuthService {
   }
   
   // Get user role from the localStorage
-  getUser(): object | null {
+  getUser(): User | null {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }
@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   // Set user role in localStorage
-  setUser(user: object): void {
+  setUser(user: User): void {
     localStorage.setItem('user', JSON.stringify(user));
     console.log(user);
   }

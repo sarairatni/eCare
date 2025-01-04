@@ -81,7 +81,7 @@ export class LoginComponent {
     if (currentRole === 2) {
       return 'laborantin'; // Navigate to laborantin dashboard
     } else if (currentRole === 1) {
-      return 'doctor';
+      return 'medecin';
     } else if (currentRole === 0) {
       return 'patient'; // Navigate to patient dashboard
     } else {

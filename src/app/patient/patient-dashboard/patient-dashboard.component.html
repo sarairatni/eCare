@@ -8,16 +8,16 @@
       <div>
         <p class="text-black-500 font-[Lexend] font-bold">Patient</p>
         <p class="text-black-500 font-[Lexend] text-lg">
-          {{ patient() }}
+          {{ patientData.nom }}  {{ patientData.prenom }}
         </p>
       </div>
       <div>
         <p class="text-gray-500 font-[Lexend] font-semibold">
-          NSS: <span class="text-black">{{ nss() }}</span>
+          NSS: <span class="text-black">{{ patientData.num_securite_sociale }}</span>
         </p>
         <p class="text-gray-500 font-[Lexend] font-semibold">
           Médecin traitant:
-          <span class="text-black">{{ "Dr. " + medecin() }}</span>
+          <span class="text-black">{{ "Dr. " + patientData.medecin_traitant }}</span>
         </p>
       </div>
     </div>
@@ -43,9 +43,9 @@
         <div
           class="flex flex-col gap-4 lg:max-h-[28vh] lg:overflow-scroll pt-4"
         >
-          <div *ngFor="let ord of ordonnances(); let i = index" class="flex">
-            <p class="w-[100%]">{{ ord.nom }}</p>
-            <p class="w-[100%]">{{ textEtat(ord.etat) }}</p>
+          <div *ngFor="let ord of ordonnances; let i = index" class="flex">
+            <p class="w-[100%]">{{i + 1}}</p>
+            <p class="w-[100%]">{{ textEtat(ord.validated) }}</p>
             <div class="flex w-[100%] items-center justify-center">
               <img
                 src="/telecharger.svg"
@@ -67,10 +67,10 @@
         "
       >
         <div
-          *ngFor="let im of imageries(); let j = index"
+          *ngFor="let im of radiologiques; let j = index"
           class="flex justify-between items-center"
         >
-          <p>{{ im }}</p>
+          <p>{{ im.type_image }}</p>
           <button class="p-2 bg-gray-300 rounded-xl font-light">
             Voir bilan
           </button>
@@ -84,10 +84,10 @@
     <p class="text-black-500 font-[Lexend] font-bold mb-3">Résultats récents</p>
     <div class="flex flex-col gap-5">
       <div
-        *ngFor="let res of imageries(); let k = index"
+        *ngFor="let res of radiologiques; let k = index"
         class="p-3 font-light font-[Lexend] rounded-2xl bg-white border border-[#FD7A4E]"
       >
-        {{ res }}
+        {{ res.resultat }}
       </div>
     </div>
   </div>

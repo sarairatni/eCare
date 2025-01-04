@@ -9,7 +9,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class DropdownComponent {
   @Input() label: string = "";
   @Input() choisi: number = 0;
-  @Input() choix: string[] = ["Patient", "Médecin", "Administratif"];
+  @Input() choix: string[] = ["Patient", "Médecin", "Laborantin"];
 
   @Output() choisiChange = new EventEmitter<number>();
 

@@ -1,21 +1,39 @@
 import { NgFor } from '@angular/common';
-import { Component, input } from '@angular/core';
-
+import { Component, input, OnInit, inject } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { PatientService } from '../../services/patient.service';
+import { RouterModule, Router } from '@angular/router';
 @Component({
   selector: 'app-historique',
-  imports: [NgFor],
+  imports: [NgFor, RouterModule],
   templateUrl: './historique.component.html',
   styleUrl: './historique.component.css'
 })
-export class HistoriqueComponent {
-  consultations = input([
-    {date: "12/01/2024", medecin: "Dr. Ahmed, Cardiologue", motif: "Douleur abdominale", diagnostic: "repos recommandé"},
-    {date: "05/12/2023", medecin: "Dr. Fatima, Généraliste", motif: "Fièvre et fatigue", diagnostic: "Infection virale"},
-    {date: "25/09/2024", medecin: "Dr. Fatima, Généraliste", motif: "Mal aux chevilles", diagnostic: "Demande de radio"},
-  ])
+export class HistoriqueComponent implements OnInit {
+  authService=inject(AuthService);
+  patientData:any;
+  consultations: any[] = []; 
+  http=inject(HttpClient);
+  patientService=inject(PatientService)
+  ordonnances: any[] = [];  
+  ngOnInit(): void {
+    // Retrieve user from AuthService
+    
+      // Step 1: Send user ID to get patient data (fetch NSS)
+     console.log()
+      this.patientData = this.patientService.getPatientDetail();
+      const nss = this.patientData.num_securite_sociale;  // Assuming this is the NSS field
+      console.log(nss);
 
-  ordonnances = input([
-    {date: "12/01/2024", medecin: "Dr. Ahmed, Cardiologue", medicaments: "Paracétamol, Amoxiciline", duree: "7 jours"},
-    {date: "05/12/2023", medecin: "Dr. Fatima, Généraliste", medicaments: "Ibuprofène", duree: "5 jours"},
-  ])
+      this.consultations = this.patientService.getConsultations();
+      // Loop through consultations and fetch ordonnances for each
+      this.ordonnances = this.patientService.getOrdonnances();
+
+  
+  }
+ 
+
+  
+ 
 }

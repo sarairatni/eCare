@@ -27,13 +27,13 @@
         </div>
       </div>
       <div class="flex flex-col gap-4 lg:max-h-[35vh] lg:overflow-scroll pt-4">
-        <div *ngFor="let cons of consultations(); let i = index" class="flex">
+        <div *ngFor="let cons of consultations; let i = index" class="flex">
           <p class="w-[100%]">{{ cons.date }}</p>
           <p class="w-[100%]">{{ cons.medecin }}</p>
           <p class="w-[100%]">{{ cons.motif }}</p>
           <p class="w-[100%]">{{ cons.diagnostic }}</p>
           <div class="flex w-[100%] items-center justify-center gap-2">
-            <img src="/voir.svg" alt="telecharger" class="cursor-pointer" />
+            <img [routerLink]="['consultation', cons.id]" src="/voir.svg" alt="telecharger" class="cursor-pointer" />
             <img
               src="/télecharger2.svg"
               alt="telecharger"
@@ -71,13 +71,13 @@
         </div>
       </div>
       <div class="flex flex-col gap-4 lg:max-h-[35vh] lg:overflow-scroll pt-4">
-        <div *ngFor="let ord of ordonnances(); let i = index" class="flex">
+        <div *ngFor="let ord of ordonnances; let i = index" class="flex">
           <p class="w-[100%]">{{ ord.date }}</p>
           <p class="w-[100%]">{{ ord.medecin }}</p>
-          <p class="w-[100%]">{{ ord.medicaments }}</p>
+          <p class="w-[100%]">{{ ord.medicaments[0].nom }} {{ ord.medicaments[0].dosage }}</p>
           <p class="w-[100%]">{{ ord.duree }}</p>
           <div class="flex w-[100%] items-center justify-center gap-2">
-            <img src="/voir.svg" alt="telecharger" class="cursor-pointer" />
+            <img [routerLink]="['ordonnance', ord.ordonnance_id]" src="/voir.svg" alt="telecharger" class="cursor-pointer" />
             <img
               src="/télecharger2.svg"
               alt="telecharger"

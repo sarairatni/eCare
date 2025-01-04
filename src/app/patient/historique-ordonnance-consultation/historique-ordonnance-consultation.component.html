@@ -14,11 +14,11 @@
       </div>
       <div class="flex">
         <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
-        <span class="text-black font-[Lexend]">{{ date() }}</span>
+        <span class="text-black font-[Lexend]">{{ ordonnance.date }}</span>
       </div>
       <div class="flex">
         <p class="text-gray-500 font-[Lexend] font-semibold w-32">État:</p>
-        <span class="text-black font-[Lexend]">{{ etat() }}</span>
+        <span class="text-black font-[Lexend]">{{  ordonnance.validated ? "validee" : "pas validee" }}</span>
       </div>
     </div>
   </div>
@@ -37,22 +37,20 @@
         <p class="font-semibold">Dosage</p>
       </div>
       <div class="w-[100%]">
-        <p class="font-semibold">Fréquence</p>
+        <p class="font-semibold">Voie D'administration</p>
       </div>
       <div class="w-[100%]">
         <p class="font-semibold">Durée</p>
       </div>
-      <div class="w-[100%]">
-        <p class="font-semibold">Commentaire</p>
-      </div>
+      
     </div>
     <div class="flex flex-col gap-6 lg:max-h-[35vh] lg:overflow-scroll pt-4">
-      <div *ngFor="let med of medicaments(); let i = index" class="flex px-2">
+      <div *ngFor="let med of ordonnance.medicaments; let i = index" class="flex px-2">
         <p class="w-[100%]">{{ med.nom }}</p>
         <p class="w-[100%]">{{ med.dosage }}</p>
-        <p class="w-[100%]">{{ med.frequence }}</p>
-        <p class="w-[100%]">{{ med.duree }}</p>
-        <p class="w-[100%]">{{ med.commentaire }}</p>
+        <p class="w-[100%]">{{ med.voie_administration }}</p>
+        <p class="w-[100%]">{{ ordonnance.duree }}</p>
+      
       </div>
     </div>
   </div>

@@ -10,16 +10,16 @@
       <div>
         <div class="flex">
           <p class="text-gray-500 font-[Lexend] font-semibold w-32">Médecin:</p>
-          <span class="text-black font-[Lexend]">{{ medecin() }}</span>
+          <span class="text-black font-[Lexend]">{{ consultation.medecin }}</span>
         </div>
         <div class="flex">
           <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
-          <span class="text-black font-[Lexend]">{{ date() }}</span>
+          <span class="text-black font-[Lexend]">{{ consultation.date }}</span>
         </div>
       </div>
     </div>
     <div class="flex flex-col justify-between">
-      <button class="py-2 px-3 rounded-lg text-sm bg-[#A7A7A7] font-[Lexend]">
+      <button [routerLink]="'ordonnance'" class="py-2 px-3 rounded-lg text-sm bg-[#A7A7A7] font-[Lexend]">
         Voir ordonnance
       </button>
       <button class="py-2 px-3 rounded-lg text-sm bg-[#A7A7A7] font-[Lexend]">
@@ -29,7 +29,7 @@
   </div>
   <div>
     <p class="text-black-500 font-[Lexend] font-bold">
-      Motif de la consultation: <span class="font-normal">{{ motif() }}</span>
+      Motif de la consultation: <span class="font-normal">{{ consultation.motif }}</span>
     </p>
     <div
       class="w-[100%] max-h-[40vh] flex justify-between gap-10 font-[Lexend] px-2 py-5"
@@ -51,7 +51,7 @@
         class="w-[100%] bg-[#643869] text-white p-7 rounded-xl flex flex-col gap-5 h-fit"
       >
         <p class="text-black-500 font-[Lexend] font-bold">Diagnostic:</p>
-        <p class="overflow-scroll">{{ diagnostic() }}</p>
+        <p class="overflow-scroll">{{ consultation.diagnostic }}</p>
       </div>
     </div>
   </div>
