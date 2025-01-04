@@ -6,9 +6,5 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';  // Import your routes
 
 // Bootstrapping the Angular application with routing configuration
-bootstrapApplication(AppComponent, {
-  providers: [
-    importProvidersFrom(RouterModule.forRoot(routes))  // Add RouterModule with routing configuration
-  ]
-})
+bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));

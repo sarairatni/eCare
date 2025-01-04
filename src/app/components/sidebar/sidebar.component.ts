@@ -1,6 +1,7 @@
-import { Component, Input,input, EventEmitter, Output } from '@angular/core';
+import { Component, input, EventEmitter, Output } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { RouterOutlet, RouterModule, Router } from '@angular/router'; 
+
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -8,7 +9,7 @@ import { RouterOutlet, RouterModule, Router } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent {
+export class SidebarComponent{
   personne  = input("Chekman Meyssem");
   menuItems = input<{ text: string; iconUrl: string; path: string }[]>([]);
   selectionne = input(0);

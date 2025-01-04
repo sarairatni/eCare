@@ -10,33 +10,33 @@
     <div>
       <p class="text-black-500 font-[Lexend] font-bold">Patient</p>
       <p class="text-black-500 font-[Lexend] text-lg">
-        {{ patient().nom + " " + patient().prenom }}
+        {{ patient.nom + " " + patient.prenom }}
       </p>
     </div>
     <!-- info -->
     <div class="flex flex-col gap-7">
       <p class="text-gray-500 font-[Lexend] font-semibold">
-        NSS: <span class="text-black">{{ patient().nss }}</span>
+        NSS: <span class="text-black">{{ patient.nss }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
-        Sexe: <span class="text-black">{{ patient().sexe }}</span>
+        Sexe: <span class="text-black">{{ patient.sexe }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
         Date de naissance:
-        <span class="text-black">{{ patient().dateNaissance }}</span>
+        <span class="text-black">{{ patient.dateNaissance }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
-        Téléphone: <span class="text-black">{{ patient().telephone }}</span>
+        Téléphone: <span class="text-black">{{ patient.telephone }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
-        Adresse: <span class="text-black">{{ patient().adresse }}</span>
+        Adresse: <span class="text-black">{{ patient.adresse }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
-        Mutuelle: <span class="text-black">{{ patient().mutuelle }}</span>
+        Mutuelle: <span class="text-black">{{ patient.mutuelle }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
         Médecin traitant:
-        <span class="text-black">{{ patient().medecin }}</span>
+        <span class="text-black">{{ patient.medecin }}</span>
       </p>
     </div>
   </div>
@@ -45,15 +45,15 @@
     <img src="/qr.svg" alt="qr code" class="w-52 h-52" />
     <div class="flex flex-col gap-7">
       <p class="text-gray-500 font-[Lexend] font-semibold">
-        Etat civil: <span class="text-black">{{ patient().etatCivil }}</span>
+        Etat civil: <span class="text-black">{{ patient.etatCivil }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
         Groupe sanguin:
-        <span class="text-black">{{ patient().groupeSanguin }}</span>
+        <span class="text-black">{{ patient.groupeSanguin }}</span>
       </p>
       <p class="text-gray-500 font-[Lexend] font-semibold">
         Profession:
-        <span class="text-black">{{ patient().profession }}</span>
+        <span class="text-black">{{ patient.profession }}</span>
       </p>
     </div>
   </div>

@@ -16,7 +16,7 @@
       <app-input
         [label]="'Votre numéro de sécurité sociale'"
         [placeholder]="'Exemple: 214 25896'"
-        [type]="'number'"
+        [type]="getType()"
         (contenuChange)="updateIdentifiant($event)"
       />
       <app-input
@@ -24,9 +24,10 @@
         [type]="'password'"
         (contenuChange)="updateMdp($event)"
       />
-      <button   type="button"
+      <button
+        type="button"
         class="px-5 py-3 font-[Lexend] rounded-full bg-[#DF5A2D] max-w-60 text-white mt-16"
-        [routerLink] = "getRoute()"
+        (click)="login()"
       >
         Me connecter
       </button>

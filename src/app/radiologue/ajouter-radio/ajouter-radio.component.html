@@ -44,6 +44,7 @@
             <tr
               *ngFor="let dpi of listeDPIs"
               [class.bg-[#FFA88B]]="dpi.nss === selectedNss"
+              [class.hover:bg-[#FFA88B]]="dpi.nss === selectedNss"
               (click)="selectDPI(dpi.nss)"
               class="hover:bg-gray-50 font-light text-sm cursor-pointer"
             >
