@@ -13,6 +13,11 @@ import { AuthService } from '../../../services/auth.service';
 export class NouvelleConsultationComponent implements OnInit {
   id_dossier: string | null = null;
   observations: string = '';
+  diagnostic: string = '';
+  isBilanChecked: boolean = false;
+  errorMessage: string | null = null;
+  user: any;
+
   displayDate: string = new Date().toLocaleString('fr-FR', {
     day: '2-digit',
     month: '2-digit',
@@ -21,41 +26,24 @@ export class NouvelleConsultationComponent implements OnInit {
     minute: '2-digit',
   });
 
-  diagnostic: string = '';
-  isBilanChecked: boolean = false;
-  errorMessage: string | null = null;
-  user: any;
-
-  // Convert to MySQL format before sending
-  private getMySQLDateTime(): string {
-    const parts = this.displayDate.split(' ')[0].split('/');
-    const time = this.displayDate.split(' ')[1];
-    return `${parts[2]}-${parts[1]}-${parts[0]} ${time}`;
-  }
-
   constructor(
     private http: HttpClient,
-    private router: Router,  // Inject Router
-    public activatedRoute: ActivatedRoute,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private authService: AuthService
-  ) {
-    this.activatedRoute.parent?.params.subscribe((params) => {
-      console.log('Route params:', params);
-      this.id_dossier = params['nss'];
-      console.log('ID dossier:', this.id_dossier);
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
-    const parentParams = this.activatedRoute.parent?.snapshot.params['nss'];
-    const currentParams = this.activatedRoute.snapshot.params['nss'];
-
-    this.id_dossier = parentParams || currentParams;
-
-    console.log('Retrieved ID dossier:', this.id_dossier);
-
+    this.id_dossier =
+      this.activatedRoute.parent?.snapshot.params['nss'] ||
+      this.activatedRoute.snapshot.params['nss'];
     this.user = this.authService.getUser();
-    console.log('Authenticated user:', this.user);
+  }
+
+  private getMySQLDateTime(): string {
+    const [day, month, year] = this.displayDate.split(' ')[0].split('/');
+    const time = this.displayDate.split(' ')[1];
+    return `${year}-${month}-${day} ${time}`;
   }
 
   toggleBilan(event: any) {
@@ -71,12 +59,12 @@ export class NouvelleConsultationComponent implements OnInit {
 
   submitForm() {
     if (!this.observations || !this.diagnostic) {
-      this.errorMessage = 'Les champs observation et diagnostic sont requis';
+      this.errorMessage = 'Les champs observation et diagnostic sont requis.';
       return;
     }
 
     if (!this.user?.id) {
-      this.errorMessage = 'Utilisateur non trouvé';
+      this.errorMessage = 'Utilisateur non trouvé.';
       return;
     }
 
@@ -87,9 +75,6 @@ export class NouvelleConsultationComponent implements OnInit {
       userId: this.user.id,
     };
 
-    // Log the data being sent
-    console.log('Sending data:', consultationData);
-
     this.http
       .post(
         `http://127.0.0.1:8000/patients/${this.id_dossier}/consultations/create/`,
@@ -97,18 +82,28 @@ export class NouvelleConsultationComponent implements OnInit {
       )
       .subscribe({
         next: (response: any) => {
-          console.log('Consultation created successfully:', response);
+          console.log('Consultation créée avec succès:', response);
           this.resetForm();
           this.errorMessage = null;
 
-          // Navigate to the ordonnance page after success
-          const url = `/doctor/mes-patients/${this.id_dossier}/nouvelle-consultation/ordonnance`;
-          this.router.navigate([url]);  // Navigate to the new route
+          const consultationId = response?.id;
+          if (consultationId) {
+            console.log('Consultation ID:', consultationId);
+            const url = `/doctor/mes-patients/${this.id_dossier}/nouvelle-consultation/ordonnance/${consultationId}`;
+            this.router.navigate([url]);
+          } else {
+            console.error('Consultation ID introuvable dans la réponse.');
+            this.errorMessage = 'Erreur: ID de consultation introuvable.';
+          }
         },
         error: (error) => {
-          console.error('Error details:', error);
+          console.error(
+            'Erreur lors de la création de la consultation:',
+            error
+          );
           this.errorMessage =
-            error.error?.message || 'Erreur lors de la création de la consultation';
+            error.error?.message ||
+            'Erreur lors de la création de la consultation.';
         },
       });
   }

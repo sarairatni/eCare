@@ -319,6 +319,8 @@ def radiologue_list_examens(request, id):
         return JsonResponse(examen_dicts, safe=False)
     except Radiologue.DoesNotExist:
         return JsonResponse({'error': 'Radiologue not found'}, status=404)
+
+
 @csrf_exempt
 def validate_ordonnance(request, ordonnance_id):
     try:
@@ -343,7 +345,7 @@ def create_ordonnance(request, consultation_id):
             # Parse the incoming JSON data
             data = json.loads(request.body)
             date = data.get('date')
-            duree = data.get('duree')
+           
             medicaments_data = data.get('medicaments')  # List of medicament details
 
             # Validate medicament data
@@ -354,7 +356,7 @@ def create_ordonnance(request, consultation_id):
             ordonnance = Ordonnance.objects.create(
                 consultation_id=consultation_id,  # Use the passed consultation ID
                 date=date,
-                duree=duree,
+                duree='',
                 validated=False  # Default to False
             )
 
@@ -1001,26 +1003,45 @@ class ConsultationSerializer(serializers.ModelSerializer):
         model = Consultation
         fields = ['id', 'motif', 'date', 'resume', 'dossier_id', 'medecin_id']
 
-class ConsultationListView(ListAPIView):
-    serializer_class = ConsultationSerializer
+from rest_framework.generics import ListAPIView
+from rest_framework.exceptions import NotFound
+from django.shortcuts import get_object_or_404
 
-    def get_queryset(self):
-        """
-        Return consultations for the authenticated doctor,
-        or a default doctor by ID if no user is authenticated.
-        """
-        user = self.request.user if self.request.user.is_authenticated else None
+@csrf_exempt
+def ConsultationListView(request, pk):
+    if request.method == 'GET':
+                # Fetch the Medecin object that has a user_id equal to pk
+        medecin = get_object_or_404(Medecin, user__id=pk)  # Look for Medecin with user_id = pk
+        
+        # Filter consultations by medecin_id
+        consultations = Consultation.objects.filter(medecin_id=medecin.id)
 
-        # Fallback to default doctor by ID if no user is authenticated
-        if not user:
-            default_doctor_id = 5  # Replace with the ID of your default doctor
-            try:
-                user = User.objects.get(id=default_doctor_id)
-            except User.DoesNotExist:
-                raise ValueError(f"Default doctor with ID {default_doctor_id} not found. Please set up a default doctor.")
 
-        return Consultation.objects.filter(medecin_id=user.id)
+        print({medecin})
+        # Filter consultations by medecin_id (using the pk passed in the URL)
+        consultations = Consultation.objects.filter(medecin_id=medecin.id)
 
+        if not consultations:
+            # Return a JSON response indicating no consultations found
+            return JsonResponse({"error": "No consultations found for this doctor."}, status=404)
+
+        # Prepare the data to be returned in JSON format
+        consultations_data = []
+        for consultation in consultations:
+            consultations_data.append({
+                "motif": consultation.motif,
+                "date": consultation.date,
+                "resume": consultation.resume,
+                "dossier_id": consultation.dossier_id,
+                "medecin_id": consultation.medecin_id,
+            })
+
+        # Return the data as JSON
+        return JsonResponse({"consultations": consultations_data})
+
+    else:
+        # If the request method is not GET, return a 405 Method Not Allowed
+        return JsonResponse({"error": "Method not allowed. Only GET requests are allowed."}, status=405)
 
     
 class UpdateOrdonnanceView(UpdateAPIView):
@@ -1483,17 +1504,9 @@ def create_consultation(request, dossier_id):
             )
 
             return JsonResponse({
-                "status": "success",
-                "message": "Consultation créée avec succès",
-                "consultation": {
-                    "id": consultation.id,
-                    "motif": consultation.motif,
-                    "date": consultation.date,
-                    "resume": consultation.resume,
-                    "dossier_id": consultation.dossier_id,
-                    "medecin": f"Dr. {medecin.nom if medecin_id != 5 else 'Médecin par défaut'}"
-                }
-            })
+            "id": consultation.id,
+            "message": "Consultation created successfully."
+        })
 
     except json.JSONDecodeError as e:
         print("JSON Decode Error:", str(e))

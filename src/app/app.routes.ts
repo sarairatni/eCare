@@ -93,7 +93,7 @@ export const routes: Routes = [
         component: NouvelleConsultationComponent,
       },
       {
-        path: 'mes-patients/:nss/nouvelle-consultation/ordonnance',
+        path: 'mes-patients/:nss/nouvelle-consultation/ordonnance/:consultationId',
         component: ConsultationOrdonnanceComponent,
       },
       {

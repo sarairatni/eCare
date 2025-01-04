@@ -53,12 +53,13 @@ urlpatterns = [
 
     # Consultation
     path('medecin/consultation/create/', views.CreateConsultationView.as_view(), name='create_consultation'),
-    path('medecin/consultation/list/', views.ConsultationListView.as_view(), name='consultation_list'),
+    path('medecin/consultation/list/', views.ConsultationListView, name='consultation_list'),
     path('medecin/consultation/update/<int:pk>/', views.UpdateConsultationView.as_view(), name='update_consultation'),
     path('medecin/consultation/delete/<int:pk>/', views.DeleteConsultationView.as_view(), name='delete_consultation'),
+    path('medecin/consultation/list/<int:pk>/', views.ConsultationListView, name='consultation_list'), # get consultation  by medID
 
     # Medecin Ordonnances
-    path('medecin/ordonnance/add/', views.AddOrdonnanceView.as_view(), name='add_ordonnance'),
+    path('medecin/ordonnance/add/', views.create_ordonnance, name='add_ordonnance'),
     path('medecin/ordonnance/list/', views.OrdonnanceListView.as_view(), name='ordonnance_list'),
     path('medecin/ordonnance/update/<int:pk>/', views.UpdateOrdonnanceView.as_view(), name='update_ordonnance'),
     path('medecin/ordonnance/delete/<int:pk>/', views.DeleteOrdonnanceView.as_view(), name='delete_ordonnance'),
@@ -121,4 +122,6 @@ urlpatterns = [
     path('search_dossier_patient_by_id/<int:patient_id>/', views.search_dossier_patient_by_id, name='search_dossier_patient_by_id'),
     path('patients/<str:dossier_id>/consultations/', views.consultations_by_patient, name='consultations_by_patient'),
     path('patients/<str:dossier_id>/consultations/create/', views.create_consultation, name='create_consultation'),
+   path('medecin/ordonnance/add/<int:consultation_id>/', views.create_ordonnance, name='add_ordonnance'),
+
 ]
