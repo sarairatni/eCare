@@ -3,7 +3,7 @@
 >
   <div class="flex justify-between items-center">
     <h2 class="text-base font-bold text-[#643869]">
-      Nouvelle consultation > Ordonnance
+      Nouvelle consultation > Préscrire un bilan
     </h2>
   </div>
 
@@ -20,6 +20,16 @@
         <option value="Bilan radiologique">Bilan radiologique</option>
         <option value="Bilan biologique">Bilan biologique</option>
       </select>
+    </div>
+    <div class="flex flex-col gap-1 text-sm">
+      <label for="type" class="text-black mb-2">Description</label>
+      <input
+        type="text"
+        class="w-1/3 bg-[#E0E0E0] text-black rounded-xl px-4 py-2 outline-none"
+        placeholder="saisir vos remarques"
+        [(ngModel)]="observation"
+        name="nom"
+      />
     </div>
 
     <!-- Diagnostic Table (Only shows when type is Bilan biologique) -->
@@ -64,7 +74,7 @@
       <button
         type="submit"
         class="px-4 py-2 bg-gradient-to-r from-[#F6815A] to-[#E54E1B] rounded-full text-white"
-        (click)="navigateToAntecedants()"
+        (click)="submitBilan()"
       >
         Suivant
       </button>

@@ -48,12 +48,16 @@ export class NouvelleConsultationComponent implements OnInit {
 
   toggleBilan(event: any) {
     this.isBilanChecked = event.target.checked;
+    if (this.isBilanChecked) {
+      this.diagnostic = 'Pas établi';
+    } else {
+      this.diagnostic = '';
+    }
   }
 
   resetForm() {
     this.observations = '';
     this.diagnostic = '';
-    this.isBilanChecked = false;
     this.errorMessage = null;
   }
 
@@ -83,13 +87,18 @@ export class NouvelleConsultationComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           console.log('Consultation créée avec succès:', response);
-          this.resetForm();
+
           this.errorMessage = null;
 
           const consultationId = response?.id;
           if (consultationId) {
             console.log('Consultation ID:', consultationId);
-            const url = `/doctor/mes-patients/${this.id_dossier}/nouvelle-consultation/ordonnance/${consultationId}`;
+            let url: string;
+            if (this.isBilanChecked) {
+              url = `/doctor/mes-patients/${this.id_dossier}/nouvelle-consultation/bilan/${consultationId}/`;
+            } else {
+              url = `/doctor/mes-patients/${this.id_dossier}/nouvelle-consultation/ordonnance/${consultationId}/`;
+            }
             this.router.navigate([url]);
           } else {
             console.error('Consultation ID introuvable dans la réponse.');

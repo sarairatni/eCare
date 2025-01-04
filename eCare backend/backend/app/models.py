@@ -108,6 +108,11 @@ class CompteRendu(models.Model):
     auteur_id = models.CharField(max_length=50)  
     examen_id = models.CharField(max_length=50)
 
+class Ordonnance(models.Model):
+    date = models.DateField()
+    duree = models.CharField(max_length=50)
+    consultation_id = models.CharField(max_length=50)
+    validated = models.BooleanField(default=False)
 
 class Medicament(models.Model):
      nom = models.CharField(max_length=100)
@@ -142,13 +147,25 @@ class Soin(models.Model):
     dossier_id = models.CharField(max_length=50)  
     observation = models.TextField() 
 
-class Ordonnance(models.Model):
-    date = models.DateField()
-    duree = models.CharField(max_length=50)
+
+class BilanBiologique(models.Model):
     consultation_id = models.CharField(max_length=50)
-    validated = models.BooleanField(default=False)
+    dossier_id = models.CharField(max_length=50)
+    date_creation = models.DateTimeField(auto_now_add=True)
+    observation = models.TextField(blank=True, null=True)
+    pression_arterielle  = models.BooleanField(default=False)  
+    glycemie = models.BooleanField(default=False)
+    cholestérol_total = models.BooleanField(default=False)
+    def str(self):
+        return f"Bilan Biologique - {self.patient} ({self.date_creation})"
 
-
+class BilanRadiologique(models.Model):
+    consultation_id = models.CharField(max_length=50)
+    dossier_id = models.CharField(max_length=50)
+    observation = models.TextField(blank=True, null=True)
+    date_creation = models.DateTimeField(auto_now_add=True)
+    def str(self):
+        return f"Bilan Radiologique - {self.patient} ({self.type_examen})"
 
 
 # Create your models here.

@@ -1,4 +1,6 @@
-<div class="px-2 h-[100%] w-[100%] flex flex-col gap-10 overflow-y-auto text-xs">
+<div
+  class="px-2 h-[100%] w-[100%] flex flex-col gap-10 overflow-y-auto text-xs"
+>
   <p class="text-black-500 font-[Lexend] font-bold">> Ordonnance</p>
   <!-- details -->
   <div class="flex flex-col py-0 gap-5">
@@ -8,11 +10,11 @@
     <div>
       <div class="flex">
         <p class="text-gray-500 font-[Lexend] font-semibold w-32">Émise par:</p>
-        <span class="text-black font-[Lexend]">{{ medecin() }}</span>
+        <span class="text-black font-[Lexend]">{{ medecin }}</span>
       </div>
       <div class="flex">
         <p class="text-gray-500 font-[Lexend] font-semibold w-32">Date:</p>
-        <span class="text-black font-[Lexend]">{{ date() }}</span>
+        <span class="text-black font-[Lexend]">{{ date }}</span>
       </div>
     </div>
   </div>
@@ -30,23 +32,23 @@
       <div class="w-[100%]">
         <p class="font-semibold">Dosage</p>
       </div>
-      <div class="w-[100%]">
+      <!-- <div class="w-[100%]">
         <p class="font-semibold">Fréquence</p>
-      </div>
+      </div> -->
       <div class="w-[100%]">
         <p class="font-semibold">Durée</p>
       </div>
-      <div class="w-[100%]">
+      <!-- <div class="w-[100%]">
         <p class="font-semibold">Commentaire</p>
-      </div>
+      </div> -->
     </div>
     <div class="flex flex-col gap-6 lg:max-h-[35vh] lg:overflow-y-auto pt-4">
-      <div *ngFor="let med of medicaments(); let i = index" class="flex px-2">
+      <div *ngFor="let med of medicaments; let i = index" class="flex px-2">
         <p class="w-[100%]">{{ med.nom }}</p>
         <p class="w-[100%]">{{ med.dosage }}</p>
-        <p class="w-[100%]">{{ med.frequence }}</p>
-        <p class="w-[100%]">{{ med.duree }}</p>
-        <p class="w-[100%]">{{ med.commentaire }}</p>
+        <!-- <p class="w-[100%]">{{ med.frequence }}</p> -->
+        <p class="w-[100%]">{{ med.voie_administration }}</p>
+        <!-- <p class="w-[100%]">{{ med.commentaire }}</p> -->
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 from datetime import datetime
 from venv import logger
-from django.shortcuts import render, redirect
+from django.shortcuts import get_list_or_404, render, redirect
 from django.http import HttpResponse
 from .models import *
 from django.shortcuts import redirect
@@ -1554,3 +1554,172 @@ def create_antecedent(request, dossier_id):
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+@csrf_exempt
+def create_bilan_biologique(request, consultation_id, dossier_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            observation = data.get('observation', '')
+            pression_arterielle = data.get('pression_arterielle', True)
+            glycemie = data.get('glycémie', True)
+            cholestérol_total = data.get('cholestérol_total', True)
+
+            # Create the BilanBiologique instance
+            bilan = BilanBiologique.objects.create(
+                consultation_id=consultation_id,
+                dossier_id=dossier_id,
+                observation=observation,
+                pression_arterielle=pression_arterielle,
+                glycemie=glycemie,
+                cholestérol_total=cholestérol_total
+            )
+            return JsonResponse({'message': 'Bilan Biologique created successfully', 'id': bilan.id}, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def create_bilan_radiologique(request, consultation_id, dossier_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            description = data.get('description', '')
+
+            # Create the BilanRadiologique instance
+            bilan = BilanRadiologique.objects.create(
+                consultation_id=consultation_id,
+                dossier_id=dossier_id,
+                description=description
+            )
+            return JsonResponse({'message': 'Bilan Radiologique created successfully', 'id': bilan.id}, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def get_medecin_patients(request):
+    try:
+        # Parse the request body to extract user ID
+        if request.method == "POST":
+            data = json.loads(request.body)  # Assuming JSON payload
+            user_id = data.get('userId')  # Extract user ID from the request
+
+            if not user_id:
+                return JsonResponse({"error": "User ID is required."}, status=400)
+
+            # Retrieve the Medecin associated with the provided user ID
+            medecin = Medecin.objects.get(user_id=user_id)
+            medecin_id = medecin.id  # Get the Medecin's ID
+
+            # Retrieve all patients associated with this Medecin
+            patients = Patient.objects.filter(medecin_traitant=medecin_id)
+
+            # Serialize the data into a list of dictionaries
+            patients_list = [
+                {
+                    "id": patient.id,
+                    "nom": patient.nom,
+                    "prenom": patient.prenom,
+                    "email": patient.user.email,  # Assuming email is stored in the User model
+                    "num_securite_sociale": patient.num_securite_sociale,
+                    "date_naissance": patient.date_naissance,
+                    "adress": patient.adress,
+                    "telephone": patient.telephone,
+                    "personne_contact": patient.personne_contact
+                }
+                for patient in patients
+            ]
+
+            # Return the serialized data as JSON
+            return JsonResponse({"patients": patients_list}, status=200)
+        else:
+            return JsonResponse({"error": "Invalid request method. Use POST."}, status=405)
+
+    except Medecin.DoesNotExist:
+        return JsonResponse({"error": "Medecin not found for the given user ID."}, status=404)
+
+    except Exception as e:
+        return JsonResponse({"error": f"An unexpected error occurred: {str(e)}"}, status=500)
+    
+@csrf_exempt
+def list_ordonnances(request, dossier_id):
+    try:
+        # Step 1: Fetch all consultations for the `dossier_id`
+        consultations = Consultation.objects.filter(dossier_id=dossier_id)
+        print(f"Fetching consultations for dossier_id: {dossier_id}")
+        print(f"Consultations found: {consultations}")
+
+        consultation_ids = consultations.values_list('id', flat=True)
+        print(f"Consultation IDs: {consultation_ids}")
+
+        # Step 2: Fetch all ordonnances associated with these consultations
+        ordonnances = Ordonnance.objects.filter(consultation_id__in=consultation_ids)
+        print(f"Found ordonnances: {ordonnances}")
+
+        # Step 3: Build the result list
+        result = []
+        for ordonnance in ordonnances:
+            try:
+                # Fetch the consultation object for this ordonnance
+                consultation = consultations.get(id=int(ordonnance.consultation_id))
+                medecin = Medecin.objects.get(id=consultation.medecin_id)
+
+                # Add formatted details to the result list
+                result.append({
+                    'id': ordonnance.id,
+                    'date': ordonnance.date.strftime('%Y-%m-%d'),
+                    'medecin': f"Dr. {medecin.nom} {medecin.prenom}",
+                    'medecin_id': medecin.id,
+                    'etat': 'Complétée' if ordonnance.validated else 'En attente',
+                })
+                print(f"Processed ordonnance id: {ordonnance.id}")
+            except Exception as inner_error:
+                print(f"Error processing ordonnance id {ordonnance.id}: {inner_error}")
+
+        return JsonResponse(result, safe=False)
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return JsonResponse({'error': str(e)}, status=500)
+    
+@csrf_exempt    
+def get_medicaments_by_ordonnance(request, id_ordonnance):
+    """
+    Returns all medicaments for a given ordonnance_id in JSON format.
+    """
+    # Fetch all medicament IDs related to the given ordonnance_id
+    ordonnance_medicaments = get_list_or_404(OrdonnanceMedicament, ordonnance_id=id_ordonnance)
+    medicament_ids = [om.medicament_id for om in ordonnance_medicaments]
+
+    # Fetch all medicaments using the IDs
+    medicaments = Medicament.objects.filter(id__in=medicament_ids)
+    medicaments_data = [
+        {
+            'id': medicament.id,
+            'nom': medicament.nom,
+            'dosage': medicament.dosage,
+            'voie_administration': medicament.voie_administration
+        }
+        for medicament in medicaments
+    ]
+    return JsonResponse({'medicaments': medicaments_data}, safe=False)
+
+@csrf_exempt  
+def get_soins_by_dossier(request, dossier_id):
+    """
+    Returns soins for a given dossier_id in JSON format.
+    """
+    soins = get_list_or_404(Soin, dossier_id=dossier_id)  # Fetch soins for the given dossier_id
+    soins_data = [
+        {
+            'id': soin.id,
+            'date': soin.date,
+            'type': soin.type,
+            'description': soin.description,
+            'infirmier_id': soin.infirmier_id,
+            'dossier_id': soin.dossier_id,
+            'observation': soin.observation
+        }
+        for soin in soins
+    ]
+    return JsonResponse({'soins': soins_data}, safe=False)

@@ -25,7 +25,6 @@ urlpatterns = [
     path('medecins/', views.medecin_list, name='medecin_list'),  # List medecins
     path('medecins/<int:id>/', views.medecin_detail, name='medecin_detail'),
     path('medecins/<int:id>/delete/', views.medecin_destroy, name='medecin_delete'),
-    path('medecin/patients/', views.medecin_patients, name='medecin_patients'),
     # Pharmacien
     path('pharmaciens/', views.pharmacien_list, name='pharmacien_list'),  # List pharmacien
     path('pharmaciens/<int:id>/', views.pharmacien_detail, name='pharmacien_detail'),
@@ -119,9 +118,16 @@ urlpatterns = [
    
     path('create_consultation/', views.create_consultation, name='create_consultation'),
    # saaaaaaaaaaaaaaaraaaaaaaaaaaaaaaa
+     path('medecin/patients/', views.get_medecin_patients, name='medecin_patients'),
     path('search_dossier_patient_by_id/<int:patient_id>/', views.search_dossier_patient_by_id, name='search_dossier_patient_by_id'),
     path('patients/<str:dossier_id>/consultations/', views.consultations_by_patient, name='consultations_by_patient'),
     path('patients/<str:dossier_id>/consultations/create/', views.create_consultation, name='create_consultation'),
     path('medecin/ordonnance/add/<int:consultation_id>/', views.create_ordonnance, name='add_ordonnance'),
     path('medecin/antecedent/create/<int:dossier_id>/', views.create_antecedent, name='delete_ordonnance'),
+    path('medecin/bilan-biologique/create/<str:consultation_id>/<str:dossier_id>/', views.create_bilan_biologique, name='create_bilan_biologique'),
+    path('medecin/bilan-radiologique/create/<str:consultation_id>/<str:dossier_id>/', views.create_bilan_radiologique, name='create_bilan_radiologique'),
+    path('patients/<int:dossier_id>/list_ordonnances/', views.list_ordonnances, name='list_ordonnances'), # touts les ordonnance liées a ce dossier patient
+    path('ordonnance/<int:id_ordonnance>/medicaments/', views.get_medicaments_by_ordonnance, name='get_medicaments_by_ordonnance'),
+    path('soins/<str:dossier_id>/', views.get_soins_by_dossier, name='get_soins_by_dossier'),
+
 ]
