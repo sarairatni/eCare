@@ -1,4 +1,5 @@
 from datetime import datetime
+from venv import logger
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
@@ -345,8 +346,10 @@ def create_ordonnance(request, consultation_id):
             # Parse the incoming JSON data
             data = json.loads(request.body)
             date = data.get('date')
+            logger.debug(f"Received data: {data}")
            
             medicaments_data = data.get('medicaments')  # List of medicament details
+            logger.debug(f"Medicaments data: {medicaments_data}")
 
             # Validate medicament data
             if not medicaments_data or not isinstance(medicaments_data, list):
@@ -389,7 +392,7 @@ def create_ordonnance(request, consultation_id):
             return JsonResponse({'message': 'Ordonnance and Medicaments created successfully and validated'}, status=201)
 
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'erroooooor': str(e)}, status=500)
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
@@ -1522,3 +1525,32 @@ def create_consultation(request, dossier_id):
             "message": "An unexpected error occurred",
             "detail": str(e)
         }, status=500)
+@csrf_exempt
+def create_antecedent(request, dossier_id):
+    if request.method == 'POST':
+        try:
+            # Parse the incoming JSON data
+            data = json.loads(request.body)
+            antecedent_type = data.get('type')
+            description = data.get('description')
+            date_declaration = data.get('date_declaration')
+
+            # Validate the required fields
+            if not antecedent_type or not description or not date_declaration:
+                return JsonResponse({'error': 'Missing required fields'}, status=400)
+
+            # Create the Antecedent object
+            antecedent = Antecedent.objects.create(
+                type=antecedent_type,
+                description=description,
+                date_declaration=date_declaration,
+                dossier_id=dossier_id  # Use the provided dossier_id
+            )
+
+            return JsonResponse({'message': 'Antecedent created successfully', 'id': antecedent.id}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

@@ -122,6 +122,6 @@ urlpatterns = [
     path('search_dossier_patient_by_id/<int:patient_id>/', views.search_dossier_patient_by_id, name='search_dossier_patient_by_id'),
     path('patients/<str:dossier_id>/consultations/', views.consultations_by_patient, name='consultations_by_patient'),
     path('patients/<str:dossier_id>/consultations/create/', views.create_consultation, name='create_consultation'),
-   path('medecin/ordonnance/add/<int:consultation_id>/', views.create_ordonnance, name='add_ordonnance'),
-
+    path('medecin/ordonnance/add/<int:consultation_id>/', views.create_ordonnance, name='add_ordonnance'),
+    path('medecin/antecedent/create/<int:dossier_id>/', views.create_antecedent, name='delete_ordonnance'),
 ]
