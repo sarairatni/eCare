@@ -1,4 +1,4 @@
-import { Component, input, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
@@ -18,7 +18,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
   templateUrl: './infirmier-layout.component.html',
   styleUrl: './infirmier-layout.component.css'
 })
-export class InfirmierLayoutComponent implements OnInit{
+export class InfirmierLayoutComponent implements OnInit {
   selectionne = signal(0);
   personne = 'Ladoul Mahdi';
 
@@ -29,6 +29,7 @@ export class InfirmierLayoutComponent implements OnInit{
     user = this.authService.getUser();
     this.personne =  user.last_name + " " + user.first_name;
   }
+  
   menuItems = signal([
     {
       text: 'Ajouter un soin',

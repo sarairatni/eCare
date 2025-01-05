@@ -9,6 +9,7 @@
         type="text"
         class="min-w-96 w-[20vw] ml-1 font-[Lexend] h-8 bg-inherit text-sm font-base focus:outline-none"
         placeholder="Rechercher un DPI par NSS"
+        (input)="updateRecherche($event)"
       />
     </div>
     <div
@@ -36,22 +37,26 @@
                 Nom patient
               </th>
               <th class="px-4 py-3 w-[25%] text-left font-normal">NSS</th>
-              <th class="px-4 py-3 w-[20%] text-left font-normal">Age</th>
-              <th class="px-4 py-3 w-[25%] text-left font-normal">Statut</th>
+              <th class="px-4 py-3 w-[20%] text-left font-normal">
+                Date de naissance
+              </th>
+              <th class="px-4 py-3 w-[25%] text-left font-normal">
+                Numéro de téléphone
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr
-              *ngFor="let dpi of listeDPIs"
+              *ngFor="let dpi of filteredListeDPIs"
               [class.bg-[#FFA88B]]="dpi.nss === selectedNss"
               [class.hover:bg-[#FFA88B]]="dpi.nss === selectedNss"
-              (click)="selectDPI(dpi.nss)"
+              (click)="selectDPI(dpi.nss, dpi.id)"
               class="hover:bg-gray-50 font-light text-sm cursor-pointer"
             >
               <td class="px-4 py-2">{{ dpi.nom }}</td>
               <td class="px-4 py-2">{{ dpi.nss }}</td>
               <td class="px-4 py-2">{{ dpi.age }}</td>
-              <td class="px-4 py-2">{{ dpi.date_entree }}</td>
+              <td class="px-4 py-2">{{ dpi.numero_telephone }}</td>
             </tr>
           </tbody>
         </table>
@@ -73,6 +78,7 @@
   <app-popup-ajouter-radio
     class="z-50"
     [nss]="selectedNss"
+    [id]="selectedId"
     *ngIf="popupVisible"
     (clickClose)="masquerPopup()"
   />

@@ -28,6 +28,21 @@
         (change)="modifierResumeRapport($event)"
       ></textarea>
     </div>
+    <div class="flex flex-col gap-3">
+      <label for="consultations_dropdown">Consultations</label>
+      <select
+        (change)="updateSelectedConsultation($event)"
+        id="consultations_dropdown"
+        class="w-[100%] text-black p-3 rounded-2xl"
+      >
+        <option
+          *ngFor="let consultation of consultations"
+          [value]="consultation.id"
+        >
+          {{ consultation.motif }} - {{ consultation.date }}
+        </option>
+      </select>
+    </div>
     <button
       *ngIf="!uploadedImage"
       class="p-3 bg-[#643869] text-white rounded-full border border-white w-52"
@@ -58,6 +73,7 @@
       <div
         *ngIf="uploadedImage"
         class="bg-gradient-to-r from-[#F6815A] to-[#E54E1B] hover:from-[#E54E1B] hover:to-[#E54E1B] transition duration-300 text-white rounded-full w-52 flex items-center justify-center gap-1 px-5 cursor-pointer"
+        (click)="submitExamenRadiologique()"
       >
         <p class="px-6 py-3 font-[Lexend]">Valider</p>
       </div>
