@@ -11,7 +11,7 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('authentification/', views.authentification, name='authentification'),
-    path('signup', views.signup, name='token_verify'),
+    path('signup/', views.signup, name='token_verify'),
 
 
     # Patients
@@ -129,5 +129,6 @@ urlpatterns = [
     path('patients/<int:dossier_id>/list_ordonnances/', views.list_ordonnances, name='list_ordonnances'), # touts les ordonnance liées a ce dossier patient
     path('ordonnance/<int:id_ordonnance>/medicaments/', views.get_medicaments_by_ordonnance, name='get_medicaments_by_ordonnance'),
     path('patient/soins/<str:dossier_id>/', views.get_soins_by_dossier, name='get_soins_by_dossier'),
+  
     # path('soins/<str:dossier_id>/', views.soins_by_dossier, name='soins_by_dossier'),
 ]

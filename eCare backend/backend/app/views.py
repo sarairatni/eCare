@@ -1345,8 +1345,8 @@ def signup(request):
         username = data.get('username')
         password = data.get('password')
         role = data.get('role')
-        first_name = data.get('first_name')
-        last_name = data.get('last_name')
+        first_name = data.get('prenom')
+        last_name = data.get('nom')
         email = data.get('email')
         
         # Ensure all required fields are present

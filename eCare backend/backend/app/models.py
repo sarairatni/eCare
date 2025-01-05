@@ -78,15 +78,12 @@ class Consultation(models.Model):
         return f"Consultation on {self.date} - Motif: {self.motif}"
     
 class Examen(models.Model):
-    examen_id = models.AutoField(primary_key=True, serialize=True)
-    type = models.CharField(max_length=50)
-    date = models.DateField()
-    resultat = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    description = models.TextField()
 
     class Meta:
         abstract = True
-
-
+    
 class ExamenRadiologique(Examen):
     consultation = models.ForeignKey(Consultation, on_delete=models.CASCADE, related_name="radiologiques")
     type_image = models.CharField(max_length=50)

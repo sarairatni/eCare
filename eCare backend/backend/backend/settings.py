@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'TP_IGL',        # Replace with your MySQL database name
+        'NAME': 'tp_igl2',        # Replace with your MySQL database name TP_IGL2
         'USER': 'root',        # Replace with your MySQL user
         'PASSWORD': 'sara2004', # Replace with your MySQL password
         'HOST': 'localhost',           # Or use the IP if not on the same machine
