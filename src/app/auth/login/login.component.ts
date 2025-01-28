@@ -23,6 +23,7 @@ export class LoginComponent {
   
   updateIdentifiant(c: string) {
     this.identifiant.set(c);
+    console.log(this.identifiant());
   }
 
   updateMdp(c: string) {
@@ -35,8 +36,6 @@ export class LoginComponent {
       password: this.mdp(),     // Get the password from the signal
       role: this.getRole()       // Get the role from the signal
     };
-
-    console.log('Login Data:', loginData); // Log the data to check before sending
 
     // Use AuthService to log in
     this.authService.login(loginData).subscribe({

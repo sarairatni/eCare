@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-ajouter-analyse-bio',
@@ -9,96 +11,148 @@ import { RouterModule, Router, ActivatedRoute } from '@angular/router';
   styleUrl: './ajouter-analyse-bio.component.css',
 })
 export class AjouterAnalyseBioComponent implements OnInit {
-  listeAnalysesBio = [
-    {
-      id: 1,
-      param: 'Glucose',
-      valeur_mesuree: 95,
-      valeur_normale: '70-100',
-      interpretation: 'Normale',
-    },
-    {
-      id: 2,
-      param: 'Hémoglobine',
-      valeur_mesuree: 13.5,
-      valeur_normale: '12-16',
-      interpretation: 'Normale',
-    },
-    {
-      id: 3,
-      param: 'Cholestérol',
-      valeur_mesuree: 220,
-      valeur_normale: '125-200',
-      interpretation: 'Élevé',
-    },
-    {
-      id: 4,
-      param: 'Triglycérides',
-      valeur_mesuree: 150,
-      valeur_normale: '50-150',
-      interpretation: 'Limite',
-    },
-    {
-      id: 5,
-      param: 'Créatinine',
-      valeur_mesuree: 1.2,
-      valeur_normale: '0.6-1.3',
-      interpretation: 'Normale',
-    },
-    {
-      id: 6,
-      param: 'Protéine C réactive (CRP)',
-      valeur_mesuree: 8,
-      valeur_normale: '< 10',
-      interpretation: 'Normale',
-    },
-    {
-      id: 7,
-      param: 'Acide urique',
-      valeur_mesuree: 7.5,
-      valeur_normale: '3.5-7.2',
-      interpretation: 'Élevé',
-    },
-    {
-      id: 8,
-      param: 'Bilirubine',
-      valeur_mesuree: 0.8,
-      valeur_normale: '0.2-1.2',
-      interpretation: 'Normale',
-    },
-    {
-      id: 9,
-      param: 'Transaminases (ALT)',
-      valeur_mesuree: 55,
-      valeur_normale: '10-40',
-      interpretation: 'Élevé',
-    },
-    {
-      id: 10,
-      param: 'Globules blancs',
-      valeur_mesuree: 7500,
-      valeur_normale: '4000-11000',
-      interpretation: 'Normale',
-    },
-  ];
+  listeAnalysesBio : any;
   showPopup = false;
   dpi_id: string | null = null;
 
-  togglePopup(): void {
-    this.showPopup = !this.showPopup;
+  user: any;
+  consultations: any;
+
+  typeExamen: string = "";
+  consultation_id: number = 0;
+  resultat: string = "";
+  valeurMesuree: string = "";
+  valeurNormale: string = "";
+  valeurs: string = "";
+  interpretation: string = "";
+
+
+  togglePopup(event: Event): void {
+    const target = event.target as HTMLElement;
+    const parent = event.currentTarget as HTMLElement;
+    if (target === parent) {
+      this.showPopup = !this.showPopup;
+    }
   }
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private authService: AuthService) {}
+
+  modifierType(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.typeExamen = input.value;
+  }
+
+  modifierValeurMesuree(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.valeurMesuree = input.value;
+  }
+
+  modifierValeurNormale(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.valeurNormale = input.value;
+  }
+
+  modifierInterpretation(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.interpretation = input.value;
+  }
 
   ngOnInit(): void {
+    this.user = this.authService.getUser();
     this.route.paramMap.subscribe((params) => {
       this.dpi_id = params.get('dpi_id');
-      console.log('dpi_id:', this.dpi_id);
+    });
+    // headers
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    // get the analyses biologiques list
+    this.http.get<any>(`http://127.0.0.1:8000/examens/biologiques/`, { headers })
+      .subscribe({
+        next: (response) => {
+          this.listeAnalysesBio = response;
+          console.log(this.listeAnalysesBio);
+        },
+        error: (error) => {
+          console.error('Error fetching analyses biologiques:', error);
+        }
+      });
+      this.http.get<any>(`http://127.0.0.1:8000/patients/${this.dpi_id}/consultations/`, { headers })
+    .subscribe({
+      next: (response) => {
+        this.consultations = response.consultations;
+        console.log(this.consultations);
+      },
+      error: (error) => {
+        console.error('Error fetching consultations:', error);
+      }
     });
   }
+
+  getTodayDate(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // Formats as YYYY-MM-DD
+  }
+
+  updateSelectedConsultation(e: Event): void {
+    const target = e.target as HTMLSelectElement;
+    this.consultation_id = parseInt(target.value);
+    console.log(this.consultation_id);
+  }
+
+  splitValeurs(input: string): [string, string] {
+    const parts = input.split('/');
+    return [parts[0], parts[1]];
+  }
+
   submitParameter(): void {
-    console.log('Parameter submitted');
+    // console.log('Parameter submitted');
     // logique submisssion parametre danalyse ajouté
-    this.showPopup = false;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    console.log(this.typeExamen);
+    console.log(this.getTodayDate());
+    console.log(this.resultat);
+    console.log(this.consultation_id);
+    console.log(this.valeurs);
+    console.log("upward");
+    console.log(this.user.id);
+    console.log(this.interpretation);
+    this.http.post<any>(`http://127.0.0.1:8000/examens/biologiques/create/`, {
+      "type": "biologique",
+      "date": this.getTodayDate(),
+      "resultat": "resultat",
+      "consultation_id": this.consultation_id,
+      "parametres": this.typeExamen,
+      "valeurs": this.valeurMesuree + "/" + this.valeurNormale,
+      "graphique_tendance": "upward",
+      "laborantin_id": this.user.id,
+      "interpretation": this.interpretation
+    }, { headers })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => {
+          console.error('Error submitting examen bio:', error);
+        }
+      });
+      this.showPopup = !this.showPopup;
+      this.updateListe(headers);
+  }
+
+  updateListe(headers: HttpHeaders) {
+    // get the analyses biologiques list
+    this.http.get<any>(`http://127.0.0.1:8000/examens/biologiques/`, { headers })
+      .subscribe({
+        next: (response) => {
+          this.listeAnalysesBio = response;
+          console.log(this.listeAnalysesBio);
+        },
+        error: (error) => {
+          console.error('Error fetching analyses biologiques:', error);
+        }
+      });
   }
 }
