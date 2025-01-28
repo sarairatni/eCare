@@ -68,9 +68,9 @@ try:
     select = Select(med_traitant_select)
     # Wait for options to be loaded
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[formControlName='med_traitant'] option:not([value='']")))
-    # Select the first doctor in the list (if available)
+    # Select the first doctor in the list 
     options = select.options
-    if len(options) > 1:  # Skip the first empty option
+    if len(options) > 1: 
         select.select_by_index(1)
     
     contact_input.send_keys("0987654321")
@@ -78,13 +78,11 @@ try:
     # Find the submit button and scroll it into view
     submit_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "button[type='submit']")))
     driver.execute_script("arguments[0].scrollIntoView(true);", submit_button)
-    time.sleep(1)  # Wait for scroll to complete
+    time.sleep(1) 
     
-    # Try to click using JavaScript
     driver.execute_script("arguments[0].click();", submit_button)
 
-    # Wait for success message or error message
-    time.sleep(2)  # Wait for form submission
+    time.sleep(2) 
     try:
         # First check for error message
         error_message = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.text-red-500")))
@@ -96,13 +94,10 @@ try:
         else:
             print("Form submission status unclear")
     
-    # Wait a bit to see the result
     time.sleep(3)
 
 except Exception as e:
-    # If an error occurs, print the error message
     print(f"Error: {e}")
 
 finally:
-    # Close the driver after the test
     driver.quit()
