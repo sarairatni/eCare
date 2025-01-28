@@ -18,6 +18,7 @@ import {
   selector: 'app-creer-dpi',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  providers: [MedecinService],
   templateUrl: './creer-dpi.component.html',
   styleUrls: ['./creer-dpi.component.css'],
 })

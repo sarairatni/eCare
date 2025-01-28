@@ -1736,3 +1736,163 @@ def soins_by_dossier(request, dossier_id):
         return JsonResponse({"status": "success", "soins": soins_list}, safe=False)
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
+    
+@csrf_exempt
+
+def create_examen_biologique(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            interpretations=data.get('interpretations')
+            # Extract data
+            type = data.get('type')
+            date = data.get('date')
+            resultat = data.get('resultat')
+            consultation_id = data.get('consultation_id')
+            parametres = data.get('parametres')
+            valeurs = data.get('valeurs')
+            graphique_tendance = data.get('graphique_tendance')
+            laborantin_id = data.get('laborantin_id')
+
+            if not all([type, date, resultat, consultation_id, parametres, valeurs, graphique_tendance, laborantin_id]):
+                return JsonResponse({'error': 'All fields are required'}, status=400)
+
+           
+            # Create ExBiologique
+            examen_biologique = ExBiologique.objects.create(
+                type=type,
+                date=date,
+                interpretations=interpretations,
+                resultat=resultat,
+                consultation_id=consultation_id,
+                parametres=parametres,
+                valeurs=valeurs,
+                graphique_tendance=graphique_tendance,
+                laborantin_id=laborantin_id
+            )
+
+            return JsonResponse({'message': 'Examen Biologique created successfully'}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt  
+def create_examen_radiologique(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            date = data.get('date')
+            resultat = data.get('resultat')
+            type = data.get('type')
+            consultation_id = data.get('consultation_id')
+            type_image = data.get('type_image')
+            fichier_image = data.get('fichier_image')
+            compte_rendu = data.get('compte_rendu')
+            radiologue_id = data.get('radiologue_id')
+
+            if not all([consultation_id, type_image, fichier_image, compte_rendu, radiologue_id]):
+                return JsonResponse({'error': 'All fields are required'}, status=400)
+
+        
+
+            # Create ExRadiologique
+            examen_radiologique = ExRadiologique.objects.create(
+                resultat=resultat,
+                type=type,
+                consultation_id=consultation_id,
+                date=date,
+                type_image=type_image,
+                fichier_image=fichier_image,
+                compte_rendu=compte_rendu,
+                radiologue_id=radiologue_id
+            )
+
+            return JsonResponse({
+                'message': 'Examen Radiologique created successfully',
+                'examen': {
+                   
+                    'type': examen_radiologique.type,
+                    'date': examen_radiologique.date,
+                    'type_image': examen_radiologique.type_image,
+                    'fichier_image': examen_radiologique.fichier_image,
+                    'compte_rendu': examen_radiologique.compte_rendu
+                }
+            }, status=201)
+
+        except Consultation.DoesNotExist:
+            return JsonResponse({'error': 'Consultation not found'}, status=404)
+        except Radiologue.DoesNotExist:
+            return JsonResponse({'error': 'Radiologue not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+@csrf_exempt
+def get_examen_biologique(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            consultation_id = data.get('consultation_id')
+
+            if not consultation_id:
+                return JsonResponse({"status": "error", "message": "consultation_id is required."}, status=400)
+
+            examens_biologiques = ExBiologique.objects.filter(consultation_id=consultation_id)
+            
+            # Serialize the results
+            examens_data = [
+                {
+                    "id": examen.id,
+                    "type": examen.type,
+                    "date": examen.date,
+                    "resultat": examen.resultat,
+                    "consultation_id": examen.consultation_id,
+                    "parametres": examen.parametres,
+                    "valeurs": examen.valeurs,
+                    "graphique_tendance": examen.graphique_tendance,
+                    "laborantin_id": examen.laborantin_id,
+                    "laborantin_nom": Laborantin.objects.get(id=examen.laborantin_id).nom,
+                    "laborantin_prenom": Laborantin.objects.get(id=examen.laborantin_id).prenom,
+                }
+                for examen in examens_biologiques
+            ]
+            return JsonResponse({"status": "success", "data": examens_data}, status=200)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+    return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
+
+@csrf_exempt
+def get_examen_radiologique(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            consultation_id = data.get('consultation_id')
+
+            if not consultation_id:
+                return JsonResponse({"status": "error", "message": "consultation_id is required."}, status=400)
+
+            examens_radiologiques = ExRadiologique.objects.filter(consultation_id=consultation_id)
+            
+            # Serialize the results
+            examens_data = [
+                {
+                    "id": examen.id,
+                    "type": examen.type,
+                    "date": examen.date,
+                    "resultat": examen.resultat,
+                    "consultation_id": examen.consultation_id,
+                    "type_image": examen.type_image,
+                    "fichier_image": examen.fichier_image,
+                    "compte_rendu": examen.compte_rendu,
+                    "radiologue_id": examen.radiologue_id,
+                    "radiologue_nom": Radiologue.objects.get(id=examen.laborantin_id).nom,
+                    "radiologue_prenom": Radiologue.objects.get(id=examen.laborantin_id).prenom,
+                }
+                for examen in examens_radiologiques
+            ]
+            return JsonResponse({"status": "success", "data": examens_data}, status=200)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+    return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
