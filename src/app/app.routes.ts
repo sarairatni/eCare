@@ -191,6 +191,20 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'infirmier',
+    loadComponent: () => import('./infirmier/infirmier-layout/infirmier-layout.component').then(m => m.InfirmierLayoutComponent),
+    children: [
+      {
+        path: 'profil',
+        loadComponent: () => import('./shared/profil/profil.component').then(m => m.ProfilComponent),
+      },
+      {
+        path: 'ajouter-soin',
+        loadComponent: () => import('./infirmier/ajouter-soin/ajouter-soin.component').then(m => m.AjouterSoinComponent),
+      }
+    ]
+  },
+  {
     path: '**',
     loadComponent: () => import('./404/not-found.component').then(m => m.NotFoundComponent),
   },

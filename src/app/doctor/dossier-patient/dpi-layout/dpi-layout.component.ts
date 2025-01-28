@@ -5,7 +5,6 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-dpi-layout',
-  standalone:true,
   imports: [NavbarDoctorComponent, CommonModule, RouterModule, RouterOutlet],
   templateUrl: './dpi-layout.component.html',
   styleUrl: './dpi-layout.component.css'

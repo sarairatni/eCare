@@ -11,7 +11,7 @@ export class PopupAjouterSoinComponent {
   typeSoin: string = "";
   description: string = "";
   observation: string = "";
-
+  
   modifierTypeSoin(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.typeSoin = input.value;

@@ -1,0 +1,14 @@
+<div class="w-[100vw] flex justify-between">
+    <app-sidebar
+      [selectionne]="selectionne()"
+      [personne]="personne"
+      [menuItems]="menuItems()"
+      class="hidden lg:block"
+    />
+  
+    <div class="w-[100%]">
+      <app-topbar [role]="3" [nom]="'Ladoul Mahdi'" />
+      <div class="px-10 justify-center"></div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
