@@ -1,0 +1,67 @@
+<div
+  class="grid max-h-[95vh] grid-rows-[20px_auto] w-full gap-6 overflow-y-auto font-[lexend] px-12"
+>
+  <div class="flex justify-between items-center">
+    <h2 class="text-base font-bold text-[#643869]">Nouvelle consultation</h2>
+  </div>
+
+  <form (ngSubmit)="submitForm()" class="flex text-sm flex-col gap-6">
+    <!-- Observation -->
+    <div class="flex-1">
+      <label class="block text-xs text-black mb-1">Motif:</label>
+      <textarea
+        placeholder="Saisir vos observations"
+        class="w-full bg-[#E0E0E0] text-black rounded-2xl px-4 py-2 outline-none"
+        style="height: 100px; resize: none"
+        [(ngModel)]="observations"
+        name="observation"
+      ></textarea>
+    </div>
+
+    <!-- Diagnostic -->
+    <div class="flex-1 w-full">
+      <label class="block text-xs text-black mb-1">Diagnostic:</label>
+      <div class="flex w-11/12 items-start gap-4">
+        <!-- Diagnostic area -->
+        <textarea
+          placeholder="Saisir le diagnostic"
+          class="w-full bg-[#E0E0E0] text-black rounded-2xl px-4 py-2 outline-none"
+          style="height: 100px; resize: none"
+          [(ngModel)]="diagnostic"
+          name="diagnostic"
+          [disabled]="isBilanChecked"
+        ></textarea>
+
+        <!-- Checkbox -->
+        <div class="flex items-center">
+          <input
+            type="checkbox"
+            class="w-4 h-4 accent-[#643869]"
+            id="purple-checkbox"
+            (change)="toggleBilan($event)"
+          />
+          <label for="purple-checkbox" class="ml-2 text-sm text-[#643869]">
+            Rédiger un bilan
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex text-xs gap-4">
+      <button
+        type="submit"
+        class="px-4 py-2 bg-gradient-to-r from-[#F6815A] to-[#E54E1B] rounded-full text-white"
+      >
+        {{ isBilanChecked ? "Rédiger un bilan" : "Rédiger ordonnance" }}
+      </button>
+      <button
+        type="button"
+        class="px-4 py-2 bg-[#D1CDCD] rounded-full text-black"
+        (click)="resetForm()"
+      >
+        Annuler
+      </button>
+    </div>
+  </form>
+</div>

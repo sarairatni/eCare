@@ -1,26 +1,25 @@
 <div
   class="w-full h-auto px-20 grid grid-rows-[10px_50px_auto] gap-6 font-lexend overflow-y-hidden"
 >
-  <h2 class="text-base font-semibold text-[#643869]">Mes consultations</h2>
+  <h2 class="text-base font-semibold text-[#643869]">Mes patients</h2>
   <div class="flex justify-between items-center px-4">
     <div class="flex items-center gap-3">
       <!-- search bar -->
-      <div class="px-3 bg-[#E2E2E2] rounded-full flex gap-2 w-fit">
-        <img src="/search.svg" />
+      <div
+        class="pl-3 pr-1 bg-[#E2E2E2] rounded-full flex items-center gap-2 w-fit"
+      >
         <input
+          #searchInput
           type="text"
           class="min-w-96 w-[20vw] ml-1 font-[Lexend] h-8 bg-inherit text-sm font-base focus:outline-none"
           placeholder="Rechercher un DPI par NSS"
         />
-      </div>
-      <div
-        class="w-8 h-8 rounded-full bg-[#E2E2E2] flex items-center justify-center"
-      >
-        <img
-          src="/icons/qr_scan.svg"
-          alt="QR Code"
-          class="w-4 h-4 object-cover"
-        />
+        <div
+          class="bg-gray-500 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer"
+          (click)="rechercherPatient(searchInput.value)"
+        >
+          <img src="/search.svg" alt="Rechercher" class="w-4 h-4" />
+        </div>
       </div>
     </div>
     <button
@@ -30,7 +29,7 @@
       Créer un DPI
     </button>
   </div>
-  <!-- tableau des consultations -->
+  <!-- tableau des patients -->
   <div class="w-full">
     <div class="overflow-y-auto max-h-[350px]">
       <table
@@ -54,10 +53,10 @@
           <tr
             *ngFor="let patient of listePatients"
             class="hover:bg-gray-100 font-light text-sm"
-            (click)="navigateToConsultations(patient.nss)"
+            (click)="navigateToConsultations(patient.dossier_id)"
           >
             <td class="pl-10 px-4 py-2">
-              {{ patient.nom }} {{ patient.prenom }}
+              {{ patient.nom }}
             </td>
 
             <td class="px-4 py-2">{{ patient.nss }}</td>

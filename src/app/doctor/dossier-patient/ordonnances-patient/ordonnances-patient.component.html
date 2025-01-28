@@ -38,6 +38,7 @@
                 >
                   <a
                     class="text-gray-500 hover:underline hover:text-black"
+                    (click)="viewDetails(o)"
                     [routerLink]="[o.id]"
                     [relativeTo]="activatedRoute"
                     ><img src="/icons/eye.svg" alt="edit" class="w-5 h-5"
