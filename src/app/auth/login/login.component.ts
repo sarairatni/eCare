@@ -70,6 +70,10 @@ export class LoginComponent {
       return '/doctor/dashboard'; // Navigate to doctor dashboard
     } else if (currentRole === 0) {
       return '/patient/dashboard'; // Navigate to patient dashboard
+    }else if (currentRole === 3) {
+      return '/patient/dashboard'; // Navigate to patient dashboard
+    }else if (currentRole === 4) {
+      return '/patient/dashboard'; // Navigate to patient dashboard
     } else {
       return '/'; // Default route if role is invalid
     }
