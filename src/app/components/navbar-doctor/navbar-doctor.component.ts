@@ -31,6 +31,6 @@ export class NavbarDoctorComponent {
 
   getRoute(route: string) {
     const nss = this.route.snapshot.paramMap.get('nss'); // Get NSS from URL
-    return `/doctor/mes-patients/${nss}/${route}`;
+    return `/doctor/dpi/${nss}/${route}/${nss}`;
   }
 }

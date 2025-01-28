@@ -24,13 +24,17 @@ export class DpiLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     // Get the ID from the route params
-    this.route.params.subscribe(params => {
-      this.id_dossier = params['nss'];
+    this.route.paramMap.subscribe(paramMap => {
+      const nss = paramMap.get('nss'); // Safely retrieve the 'nss' parameter
+      console.log('Parent route param nss:', nss);
+      this.id_dossier = nss;
+      console.log("hawlik ", this.id_dossier)
       if (this.id_dossier) {
         this.loadPatientData();
       }
     });
   }
+
 
   private loadPatientData(): void {
     if (!this.id_dossier) return;

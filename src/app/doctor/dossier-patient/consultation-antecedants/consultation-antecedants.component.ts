@@ -31,7 +31,7 @@ export class ConsultationAntecedantsComponent implements OnInit {
 
   ngOnInit(): void {
     // Log route parameters
-    this.activatedRoute.paramMap.subscribe((params) => {
+    this.activatedRoute.paramMap.subscribe(params => {
       this.nss = params.get('nss') || ''; // Store the nss parameter
       this.dossierId = params.get('nss') || ''; // Store the dossier_id parameter
 
@@ -110,7 +110,7 @@ export class ConsultationAntecedantsComponent implements OnInit {
       console.log(
         'All antecedants submitted, navigating to consultations page.'
       );
-      this.router.navigate([`/doctor/mes-patients/${this.nss}/consultations`]);
+      this.router.navigate([`/doctor/dpi/${this.nss}/consultations/${this.nss}`]);
     } else {
       console.error('Dossier ID is missing. Cannot create antecedants.');
     }

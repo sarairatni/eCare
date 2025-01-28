@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,21 +11,26 @@ import { HttpClientModule } from '@angular/common/http';
   templateUrl: './consultations-patient.component.html',
   styleUrls: ['./consultations-patient.component.css'],
 })
-export class ConsultationsPatientComponent {
+export class ConsultationsPatientComponent implements OnInit {
   user: any = null;
   listeConsultations: any[] = [];
   id_dossier: string | null = null;
 
-  constructor(private http: HttpClient, public activatedRoute: ActivatedRoute) {
-    this.activatedRoute.parent?.params.subscribe((params) => {
-      console.log('Parent route params:', params);
-      this.id_dossier = params['nss'];
-      console.log('ID dossier:', this.id_dossier);
+  constructor(private http: HttpClient, public activatedRoute: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(paramMap => {
+      const nss = paramMap.get('nss'); // Safely retrieve the 'nss' parameter
+      console.log('Parent route param nss:', nss);
+      this.id_dossier = nss;
       if (this.id_dossier) {
         this.getConsultations(this.id_dossier);
       }
     });
+    this.fetchExamsForConsultations();
   }
+   
+ 
 
   getConsultations(dossierId: string) {
     this.http
@@ -38,8 +43,11 @@ export class ConsultationsPatientComponent {
             this.http
               .get(`http://127.0.0.1:8000/medecins/${consultation.medecin_id}/`)
               .subscribe(
+                
                 (medecinData: any) => {
-                  console.log('Médecin:', consultation.medecin_id, medecinData);
+                  this.getBiologique(consultation.id);
+                  this.getRadiologique(consultation.id);
+                  console.log('Medecin:', consultation.medecin_id, medecinData);
                   const consultationWithMedecin = {
                     date: consultation.date,
                     medecin: `Dr. ${medecinData.nom} ${medecinData.prenom}`,
@@ -65,4 +73,45 @@ export class ConsultationsPatientComponent {
         }
       );
   }
+
+  fetchExamsForConsultations(): void {
+    for (const consultation of this.listeConsultations) {
+      console.log(consultation.id);
+      this.getBiologique(consultation.id);
+      this.getRadiologique(consultation.id);
+    }
+  }
+
+  biologiques :any[] = [];
+  radiologiques :any[] = [];
+  getBiologique(consultationId: number): void {
+    // Make a request to get ordonnances for the given consultation ID
+    this.http.post<any>(`http://localhost:8000/getbiologique/`, { consultation_id: consultationId })
+      .subscribe(
+        biologiques => {
+          this.biologiques.push(...biologiques.data);
+          console.log(this.biologiques)
+          console.log("biooo"); // Merge ordonnances results into the ordonnances array
+        },
+        error => {
+          console.error(`Error fetching ordonnances for consultation ${consultationId}:`, error);
+        }
+      );
+  }
+
+  getRadiologique(consultationId: number): void {
+    // Make a request to get ordonnances for the given consultation ID
+    this.http.post<any>(`http://localhost:8000/getradiologique/`, { consultation_id: consultationId })
+      .subscribe(
+        radiologiques => {
+          this.radiologiques.push(...radiologiques.data);
+          console.log(this.radiologiques)
+          console.log("radiooo"); // Merge ordonnances results into the ordonnances array
+        },
+        error => {
+          console.error(`Error fetching ordonnances for consultation ${consultationId}:`, error);
+        }
+      );
+  }
+
 }

@@ -53,7 +53,7 @@
           <tr
             *ngFor="let patient of listePatients"
             class="hover:bg-gray-100 font-light text-sm"
-            (click)="navigateToConsultations(patient.dossier_id)"
+            
           >
             <td class="pl-10 px-4 py-2">
               {{ patient.nom }}
@@ -64,7 +64,7 @@
             <td class="px-4 py-2">{{ patient.date_dentree }}</td>
             <td class="px-4 py-2">
               <a
-                [routerLink]="['/doctor/mes-patient', patient.nss]"
+                [routerLink]="['/doctor/dpi', patient.dossier_id,'consultations', patient.dossier_id]"
                 class="text-gray-500 hover:underline hover:text-black"
                 ><img src="/icons/edit.svg" alt="edit" class="w-5 h-5"
               /></a>

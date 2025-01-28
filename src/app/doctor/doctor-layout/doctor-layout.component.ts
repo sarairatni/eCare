@@ -24,17 +24,17 @@ export class DoctorLayoutComponent {
     {
       text: 'Dashboard',
       iconUrl: '/dashboard.svg',
-      route: '/doctor/dashboard',
+      path: '/doctor/dashboard',
     },
     {
       text: 'Mes patients',
       iconUrl: '/icons/albums.svg',
-      route: '/doctor/mes-patients',
+      path: '/doctor/mes-patients',
     },
     {
       text: 'Mon profil',
       iconUrl: '/profil.svg',
-      route: '/doctor/mon-profil',
+      path: '/doctor/mon-profil',
     },
   ]);
 

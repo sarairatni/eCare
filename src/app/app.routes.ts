@@ -2,6 +2,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PatientGuard } from './guards/patient.guard';
+import { NouvelleConsultationComponent } from './doctor/dossier-patient/nouvelle-consultataion/nouvelle-consultataion.component';
+import { ConsultationOrdonnanceComponent } from './doctor/dossier-patient/consultation-ordonnance/consultation-ordonnance.component';
+import { ConsultationBilanComponent } from './doctor/dossier-patient/consultation-bilan/consultation-bilan.component';
+import { ConsultationAntecedantsComponent } from './doctor/dossier-patient/consultation-antecedants/consultation-antecedants.component';
 export const routes: Routes = [
   {
     path: '',
@@ -91,6 +95,7 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () => import('./doctor/doctor-dashboard/doctor-dashboard.component').then(m => m.DoctorDashboardComponent),
       },
+      
       {
         path: 'mes-patients',
         children: [
@@ -98,62 +103,79 @@ export const routes: Routes = [
             path: '',
             loadComponent: () => import('./doctor/mes-patients/mes-patients.component').then(m => m.MesPatientsComponent),
           },
+        ],
+      },
+     
+      {
+        path: 'dpi/:nss',
+        loadComponent: () => import('./doctor/dossier-patient/dpi-layout/dpi-layout.component').then(m => m.DpiLayoutComponent),
+        children: [
           {
-            path: ':nss',
-            loadComponent: () => import('./doctor/dossier-patient/dpi-layout/dpi-layout.component').then(m => m.DpiLayoutComponent),
+            path: ':nss/nouvelle-consultation/ordonnance/:consultationId',
+            component: ConsultationOrdonnanceComponent,
+          },
+          {
+            path: ':nss/nouvelle-consultation/bilan/:consultationId',
+            component: ConsultationBilanComponent,
+          },
+          {
+            path: ':nss/nouvelle-consultation/antecedants',
+            component: ConsultationAntecedantsComponent,
+          },
+          {
+            path: 'nouvelle-consultation/:nss',
+            loadComponent: () => import('./doctor/dossier-patient/nouvelle-consultataion/nouvelle-consultataion.component').then(m => m.NouvelleConsultationComponent),
+          },
+          {
+            path: 'consultations/:nss',
             children: [
               {
-                path: 'consultations',
-                children: [
-                  {
-                    path: '',
-                    loadComponent: () => import('./doctor/dossier-patient/consultations-patient/consultations-patient.component').then(m => m.ConsultationsPatientComponent),
-                  },
-                  {
-                    path: ':id',
-                    loadComponent: () => import('./doctor/dossier-patient/details-consultation/details-consultations.component').then(m => m.DetailsConsultationsComponent),
-                  },
-                ],
+                path: '',
+                loadComponent: () => import('./doctor/dossier-patient/consultations-patient/consultations-patient.component').then(m => m.ConsultationsPatientComponent),
               },
               {
-                path: 'ordonnances',
-                children: [
-                  {
-                    path: '',
-                    loadComponent: () => import('./doctor/dossier-patient/ordonnances-patient/ordonnances-patient.component').then(m => m.OrdonnancesPatientComponent),
-                  },
-                  {
-                    path: ':id',
-                    loadComponent: () => import('./doctor/dossier-patient/details-ordonnance/details-ordonnance.component').then(m => m.DetailsOrdonnanceComponent),
-                  },
-                ],
-              },
-              {
-                path: 'resultats-med',
-                children: [
-                  {
-                    path: '',
-                    loadComponent: () => import('./patient/patient-results/patient-results.component').then(m => m.PatientResultsComponent),
-                  },
-                  {
-                    path: 'analyse/:id',
-                    loadComponent: () => import('./patient/patient-results/analyse/analyse.component').then(m => m.AnalyseComponent),
-                  },
-                  {
-                    path: 'imagerie/:id',
-                    loadComponent: () => import('./patient/patient-results/imagerie/imagerie.component').then(m => m.ImagerieComponent),
-                  },
-                ],
-              },
-              {
-                path: 'antecedents-med',
-                loadComponent: () => import('./patient/patient-antecedents/patient-antecedents.component').then(m => m.PatientAntecedentsComponent),
-              },
-              {
-                path: 'soins',
-                loadComponent: () => import('./doctor/dossier-patient/soins/soins.component').then(m => m.SoinsComponent),
+                path: ':id',
+                loadComponent: () => import('./doctor/dossier-patient/details-consultation/details-consultations.component').then(m => m.DetailsConsultationsComponent),
               },
             ],
+          },
+          {
+            path: 'ordonnances/:nss',
+            children: [
+              {
+                path: '',
+                loadComponent: () => import('./doctor/dossier-patient/ordonnances-patient/ordonnances-patient.component').then(m => m.OrdonnancesPatientComponent),
+              },
+              {
+                path: ':id',
+                loadComponent: () => import('./doctor/dossier-patient/details-ordonnance/details-ordonnance.component').then(m => m.DetailsOrdonnanceComponent),
+              },
+            ],
+          },
+          {
+            path: 'resultats-med/:nss',
+            children: [
+              {
+                path: '',
+                loadComponent: () => import('./patient/patient-results/patient-results.component').then(m => m.PatientResultsComponent),
+              },
+              {
+                path: 'analyse/:id',
+                loadComponent: () => import('./patient/patient-results/analyse/analyse.component').then(m => m.AnalyseComponent),
+              },
+              {
+                path: 'imagerie/:id',
+                loadComponent: () => import('./patient/patient-results/imagerie/imagerie.component').then(m => m.ImagerieComponent),
+              },
+            ],
+          },
+          {
+            path: 'antecedents-med/:nss',
+            loadComponent: () => import('./patient/patient-antecedents/patient-antecedents.component').then(m => m.PatientAntecedentsComponent),
+          },
+          {
+            path: 'soins/:nss',
+            loadComponent: () => import('./doctor/dossier-patient/soins/soins.component').then(m => m.SoinsComponent),
           },
         ],
       },

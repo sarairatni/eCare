@@ -28,7 +28,7 @@ export class ConsultationOrdonnanceComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
+    this.activatedRoute.paramMap.subscribe(params => {
       this.nss = params.get('nss') || '';
       this.consultationId = params.get('consultationId') || '';
     });
@@ -57,7 +57,8 @@ export class ConsultationOrdonnanceComponent implements OnInit {
   CreateOrdonnance() {
     if (this.consultationId) {
       const ordonnanceData = {
-        date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+        date: new Date().toISOString().split('T')[0],
+       // YYYY-MM-DD
         medicaments: this.medicaments.map((medicament) => ({
           nom: medicament.nom,
           dosage: medicament.dosage,

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -26,12 +26,12 @@ export class CreerDpiComponent implements OnInit {
   showError: boolean = false;
   medecins: Medecin[] = [];
   errorMessage: string = '';
-
+ 
   constructor(
-    private fb: FormBuilder,
     private medecinService: MedecinService,
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private fb: FormBuilder
   ) {
     this.form = this.fb.group({
       nss: ['', Validators.required],
@@ -87,28 +87,6 @@ export class CreerDpiComponent implements OnInit {
 
       // First create the patient
       this.authService.signupPatient(signupData).subscribe({
-        next: (response) => {
-          // After patient creation, create the dossier
-          const dossierData = {
-            date_creation: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-            num_securite_sociale: formData.nss,
-          };
-
-          this.http
-            .post('http://127.0.0.1:8000/create_dossier_patient/', dossierData)
-            .subscribe({
-              next: (dossierResponse) => {
-                console.log('Patient and dossier created successfully');
-                this.showError = false;
-                this.form.reset();
-              },
-              error: (dossierError) => {
-                console.error('Error creating dossier:', dossierError);
-                this.errorMessage = 'Failed to create patient dossier';
-                this.showError = true;
-              },
-            });
-        },
         error: (error) => {
           console.error('Error creating patient:', error);
           this.errorMessage =
