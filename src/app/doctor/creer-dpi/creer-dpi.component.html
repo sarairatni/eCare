@@ -1,17 +1,49 @@
-<div
-  class="w-full h-auto px-20 grid grid-rows-[30px_auto] gap-4 font-lexend overflow-y-hidden"
->
+<div class="w-full h-auto px-20 grid grid-rows-[30px_auto] gap-4 font-lexend overflow-y-hidden">
   <h2 class="text-base font-semibold text-[#643869]">&gt; Créer un DPI</h2>
 
-  <!-- Formulaire -->
+  <!-- Error message -->
+  <div *ngIf="errorMessage" class="text-red-500 text-sm mb-4">
+    {{ errorMessage }}
+  </div>
+
   <form class="flex flex-col gap-8" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="grid grid-cols-2 gap-20">
       <!-- Column 1 -->
       <div class="space-y-6">
+        <!-- User account fields -->
         <div class="flex flex-col text-sm">
-          <label class="mb-4 text-sm font-semibold"
-            >Numéro de sécurité sociale</label
-          >
+          <label class="mb-4 text-sm font-semibold">Username</label>
+          <input
+            type="text"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="username"
+            placeholder="Username"
+          />
+        </div>
+
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Password</label>
+          <input
+            type="password"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="password"
+            placeholder="Password"
+          />
+        </div>
+
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Email</label>
+          <input
+            type="email"
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="email"
+            placeholder="email@example.com"
+          />
+        </div>
+
+        <!-- Existing fields -->
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Numéro de sécurité sociale</label>
           <input
             type="text"
             class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
@@ -39,15 +71,6 @@
             placeholder="Adresse"
           />
         </div>
-        <div class="flex flex-col text-sm">
-          <label class="mb-4 text-sm font-semibold">Médecin traitant</label>
-          <input
-            type="text"
-            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
-            formControlName="med_traitant"
-            placeholder="Nom du médecin"
-          />
-        </div>
       </div>
 
       <!-- Column 2 -->
@@ -55,10 +78,9 @@
         <div class="flex flex-col text-sm">
           <label class="mb-4 text-sm font-semibold">Date de naissance</label>
           <input
-            type="text"
+            type="date"
             class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
             formControlName="date_naissance"
-            placeholder="22/02/1998"
           />
         </div>
 
@@ -81,22 +103,33 @@
             placeholder="05........"
           />
         </div>
+
+        <div class="flex flex-col text-sm">
+          <label class="mb-4 text-sm font-semibold">Médecin traitant</label>
+          <select
+            class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
+            formControlName="med_traitant"
+          >
+            <option value="">Sélectionner un médecin</option>
+            <option *ngFor="let medecin of medecins" [value]="medecin.id">
+              Dr. {{ medecin.nom }} {{ medecin.prenom }}
+            </option>
+          </select>
+        </div>
+
         <div class="flex flex-col text-sm">
           <label class="mb-4 text-sm font-semibold">Personne à contacter</label>
           <input
             type="text"
             class="bg-[#E5E5E5] placeholder-gray-500 px-4 py-2 rounded-lg outline-none"
             formControlName="contact"
-            placeholder="05........"
+            placeholder="Nom et numéro"
           />
         </div>
       </div>
     </div>
-    <!-- error msg -->
-    <small *ngIf="showError" class="text-red-500 text-xs">
-      Il faut remplir tous les champs du DPI
-    </small>
-    <!-- valider button -->
+
+    <!-- Submit button -->
     <div class="col-span-2">
       <button
         type="submit"

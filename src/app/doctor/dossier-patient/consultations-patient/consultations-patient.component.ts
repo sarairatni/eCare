@@ -12,8 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./consultations-patient.component.css'],
 })
 export class ConsultationsPatientComponent {
-  id_dossier: string | null = null;
+  user: any = null;
   listeConsultations: any[] = [];
+  id_dossier: string | null = null;
 
   constructor(private http: HttpClient, public activatedRoute: ActivatedRoute) {
     this.activatedRoute.parent?.params.subscribe((params) => {
@@ -38,6 +39,7 @@ export class ConsultationsPatientComponent {
               .get(`http://127.0.0.1:8000/medecins/${consultation.medecin_id}/`)
               .subscribe(
                 (medecinData: any) => {
+                  console.log('Médecin:', consultation.medecin_id, medecinData);
                   const consultationWithMedecin = {
                     date: consultation.date,
                     medecin: `Dr. ${medecinData.nom} ${medecinData.prenom}`,

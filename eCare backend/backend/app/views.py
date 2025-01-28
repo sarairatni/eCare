@@ -1,5 +1,6 @@
 from datetime import datetime
 from venv import logger
+from django.db import connection
 from django.shortcuts import get_list_or_404, render, redirect
 from django.http import HttpResponse
 from .models import *
@@ -150,8 +151,6 @@ def medecin_list(request):
     medecin_dicts = [model_to_dict(medecin) for medecin in medecins]
     return JsonResponse(medecin_dicts, safe=False)
 
-@csrf_exempt
-# details of a medecin by his id
 @require_http_methods(["GET", "POST"])
 def medecin_detail(request, id):
     if request.method == 'POST':
@@ -159,6 +158,8 @@ def medecin_detail(request, id):
 
     try:
         medecin = Medecin.objects.get(pk=id)
+        # with connection.cursor() as cursor:
+        #     print(cursor.db.ops.last_executed_query(cursor))
         return JsonResponse(model_to_dict(medecin))
     except Medecin.DoesNotExist:
         return JsonResponse({'error': 'Medecin not found'}, status=404)
@@ -1457,7 +1458,7 @@ def consultations_by_patient(request, dossier_id):
     try:
         # Obtenir toutes les consultations du patient
         consultations = Consultation.objects.filter(dossier_id=dossier_id)
-
+        
         # Transformer les objets Consultation en dictionnaires
         consultations_list = list(consultations.values("id", "motif", "date", "resume", "dossier_id", "medecin_id"))
         logger.info(f"Consultations après transformation: {consultations_list}")
@@ -1562,8 +1563,8 @@ def create_bilan_biologique(request, consultation_id, dossier_id):
             data = json.loads(request.body)
             observation = data.get('observation', '')
             pression_arterielle = data.get('pression_arterielle', True)
-            glycemie = data.get('glycémie', True)
-            cholestérol_total = data.get('cholestérol_total', True)
+            glycemie = data.get('glycemie', True)
+            cholesterol_total = data.get('cholesterol_total', True)
 
             # Create the BilanBiologique instance
             bilan = BilanBiologique.objects.create(
@@ -1572,7 +1573,7 @@ def create_bilan_biologique(request, consultation_id, dossier_id):
                 observation=observation,
                 pression_arterielle=pression_arterielle,
                 glycemie=glycemie,
-                cholestérol_total=cholestérol_total
+                cholesterol_total=cholesterol_total
             )
             return JsonResponse({'message': 'Bilan Biologique created successfully', 'id': bilan.id}, status=201)
         except Exception as e:
@@ -1584,13 +1585,13 @@ def create_bilan_radiologique(request, consultation_id, dossier_id):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            description = data.get('description', '')
+            observation = data.get('observation', '')
 
             # Create the BilanRadiologique instance
             bilan = BilanRadiologique.objects.create(
                 consultation_id=consultation_id,
                 dossier_id=dossier_id,
-                description=description
+                observation=observation
             )
             return JsonResponse({'message': 'Bilan Radiologique created successfully', 'id': bilan.id}, status=201)
         except Exception as e:

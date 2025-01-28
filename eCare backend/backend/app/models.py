@@ -69,7 +69,7 @@ class Radiologue(models.Model):
 
 class Consultation(models.Model):
     motif = models.CharField(max_length=255)
-    date = models.TextField()
+    date = models.DateField()
     resume = models.TextField()
     dossier_id = models.CharField(max_length=50)
     medecin_id = models.CharField(max_length=50)
@@ -152,7 +152,7 @@ class BilanBiologique(models.Model):
     observation = models.TextField(blank=True, null=True)
     pression_arterielle  = models.BooleanField(default=False)  
     glycemie = models.BooleanField(default=False)
-    cholestérol_total = models.BooleanField(default=False)
+    cholesterol_total = models.BooleanField(default=False)
     def str(self):
         return f"Bilan Biologique - {self.patient} ({self.date_creation})"
 

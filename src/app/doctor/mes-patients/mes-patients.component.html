@@ -5,22 +5,21 @@
   <div class="flex justify-between items-center px-4">
     <div class="flex items-center gap-3">
       <!-- search bar -->
-      <div class="px-3 bg-[#E2E2E2] rounded-full flex gap-2 w-fit">
-        <img src="/search.svg" />
+      <div
+        class="pl-3 pr-1 bg-[#E2E2E2] rounded-full flex items-center gap-2 w-fit"
+      >
         <input
+          #searchInput
           type="text"
           class="min-w-96 w-[20vw] ml-1 font-[Lexend] h-8 bg-inherit text-sm font-base focus:outline-none"
           placeholder="Rechercher un DPI par NSS"
         />
-      </div>
-      <div
-        class="w-8 h-8 rounded-full bg-[#E2E2E2] flex items-center justify-center"
-      >
-        <img
-          src="/icons/qr_scan.svg"
-          alt="QR Code"
-          class="w-4 h-4 object-cover"
-        />
+        <div
+          class="bg-gray-500 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer"
+          (click)="rechercherPatient(searchInput.value)"
+        >
+          <img src="/search.svg" alt="Rechercher" class="w-4 h-4" />
+        </div>
       </div>
     </div>
     <button
@@ -74,16 +73,5 @@
         </tbody>
       </table>
     </div>
-    <!-- </div>
-<ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
-
-<span>{{ action.data.value | json }}</span>
-<span>{{ action.data | async | json }}</span>
-
-<p *ngIf="action.isLoading">⌛ Loading...</p>
-
-
-<button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button>
-</div> -->
   </div>
 </div>

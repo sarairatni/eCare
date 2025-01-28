@@ -24,6 +24,9 @@ interface Patient {
 })
 export class MesPatientsComponent implements OnInit {
   user: any;
+  listePatients: Patient[] = [];
+  fullListePatients: Patient[] = []; // To store the full list of patients
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -36,15 +39,12 @@ export class MesPatientsComponent implements OnInit {
     console.log('User iiiiiiiid:', this.user.id);
     this.fetchPatients();
   }
-  listePatients: Patient[] = [];
 
   fetchPatients(): void {
-    // Create the payload with the user's ID
     const payload = {
       userId: this.user.id, // Send the user's ID here
     };
 
-    // Send a POST request to the backend with the user ID
     this.http
       .post<any>('http://127.0.0.1:8000/medecin/patients/', payload)
       .subscribe(
@@ -74,9 +74,9 @@ export class MesPatientsComponent implements OnInit {
 
                   patientsWithDossier.push(patientData);
 
-                  // Update the list only when all responses are received
                   if (patientsWithDossier.length === response.patients.length) {
                     this.listePatients = patientsWithDossier;
+                    this.fullListePatients = [...patientsWithDossier]; // Save full list
                   }
                 },
                 (error) => {
@@ -93,6 +93,7 @@ export class MesPatientsComponent implements OnInit {
 
                   if (patientsWithDossier.length === response.patients.length) {
                     this.listePatients = patientsWithDossier;
+                    this.fullListePatients = [...patientsWithDossier]; // Save full list
                   }
                 }
               );
@@ -116,6 +117,21 @@ export class MesPatientsComponent implements OnInit {
       age--;
     }
     return age;
+  }
+
+  rechercherPatient(nss: string): void {
+    if (!nss.trim()) {
+      this.listePatients = [...this.fullListePatients]; // Reset the list if input is empty
+      return;
+    }
+
+    this.listePatients = this.fullListePatients.filter(
+      (patient) => patient.nss === nss // Match exactly the NSS
+    );
+
+    if (this.listePatients.length === 0) {
+      console.warn('Aucun patient trouvé avec ce NSS.');
+    }
   }
 
   navigateToConsultations(dossier_id: string): void {

@@ -19,6 +19,7 @@ export class ConsultationBilanComponent implements OnInit {
   ) {}
 
   nss: string = '';
+  consultationId: string = '';
   type: string = 'Bilan biologique'; // Default to Bilan biologique
   observation: string = ''; // For Bilan Biologique
 
@@ -40,7 +41,8 @@ export class ConsultationBilanComponent implements OnInit {
   ngOnInit(): void {
     // Get the nss parameter from the route
     this.activatedRoute.paramMap.subscribe((params) => {
-      this.nss = params.get('nss') || ''; // Store the nss parameter
+      this.nss = params.get('nss') || '';
+      this.consultationId = params.get('consultationId') || '';
     });
   }
 
@@ -56,56 +58,41 @@ export class ConsultationBilanComponent implements OnInit {
     this.params.splice(index, 1);
   }
 
-  // Form submission for Bilan Biologique or Radiologique
   submitBilan() {
-    const dossierId = 'example_dossier_id'; // Replace with actual dossier ID
-    const consultationId = 'example_consultation_id'; // Replace with actual consultation ID
-
     let endpoint: string;
     let data: any;
 
-    // Default values for the attributes
-    let pression_arterielle: boolean = false;
-    let glycemie: boolean = false;
-    let cholestérol_total: boolean = false;
-
-    // Loop through the params array and set the boolean values based on the presence of certain values
-    this.params.forEach((param) => {
-      if (param.nom === 'Glycémie') {
-        glycemie = true;
-      }
-      if (param.nom === 'Niveaux de cholestérol') {
-        cholestérol_total = true;
-      }
-      if (param.nom === 'Pression artérielle') {
-        pression_arterielle = true;
-      }
-    });
-
-    // Check the type and assign the endpoint and data accordingly
     if (this.type === 'Bilan biologique') {
-      endpoint = `http://127.0.0.1:8000/medecin/bilan-biologique/create/${consultationId}/${dossierId}/`;
+      endpoint = `http://127.0.0.1:8000/medecin/bilan-biologique/create/${this.consultationId}/${this.nss}/`;
       data = {
         observation: this.observation,
-        pression_arterielle: pression_arterielle,
-        glycemie: glycemie,
-        cholestérol_total: cholestérol_total,
+        pression_arterielle: false,
+        glycemie: false,
+        cholesterol_total: false, 
       };
-    } else if (this.type === 'Bilan radiologique') {
-      endpoint = `http://127.0.0.1:8000/medecin/bilan-radiologique/create/${consultationId}/${dossierId}/`;
-      data = {
-        description: this.observation,
-      };
+
+      // Update boolean values based on params
+      this.params.forEach((param) => {
+        if (param.nom === 'Glycémie') {
+          data.glycemie = true;
+        }
+        if (param.nom === 'Niveaux de cholestérol') {
+          data.cholesterol_total = true;
+        }
+        if (param.nom === 'Pression artérielle') {
+          data.pression_arterielle = true;
+        }
+      });
     } else {
-      console.error('Invalid bilan type');
-      return; // Early exit if the type is invalid
+      endpoint = `http://127.0.0.1:8000/medecin/bilan-radiologique/create/${this.consultationId}/${this.nss}/`;
+      data = {
+        observation: this.observation, // Changed from description to observation to match backend
+      };
     }
 
-    // Now the endpoint will always have a value before it's used
     this.http.post(endpoint, data).subscribe({
       next: (response) => {
         console.log(`${this.type} created successfully:`, response);
-        // Navigate or perform any other action after successful creation
         this.router.navigate([
           `/doctor/mes-patients/${this.nss}/nouvelle-consultation/antecedants`,
         ]);
