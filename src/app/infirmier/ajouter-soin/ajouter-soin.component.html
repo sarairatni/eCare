@@ -75,5 +75,10 @@
     </div>
   </div>
   <!-- popup -->
-  
+  <app-popup-ajouter-soin
+    class="z-50"
+    [nss]="selectedNss"
+    *ngIf="popupVisible"
+    (clickClose)="masquerPopup()"
+  />
 </div>

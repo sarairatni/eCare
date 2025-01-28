@@ -14,7 +14,7 @@ export class AjouterAnalyseBioComponent implements OnInit {
   listeAnalysesBio : any;
   showPopup = false;
   dpi_id: string | null = null;
-
+  dpi_updated:string | null= null;
   user: any;
   consultations: any;
 
@@ -71,23 +71,37 @@ export class AjouterAnalyseBioComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listeAnalysesBio = response;
-          console.log(this.listeAnalysesBio);
+          console.log("ch",this.listeAnalysesBio);
         },
         error: (error) => {
           console.error('Error fetching analyses biologiques:', error);
         }
       });
-      this.http.get<any>(`http://127.0.0.1:8000/patients/${this.dpi_id}/consultations/`, { headers })
-    .subscribe({
-      next: (response) => {
+    this.http.get<any>(
+        `http://127.0.0.1:8000/search_dossier_patient_by_id/${this.dpi_id}/`
+      )
+      .subscribe(
+        (dossierResponse) => {
+          console.log(dossierResponse);
+          console.log(dossierResponse.dossier_patient.id);
+          const dp = dossierResponse.dossier_patient.id || 'N/A';
+          this.dpi_updated=dp;
+          console.log(this.dpi_updated);
+          this.http.get<any>(`http://127.0.0.1:8000/patients/${this.dpi_updated}/consultations/`, { headers })
+        .subscribe({
+         next: (response) => {
         this.consultations = response.consultations;
-        console.log(this.consultations);
-      },
+        console.log("cons",this.consultations);
+        },
       error: (error) => {
         console.error('Error fetching consultations:', error);
       }
-    });
+    })
+         }
+        ); 
   }
+  
+  
 
   getTodayDate(): string {
     const today = new Date();
@@ -115,7 +129,7 @@ export class AjouterAnalyseBioComponent implements OnInit {
     console.log(this.getTodayDate());
     console.log(this.resultat);
     console.log(this.consultation_id);
-    console.log(this.valeurs);
+    console.log(this.valeurMesuree);
     console.log("upward");
     console.log(this.user.id);
     console.log(this.interpretation);

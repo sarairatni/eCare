@@ -1,16 +1,60 @@
-import { NgIf, NgStyle } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { Component, Input,  Output, EventEmitter, OnInit } from '@angular/core';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-popup-ajouter-radio',
-  imports: [NgIf, NgStyle],
+  imports: [NgIf, NgStyle, NgFor],
   templateUrl: './popup-ajouter-radio.component.html',
   styleUrl: './popup-ajouter-radio.component.css'
 })
-export class PopupAjouterRadioComponent {
+export class PopupAjouterRadioComponent implements OnInit {
+
+  user: any;
+  dossierPatient: any;
+  consultations: any;
+  consultation_id: number = 0;
+  dpi_updated='';
+  @Input() nss: string = '';
+  @Input() id: number = 0;
+
   typeExamen: string = "";
   resumeRapport: string = "";
   uploadedImage: string | null = null;
+
+  constructor(private authService: AuthService, private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.user = this.authService.getUser();
+    // get the dossier patiend (for the id)
+    const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        });
+        this.http.get<any>(
+          `http://127.0.0.1:8000/search_dossier_patient_by_id/${this.id}/`
+        )
+        .subscribe(
+          (dossierResponse) => {
+            console.log(dossierResponse);
+            console.log(dossierResponse.dossier_patient.id);
+            const dp = dossierResponse.dossier_patient.id || 'N/A';
+            this.dpi_updated=dp;
+            console.log(this.dpi_updated);
+            this.http.get<any>(`http://127.0.0.1:8000/patients/${this.dpi_updated}/consultations/`, { headers })
+          .subscribe({
+           next: (response) => {
+          this.consultations = response.consultations;
+          console.log("cons",this.consultations);
+          },
+        error: (error) => {
+          console.error('Error fetching consultations:', error);
+        }
+      })
+           }
+          ); 
+  }
 
   modifierTypeExamen(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -32,6 +76,52 @@ export class PopupAjouterRadioComponent {
 
   removeImage(): void {
     this.uploadedImage = null;
+  }
+
+  @Output() clickClose = new EventEmitter<void>();
+
+  masquer() {
+    this.clickClose.emit(); 
+  }
+
+  getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed, so add 1
+    const day = today.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
+
+  updateSelectedConsultation(e: Event): void {
+    const target = e.target as HTMLSelectElement;
+    this.consultation_id = parseInt(target.value);
+    console.log("consul", this.consultation_id);
+  }
+
+  submitExamenRadiologique() : void {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    this.http.post<any>(`http://127.0.0.1:8000/examens/radiologiques/create/`, {
+      "type": this.typeExamen,
+      "date": this.getTodayDate(),
+      "resultat": "resultat",
+      "consultation_id": this.consultation_id,
+      "type_image": "radio",
+      "fichier_image": this.uploadedImage,
+      "compte_rendu": this.resumeRapport,
+      "radiologue_id": this.user.id
+    }, { headers })
+      .subscribe({
+        next: (response) => {
+          console.log("submitted successfully");
+        },
+        error: (error) => {
+          console.error('Error submitting examen radio:', error);
+        }
+      });
+      this.masquer();
   }
 
 }

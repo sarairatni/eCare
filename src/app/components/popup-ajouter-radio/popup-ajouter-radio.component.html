@@ -4,7 +4,12 @@
   <div class="w-[40vw] bg-[#643869] flex flex-col gap-10 p-10 rounded-3xl">
     <div class="flex flex-col gap-3">
       <div class="w-[100%] flex flex-row-reverse">
-        <img src="cancel.svg" alt="cancel" class="cursor-pointer" />
+        <img
+          src="cancel.svg"
+          alt="cancel"
+          class="cursor-pointer"
+          (click)="masquer()"
+        />
       </div>
       <label for="typeExamen">Type d'examen d'imagerie</label>
       <input
@@ -22,6 +27,21 @@
         class="p-3 rounded-3xl h-36 text-black"
         (change)="modifierResumeRapport($event)"
       ></textarea>
+    </div>
+    <div class="flex flex-col gap-3">
+      <label for="consultations_dropdown">Consultations</label>
+      <select
+        (change)="updateSelectedConsultation($event)"
+        id="consultations_dropdown"
+        class="w-[100%] text-black p-3 rounded-2xl"
+      >
+        <option
+          *ngFor="let consultation of consultations"
+          [value]="consultation.id"
+        >
+          {{ consultation.motif }} - {{ consultation.date }}
+        </option>
+      </select>
     </div>
     <button
       *ngIf="!uploadedImage"
@@ -53,6 +73,7 @@
       <div
         *ngIf="uploadedImage"
         class="bg-gradient-to-r from-[#F6815A] to-[#E54E1B] hover:from-[#E54E1B] hover:to-[#E54E1B] transition duration-300 text-white rounded-full w-52 flex items-center justify-center gap-1 px-5 cursor-pointer"
+        (click)="submitExamenRadiologique()"
       >
         <p class="px-6 py-3 font-[Lexend]">Valider</p>
       </div>

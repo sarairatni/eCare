@@ -34,7 +34,7 @@ export class DoctorDashboardComponent implements OnInit {
   public getAllConsultations() {
     this.http
       .get<any>(
-        `http://127.0.0.1:8000/medecin/consultation/list/${this.user.id}/`
+        `http://127.0.0.1:8000/medecin/consultation/list/`
       )
       .subscribe({
         next: (response) => {

@@ -73,7 +73,7 @@ export class LoginComponent {
     }else if (currentRole === 3) {
       return '/infirmier'; // Navigate to patient dashboard
     }else if (currentRole === 4) {
-      return '/patient/dashboard'; // Navigate to patient dashboard
+      return '/radiologue'; // Navigate to patient dashboard
     } else {
       return '/'; // Default route if role is invalid
     }
@@ -88,7 +88,9 @@ export class LoginComponent {
       return 'medecin';
     } 
     else if (currentRole === 3) {
-      return 'infirmier';}else if (currentRole === 0) {
+      return 'infirmier';}
+      else if (currentRole === 4) {
+        return 'radiologue';}else if (currentRole === 0) {
       return 'patient'; // Navigate to patient dashboard
     } else {
       return '/'; // Default route if role is invalid
