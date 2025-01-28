@@ -8,7 +8,7 @@
   <div>
     <button
       class="py-2 px-8 text-white text-sm rounded-full bg-gradient-to-r from-[#944C9C] to-[#643869]"
-      (click)="togglePopup()"
+      (click)="togglePopup($event)"
     >
       Ajouter un paramètre
     </button>
@@ -40,9 +40,9 @@
             *ngFor="let a of listeAnalysesBio"
             class="hover:bg-gray-50 font-light text-sm"
           >
-            <td class="px-4 py-2">{{ a.param }}</td>
-            <td class="px-4 py-2">{{ a.valeur_mesuree }}</td>
-            <td class="px-4 py-2">{{ a.valeur_normale }}</td>
+            <td class="px-4 py-2">{{ a.parametres }}</td>
+            <td class="px-4 py-2">{{ splitValeurs(a.valeurs)[0] }}</td>
+            <td class="px-4 py-2">{{ splitValeurs(a.valeurs)[1] }}</td>
             <td class="px-4 py-2">{{ a.interpretation }}</td>
             <td class="px-4 py-2">
               <a href="#" class="text-gray-500 hover:underline hover:text-black"
@@ -57,7 +57,8 @@
   <!-- Popup -->
   <div
     *ngIf="showPopup"
-    class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+    class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 parent"
+    (click)="togglePopup($event)"
   >
     <div
       class="w-[700px] h-[400px] bg-gradient-to-b from-[#944C9C] to-[#643869] text-white py-6 px-10 rounded-xl shadow-lg"
@@ -71,6 +72,7 @@
             type="text"
             placeholder="Type de paramètre"
             class="w-full bg-white text-black rounded-full px-4 py-2 outline-none"
+            (change)="modifierType($event)"
           />
         </div>
         <div class="flex-1">
@@ -79,6 +81,7 @@
             type="text"
             placeholder="Valeur mesurée"
             class="w-full bg-white text-black rounded-full px-4 py-2 outline-none"
+            (change)="modifierValeurMesuree($event)"
           />
         </div>
         <div class="flex-1">
@@ -87,6 +90,7 @@
             type="text"
             placeholder="Valeur normale"
             class="w-full bg-white text-black rounded-full px-4 py-2 outline-none"
+            (change)="modifierValeurNormale($event)"
           />
         </div>
       </div>
@@ -98,15 +102,31 @@
             placeholder="Interpretation"
             class="w-full bg-white text-black rounded-lg px-4 py-2 outline-none"
             style="height: 70px; resize: none"
+            (change)="modifierInterpretation($event)"
           ></textarea>
         </div>
-        <div>
+        <div class="flex flex-col gap-3">
+          <label for="consultations_dropdown">Consultations</label>
+          <select
+            (change)="updateSelectedConsultation($event)"
+            id="consultations_dropdown"
+            class="w-[100%] text-black p-3 rounded-2xl"
+          >
+            <option
+              *ngFor="let consultation of consultations"
+              [value]="consultation.id"
+            >
+              {{ consultation.motif }} - {{ consultation.date }}
+            </option>
+          </select>
+        </div>
+        <!-- <div>
           <button
             class="w-1/3 text-light text-sm py-2 px-6 rounded-full bg-white text-[#643869] shadow-lg"
           >
             Générer un graphique
           </button>
-        </div>
+        </div> -->
       </div>
       <!-- ligne 3 -->
       <div class="flex justify-end">

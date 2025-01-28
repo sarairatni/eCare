@@ -1,4 +1,4 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, input, signal, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { TopbarComponent } from '../../components/topbar/topbar.component';
@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-laborantin-layout',
+  selector: 'app-radiologue-layout',
   imports: [
     RouterModule,
     CommonModule,
@@ -15,10 +15,10 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
     TopbarComponent,
     RouterOutlet,
   ],
-  templateUrl: './laborantin-layout.component.html',
-  styleUrl: './laborantin-layout.component.css',
+  templateUrl: './radiologue-layout.component.html',
+  styleUrl: './radiologue-layout.component.css'
 })
-export class LaborantinLayoutComponent implements OnInit {
+export class RadiologueLayoutComponent implements OnInit {
   selectionne = signal(0);
   personne = 'Ladoul Mahdi';
 
@@ -28,13 +28,13 @@ export class LaborantinLayoutComponent implements OnInit {
     let user : any;
     user = this.authService.getUser();
     this.personne =  user.last_name + " " + user.first_name;
-    console.log(this.personne);
   }
+  
   menuItems = signal([
     {
-      text: 'Ajouter analyse',
+      text: 'Ajouter un examen',
       iconUrl: '/icons/albums.svg',
-      path: 'ajouter-analyse',
+      path: 'ajouter-radio',
     },
     {
       text: 'Mon profil',

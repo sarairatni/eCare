@@ -49,6 +49,7 @@
             <tr
               *ngFor="let dpi of filteredListeDPIs"
               [class.bg-[#FFA88B]]="dpi.nss === selectedNss"
+              [class.hover:bg-[#FFA88B]]="dpi.nss === selectedNss"
               (click)="selectDPI(dpi.nss, dpi.id)"
               class="hover:bg-gray-50 font-light text-sm cursor-pointer"
             >
@@ -65,12 +66,20 @@
     <!-- Bouton Ajouter -->
     <div class="flex items-center justify-center">
       <button
-        *ngIf="selectedNss !== null"
+        *ngIf="selectedNss !== ''"
         class="text-sm py-3 px-5 text-white bg-gradient-to-r from-[#F6815A] to-[#E54E1B] rounded-2xl font-light hover:from-orange-500 hover:to-orange-600"
-        (click)="navigateToAddAnalysis()"
+        (click)="afficherPopup()"
       >
-        Ajouter une analyse biologique
+        Ajouter un examen
       </button>
     </div>
   </div>
+  <!-- popup -->
+  <app-popup-ajouter-radio
+    class="z-50"
+    [nss]="selectedNss"
+    [id]="selectedId"
+    *ngIf="popupVisible"
+    (clickClose)="masquerPopup()"
+  />
 </div>

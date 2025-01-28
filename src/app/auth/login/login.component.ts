@@ -71,7 +71,7 @@ export class LoginComponent {
     } else if (currentRole === 0) {
       return '/patient/dashboard'; // Navigate to patient dashboard
     }else if (currentRole === 3) {
-      return '/patient/dashboard'; // Navigate to patient dashboard
+      return '/infirmier'; // Navigate to patient dashboard
     }else if (currentRole === 4) {
       return '/patient/dashboard'; // Navigate to patient dashboard
     } else {
@@ -86,7 +86,9 @@ export class LoginComponent {
       return 'laborantin'; // Navigate to laborantin dashboard
     } else if (currentRole === 1) {
       return 'medecin';
-    } else if (currentRole === 0) {
+    } 
+    else if (currentRole === 3) {
+      return 'infirmier';}else if (currentRole === 0) {
       return 'patient'; // Navigate to patient dashboard
     } else {
       return '/'; // Default route if role is invalid

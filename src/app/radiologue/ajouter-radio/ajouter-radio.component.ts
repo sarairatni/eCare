@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { PopupAjouterRadioComponent } from '../../components/popup-ajouter-radio/popup-ajouter-radio.component';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
-
 
 interface Dpi {
   id: number;
@@ -14,14 +14,18 @@ interface Dpi {
 }
 
 @Component({
-  selector: 'app-ajouter-analyse',
-  imports: [CommonModule, RouterModule],
-  templateUrl: './ajouter-analyse.component.html',
-  styleUrl: './ajouter-analyse.component.css',
+  selector: 'app-ajouter-radio',
+  imports: [CommonModule, RouterModule, PopupAjouterRadioComponent, NgIf],
+  templateUrl: './ajouter-radio.component.html',
+  styleUrl: './ajouter-radio.component.css'
 })
-export class AjouterAnalyseComponent implements OnInit {
+
+
+export class AjouterRadioComponent implements OnInit {
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) {};
+  
   recherche: string = "";
+  popupVisible : boolean = false;
   listePatients : any;
   selectedNss: string = '';
   selectedId: number = 0;
@@ -78,10 +82,11 @@ export class AjouterAnalyseComponent implements OnInit {
     this.selectedId = id;
   }
 
-  navigateToAddAnalysis(): void {
-    if (this.selectedId !== null) {
-      // Redirige vers la route avec le DPI ID
-      this.router.navigate(['/laborantin/ajouter-analyse', this.selectedId]);
-    }
+  afficherPopup(): void {
+    this.popupVisible = true;
+  }
+
+  masquerPopup(): void {
+    this.popupVisible = false;
   }
 }

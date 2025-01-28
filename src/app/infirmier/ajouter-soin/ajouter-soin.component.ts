@@ -84,6 +84,7 @@ export class AjouterSoinComponent implements OnInit {
   }
 
   selectDPI(nss: string): void {
+    console.log("celui ", nss);
     this.selectedNss = nss;
   }
 
